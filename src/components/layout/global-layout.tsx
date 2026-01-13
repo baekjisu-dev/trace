@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 
 const GlobalLayout = () => {
   return (
-    <div>
+    <div className="h-screen w-screen overflow-hidden flex justify-center">
       <Outlet />
     </div>
   );
