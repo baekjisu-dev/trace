@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { useSignUp } from "@/hooks/mutations/use-sign-up";
 
 const signUpSchema = z.object({
   email: z
@@ -29,8 +30,10 @@ const SignUpPage = () => {
     },
   });
 
+  const { mutate: signUp } = useSignUp();
+
   const onSubmit = (data: z.infer<typeof signUpSchema>) => {
-    console.log(data);
+    signUp(data);
   };
 
   return (
