@@ -13,6 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { useSignUp } from "@/hooks/mutations/use-sign-up";
+import { handleError } from "@/lib/error";
+import { useSignInWithGoogle } from "@/hooks/mutations/use-sign-in-with-google";
+import { useSignInWithKakao } from "@/hooks/mutations/use-sign-in-with-kakao";
 
 const signUpSchema = z.object({
   email: z
@@ -30,11 +33,33 @@ const SignUpPage = () => {
     },
   });
 
-  const { mutate: signUp, isPending: isSignUpPending } = useSignUp();
+  const { mutate: signUp, isPending: isSignUpPending } = useSignUp({
+    onError: (error) => {
+      handleError(error);
+      form.reset();
+    },
+  });
+  const { mutate: signInWithGoogle, isPending: isSignInWithGooglePending } =
+    useSignInWithGoogle({
+      onError: (error) => {
+        handleError(error);
+        form.reset();
+      },
+    });
+  const { mutate: signInWithKakao, isPending: isSignInWithKakaoPending } =
+    useSignInWithKakao({
+      onError: (error) => {
+        handleError(error);
+        form.reset();
+      },
+    });
 
   const onSubmit = (data: z.infer<typeof signUpSchema>) => {
     signUp(data);
   };
+
+  const isLoading =
+    isSignUpPending || isSignInWithGooglePending || isSignInWithKakaoPending;
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center-safe overflow-auto">
@@ -61,6 +86,7 @@ const SignUpPage = () => {
                             id="sign-in-email"
                             aria-invalid={fieldState.invalid}
                             placeholder="example@example.com"
+                            disabled={isLoading}
                             {...field}
                           />
                           {fieldState.error && (
@@ -79,6 +105,7 @@ const SignUpPage = () => {
                             type="password"
                             aria-invalid={fieldState.invalid}
                             placeholder="password"
+                            disabled={isLoading}
                             {...field}
                           />
                           {fieldState.error && (
@@ -96,9 +123,29 @@ const SignUpPage = () => {
                 className="w-full"
                 type="submit"
                 form="sign-in-form"
-                disabled={isSignUpPending}
+                disabled={isLoading}
               >
                 회원가입
+              </Button>
+              <p>또는</p>
+              <Button
+                className="w-full flex items-center justify-center gap-2 border border-input bg-white text-black hover:bg-gray-50"
+                variant="outline"
+                type="button"
+                disabled={isLoading}
+                onClick={() => signInWithGoogle()}
+              >
+                {/* Google 아이콘 위치 */}
+                Google로 회원가입
+              </Button>
+              <Button
+                className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black"
+                type="button"
+                disabled={isLoading}
+                onClick={() => signInWithKakao()}
+              >
+                {/* Kakao 아이콘 위치 */}
+                Kakao로 회원가입
               </Button>
               <Link className="w-full" to="/sign-in">
                 <p className="text-sm text-muted-foreground hover:underline">

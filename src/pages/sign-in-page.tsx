@@ -15,6 +15,7 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { useSignInWithPassword } from "@/hooks/mutations/use-sign-in-with-password";
 import { useSignInWithGoogle } from "@/hooks/mutations/use-sign-in-with-google";
 import { useSignInWithKakao } from "@/hooks/mutations/use-sign-in-with-kakao";
+import { handleError } from "@/lib/error";
 
 const signInSchema = z.object({
   email: z
@@ -33,11 +34,26 @@ const SignInPage = () => {
   });
 
   const { mutate: signInWithPassword, isPending: isSignInPending } =
-    useSignInWithPassword();
+    useSignInWithPassword({
+      onError: (error) => {
+        handleError(error);
+        form.reset();
+      },
+    });
   const { mutate: signInWithGoogle, isPending: isSignInWithGooglePending } =
-    useSignInWithGoogle();
+    useSignInWithGoogle({
+      onError: (error) => {
+        handleError(error);
+        form.reset();
+      },
+    });
   const { mutate: signInWithKakao, isPending: isSignInWithKakaoPending } =
-    useSignInWithKakao();
+    useSignInWithKakao({
+      onError: (error) => {
+        handleError(error);
+        form.reset();
+      },
+    });
 
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
     signInWithPassword(data);
@@ -71,6 +87,7 @@ const SignInPage = () => {
                             id="sign-in-email"
                             aria-invalid={fieldState.invalid}
                             placeholder="example@example.com"
+                            disabled={isLoading}
                             {...field}
                           />
                           {fieldState.error && (
@@ -89,6 +106,7 @@ const SignInPage = () => {
                             type="password"
                             aria-invalid={fieldState.invalid}
                             placeholder="password"
+                            disabled={isLoading}
                             {...field}
                           />
                           {fieldState.error && (
