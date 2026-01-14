@@ -12,6 +12,9 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { useSignInWithPassword } from "@/hooks/mutations/use-sign-in-with-password";
+import { useSignInWithGoogle } from "@/hooks/mutations/use-sign-in-with-google";
+import { useSignInWithKakao } from "@/hooks/mutations/use-sign-in-with-kakao";
 
 const signInSchema = z.object({
   email: z
@@ -29,9 +32,19 @@ const SignInPage = () => {
     },
   });
 
+  const { mutate: signInWithPassword, isPending: isSignInPending } =
+    useSignInWithPassword();
+  const { mutate: signInWithGoogle, isPending: isSignInWithGooglePending } =
+    useSignInWithGoogle();
+  const { mutate: signInWithKakao, isPending: isSignInWithKakaoPending } =
+    useSignInWithKakao();
+
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
-    console.log(data);
+    signInWithPassword(data);
   };
+
+  const isLoading =
+    isSignInPending || isSignInWithGooglePending || isSignInWithKakaoPending;
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center-safe overflow-auto">
@@ -89,7 +102,12 @@ const SignInPage = () => {
               </form>
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
-              <Button className="w-full" type="submit" form="sign-in-form">
+              <Button
+                className="w-full"
+                type="submit"
+                form="sign-in-form"
+                disabled={isLoading}
+              >
                 로그인
               </Button>
               <p>또는</p>
@@ -97,6 +115,8 @@ const SignInPage = () => {
                 className="w-full flex items-center justify-center gap-2 border border-input bg-white text-black hover:bg-gray-50"
                 variant="outline"
                 type="button"
+                disabled={isLoading}
+                onClick={() => signInWithGoogle()}
               >
                 {/* Google 아이콘 위치 */}
                 Google로 로그인
@@ -104,6 +124,8 @@ const SignInPage = () => {
               <Button
                 className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black"
                 type="button"
+                disabled={isLoading}
+                onClick={() => signInWithKakao()}
               >
                 {/* Kakao 아이콘 위치 */}
                 Kakao로 로그인

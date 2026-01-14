@@ -30,7 +30,7 @@ const SignUpPage = () => {
     },
   });
 
-  const { mutate: signUp } = useSignUp();
+  const { mutate: signUp, isPending: isSignUpPending } = useSignUp();
 
   const onSubmit = (data: z.infer<typeof signUpSchema>) => {
     signUp(data);
@@ -92,24 +92,13 @@ const SignUpPage = () => {
               </form>
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
-              <Button className="w-full" type="submit" form="sign-in-form">
+              <Button
+                className="w-full"
+                type="submit"
+                form="sign-in-form"
+                disabled={isSignUpPending}
+              >
                 회원가입
-              </Button>
-              <p>또는</p>
-              <Button
-                className="w-full flex items-center justify-center gap-2 border border-input bg-white text-black hover:bg-gray-50"
-                variant="outline"
-                type="button"
-              >
-                {/* Google 아이콘 위치 */}
-                Google로 회원가입
-              </Button>
-              <Button
-                className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black"
-                type="button"
-              >
-                {/* Kakao 아이콘 위치 */}
-                Kakao로 회원가입
               </Button>
               <Link className="w-full" to="/sign-in">
                 <p className="text-sm text-muted-foreground hover:underline">
