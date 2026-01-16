@@ -149,9 +149,12 @@ const SignInPage = () => {
                 Kakao로 로그인
               </Button>
               <Link className="w-full" to="/sign-up">
-                <p className="text-sm text-muted-foreground hover:underline">
+                <Button
+                  variant="link"
+                  className="w-full justify-start p-0 text-muted-foreground"
+                >
                   아직 회원이 아니신가요?
-                </p>
+                </Button>
               </Link>
             </CardFooter>
           </Card>
