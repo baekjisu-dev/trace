@@ -9,22 +9,23 @@ import PostDetailPage from "./pages/post-detail-page";
 import GlobalLayout from "@/components/layout/global-layout";
 import PublicLayout from "./components/layout/public-layout";
 import PrivateLayout from "./components/layout/private-layout";
+import { PRIVATE_PAGE_PATHS, PUBLIC_PAGE_PATHS } from "./lib/pages";
 
 const RootRoute = () => {
   return (
     <Routes>
       <Route element={<GlobalLayout />}>
         <Route element={<PublicLayout />}>
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/forget-password" element={<ForgetPasswordPage />} />
+          <Route path={PUBLIC_PAGE_PATHS.SIGN_IN.path} element={<SignInPage />} />
+          <Route path={PUBLIC_PAGE_PATHS.SIGN_UP.path} element={<SignUpPage />} />
+          <Route path={PUBLIC_PAGE_PATHS.FORGET_PASSWORD.path} element={<ForgetPasswordPage />} />
         </Route>
 
         <Route element={<PrivateLayout />}>
-          <Route path="/" element={<IndexPage />} />
-          <Route path="/profile/:userId" element={<ProfileDetailPage />} />
-          <Route path="/post/:postId" element={<PostDetailPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path={PRIVATE_PAGE_PATHS.HOME.path} element={<IndexPage />} />
+          <Route path={PRIVATE_PAGE_PATHS.PROFILE.path} element={<ProfileDetailPage />} />
+          <Route path={PRIVATE_PAGE_PATHS.POST.path} element={<PostDetailPage />} />
+          <Route path={PRIVATE_PAGE_PATHS.RESET_PASSWORD.path} element={<ResetPasswordPage />} />
         </Route>
       </Route>
     </Routes>

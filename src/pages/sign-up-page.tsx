@@ -16,6 +16,7 @@ import { useSignUp } from "@/hooks/mutations/use-sign-up";
 import { handleError } from "@/lib/error";
 import { useSignInWithGoogle } from "@/hooks/mutations/use-sign-in-with-google";
 import { useSignInWithKakao } from "@/hooks/mutations/use-sign-in-with-kakao";
+import { PUBLIC_PAGE_PATHS } from "@/lib/pages";
 
 const signUpSchema = z.object({
   email: z
@@ -147,7 +148,7 @@ const SignUpPage = () => {
                 {/* Kakao 아이콘 위치 */}
                 Kakao로 회원가입
               </Button>
-              <Link className="w-full" to="/sign-in">
+              <Link className="w-full" to={PUBLIC_PAGE_PATHS.SIGN_IN.path}>
                 <Button
                   variant="link"
                   className="w-full justify-start p-0 text-muted-foreground"

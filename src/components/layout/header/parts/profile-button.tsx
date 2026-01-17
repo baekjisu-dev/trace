@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useSignOut } from "@/hooks/mutations/use-sign-out";
+import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
 import { useTheme } from "@/lib/theme-context";
 import { useSession } from "@/store/session";
 import { PopoverClose } from "@radix-ui/react-popover";
@@ -34,7 +35,7 @@ const ProfileButton = () => {
       </PopoverTrigger>
       <PopoverContent className="flex w-30 flex-col p-0">
         <PopoverClose asChild>
-          <Link to={`/profile/${session.user.id}`}>
+          <Link to={PRIVATE_PAGE_PATHS.PROFILE.getPath(session.user.id)}>
             <Button
               disabled={isSignOutPending}
               type="button"
