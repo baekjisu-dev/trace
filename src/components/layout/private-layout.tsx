@@ -25,7 +25,7 @@ const PrivateLayout = () => {
       <div className="flex flex-col w-full h-full md:flex-row">
         {/* SidebarNav only show on desktop */}
         <SidebarNav activeNavKey={activeNavKey} />
-        <main className="flex-1 bg-amber-50">
+        <main className="flex-1">
           <Outlet />
         </main>
         {/* BottomNav only show on mobile */}
