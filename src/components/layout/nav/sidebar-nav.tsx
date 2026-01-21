@@ -10,7 +10,7 @@ interface SidebarNavProps {
 
 const SidebarNav = ({ activeNavKey }: SidebarNavProps) => {
   return (
-    <nav className="hidden md:flex w-40 h-full border-r flex-col gap-2 px-2 py-4">
+    <nav className="hidden md:flex w-40 h-full border-x flex-col gap-2 px-2 py-4">
       {NAV_ITEMS.map((item) => (
         <Link className="w-full box-border" key={item.key} to={item.href}>
           <Button variant="ghost" className={cn("w-full justify-start text-muted-foreground gap-1", activeNavKey === item.key && "text-primary")}>

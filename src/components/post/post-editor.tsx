@@ -56,7 +56,7 @@ const PostEditor = () => {
         </div>
         <EditorContent className="max-h-[200px] overflow-auto" editor={editor} />
       </EditorContext.Provider>
-      <ImageCarousel images={["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"]} />
+      {/* <ImageCarousel images={["https://picsum.photos/400/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"]} /> */}
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
           <TooltipWrapper tooltip="이미지">

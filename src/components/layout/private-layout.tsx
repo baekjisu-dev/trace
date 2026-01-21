@@ -17,20 +17,18 @@ const PrivateLayout = () => {
   const session = useSession();
   if (!session) return <Navigate to={PUBLIC_PAGE_PATHS.SIGN_IN.path} replace />;
 
-
-
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full items-center overflow-hidden">
       <Header />
-      <div className="flex flex-col w-full h-full md:flex-row">
+      <div className="flex flex-col w-full flex-1 min-h-0 max-w-6xl md:flex-row">
         {/* SidebarNav only show on desktop */}
         <SidebarNav activeNavKey={activeNavKey} />
-        <main className="flex-1">
+        <main className="flex-1 lg:border-r min-h-0 overflow-hidden">
           <Outlet />
         </main>
-        {/* BottomNav only show on mobile */}
-        <BottomNav activeNavKey={activeNavKey} />
       </div>
+      {/* BottomNav only show on mobile */}
+      <BottomNav activeNavKey={activeNavKey} />
     </div>
   );
 };

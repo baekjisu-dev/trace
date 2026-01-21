@@ -13,8 +13,10 @@ const ImageCarousel = ({ images }: ImageCarouselProps) => {
     <Carousel className="p-2.5">
       <CarouselContent className="w-full">
         {images.map((image, index) => (
-          <CarouselItem className="basis-2/5" key={image + index}>
-            <img src={image} alt="image" className="w-full max-h-[250px] rounded-sm object-cover" />
+          <CarouselItem className="basis-3/5" key={image + index}>
+            <div className="overflow-hidden rounded-xl">
+              <img src={image} alt="image" className="w-full h-full max-h-[30vh] object-cover" />
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>
