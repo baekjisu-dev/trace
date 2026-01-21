@@ -1,4 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+@import './styles/_variables.scss';
+@import './styles/_keyframe-animations.scss';
 @import "tailwindcss";
 @import "tw-animate-css";
 
