@@ -8,6 +8,7 @@ import '@/components/tiptap-node/paragraph-node/paragraph-node.scss'
 
 import { EditorContent, EditorContext, useEditor } from '@tiptap/react';
 import { TextStyleKit } from '@tiptap/extension-text-style'
+import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
@@ -26,10 +27,11 @@ import { MarkButton } from '@/components/tiptap-ui/mark-button';
 import { Button } from '@/components/ui/button';
 import { BookOpenTextIcon, ImagePlusIcon } from 'lucide-react'
 import TooltipWrapper from '@/components/ui/tooltip-wrapper'
+import ImageCarousel from './parts/image-carousel'
 
 const lowlight = createLowlight(all)
 
-const extensions = [TextStyleKit, StarterKit, CodeBlockLowlight.configure({ lowlight }), Code, Highlight.configure({multicolor: true}), Underline, Superscript, Subscript, TextAlign.configure({ types: ['heading', 'paragraph'] })]
+const extensions = [TextStyleKit, StarterKit, CodeBlockLowlight.configure({ lowlight }), Code, Highlight.configure({multicolor: true}), Underline, Superscript, Subscript, TextAlign.configure({ types: ['heading', 'paragraph'] }), Placeholder.configure({placeholder: '가치 있는 순간을 기록해 보세요.',})]
 
 const PostEditor = () => {
   const editor = useEditor({
@@ -54,6 +56,7 @@ const PostEditor = () => {
         </div>
         <EditorContent className="max-h-[200px] overflow-auto" editor={editor} />
       </EditorContext.Provider>
+      <ImageCarousel images={["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"]} />
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
           <TooltipWrapper tooltip="이미지">

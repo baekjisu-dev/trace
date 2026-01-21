@@ -8,7 +8,7 @@ interface TooltipWrapperProps {
 const TooltipWrapper = ({ tooltip, children }: TooltipWrapperProps) => {
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         {children}
       </TooltipTrigger>
       <TooltipContent>
