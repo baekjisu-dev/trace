@@ -5,7 +5,13 @@ const IndexPage = () => {
   return (
     <div className="h-full w-full flex flex-col">
       <PostEditor />
-      <section className="w-full p-2.5 overflow-auto flex-1 min-h-0 flex flex-col gap-4">
+      <section className="w-full p-2.5 overflow-auto flex flex-col gap-4">
+        <PostItem />
+        <PostItem />
+        <PostItem />
+        <PostItem />
+        <PostItem />
+        <PostItem />
         <PostItem />
       </section>
     </div>

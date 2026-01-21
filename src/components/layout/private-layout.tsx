@@ -23,7 +23,7 @@ const PrivateLayout = () => {
       <div className="flex flex-col w-full flex-1 min-h-0 max-w-6xl md:flex-row">
         {/* SidebarNav only show on desktop */}
         <SidebarNav activeNavKey={activeNavKey} />
-        <main className="flex-1 lg:border-r min-h-0 overflow-hidden">
+        <main className="flex-1 lg:border-r overflow-hidden">
           <Outlet />
         </main>
       </div>
