@@ -27,13 +27,15 @@ import { MarkButton } from '@/components/tiptap-ui/mark-button';
 import { Button } from '@/components/ui/button';
 import { BookOpenTextIcon, ImagePlusIcon } from 'lucide-react'
 import TooltipWrapper from '@/components/ui/tooltip-wrapper'
-import ImageCarousel from './parts/image-carousel'
+import { useOpenBooksSearchModal } from '@/store/books-search-modal'
 
 const lowlight = createLowlight(all)
 
 const extensions = [TextStyleKit, StarterKit, CodeBlockLowlight.configure({ lowlight }), Code, Highlight.configure({multicolor: true}), Underline, Superscript, Subscript, TextAlign.configure({ types: ['heading', 'paragraph'] }), Placeholder.configure({placeholder: '가치 있는 순간을 기록해 보세요.',})]
 
 const PostEditor = () => {
+  const openBooksSearchModal = useOpenBooksSearchModal();
+
   const editor = useEditor({
     extensions,
     content: '',
@@ -65,7 +67,7 @@ const PostEditor = () => {
             </Button>
           </TooltipWrapper>
           <TooltipWrapper tooltip="책 정보">
-            <Button className="rounded-full" size="icon" variant="outline">
+            <Button className="rounded-full" size="icon" variant="outline" onClick={openBooksSearchModal}>
               <BookOpenTextIcon className="size-4" />
             </Button>
           </TooltipWrapper>

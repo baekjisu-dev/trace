@@ -8,3 +8,17 @@ export type UseMutationCallback = {
   onMutate?: () => void;
   onSettled?: () => void;
 };
+
+export type Book = {
+  title: string;
+  contents: string;
+  url: string;
+  isbn: string;
+  datetime: string;
+  authors: string[];
+  publisher: string;
+  price: number;
+  sale_price: number;
+  thumbnail: string;
+  category: string;
+}
