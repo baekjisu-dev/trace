@@ -15,6 +15,6 @@ export const QUERY_KEYS = {
     post: (postId: number) => ["comment", "post", postId],
   },
   book: {
-    list: (query: string) => ["book", "list", query]
+    list: (query: string, page: number) => ["book", "list", query, page]
   }
 };
