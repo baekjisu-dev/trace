@@ -19,9 +19,25 @@ const ProfileButton = () => {
     <PopoverButton
       TriggerIcon={UserIcon}
       buttonList={[
-        { disabled: isSignOutPending, icon: UserIcon, label: "프로필", onClick: () => navigate(PRIVATE_PAGE_PATHS.PROFILE.getPath(session.user?.id)) },
-        { disabled: isSignOutPending, icon: theme === "dark" ? SunIcon : MoonIcon, label: theme === "dark" ? "라이트 모드" : "다크 모드", onClick: () => setTheme(theme === "dark" ? "light" : "dark") },
-        { disabled: isSignOutPending, icon: LogOutIcon, label: "로그아웃", onClick: () => signOut() },
+        {
+          disabled: isSignOutPending,
+          icon: UserIcon,
+          label: "프로필",
+          onClick: () =>
+            navigate(PRIVATE_PAGE_PATHS.PROFILE.getPath(session.user?.id)),
+        },
+        {
+          disabled: isSignOutPending,
+          icon: theme === "dark" ? SunIcon : MoonIcon,
+          label: theme === "dark" ? "라이트 모드" : "다크 모드",
+          onClick: () => setTheme(theme === "dark" ? "light" : "dark"),
+        },
+        {
+          disabled: isSignOutPending,
+          icon: LogOutIcon,
+          label: "로그아웃",
+          onClick: () => signOut(),
+        },
       ]}
     />
   );

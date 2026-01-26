@@ -2,10 +2,10 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 
 interface ImageCarouselProps {
-  images: string[]
+  images: string[];
 }
 
 const ImageCarousel = ({ images }: ImageCarouselProps) => {
@@ -15,13 +15,17 @@ const ImageCarousel = ({ images }: ImageCarouselProps) => {
         {images.map((image, index) => (
           <CarouselItem className="basis-3/5" key={image + index}>
             <div className="overflow-hidden rounded-xl">
-              <img src={image} alt="image" className="w-full h-full max-h-[30vh] object-cover" />
+              <img
+                src={image}
+                alt="image"
+                className="w-full h-full max-h-[30vh] object-cover"
+              />
             </div>
           </CarouselItem>
         ))}
       </CarouselContent>
     </Carousel>
-  )
-}
+  );
+};
 
-export default ImageCarousel
+export default ImageCarousel;

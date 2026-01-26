@@ -18,7 +18,7 @@ const PostItem = () => {
         <PostEditButton />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PostItem;

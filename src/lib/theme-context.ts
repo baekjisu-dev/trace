@@ -13,7 +13,7 @@ export const createThemeProviderState = (): ThemeProviderState => ({
 });
 
 export const ThemeProviderContext = createContext<ThemeProviderState>(
-  createThemeProviderState()
+  createThemeProviderState(),
 );
 
 export const useTheme = (): ThemeProviderState => {

@@ -1,11 +1,18 @@
-import { BellIcon, HomeIcon, MessageCircleIcon, SearchIcon, SettingsIcon, type LucideIcon } from "lucide-react";
+import {
+  BellIcon,
+  HomeIcon,
+  MessageCircleIcon,
+  SearchIcon,
+  SettingsIcon,
+  type LucideIcon,
+} from "lucide-react";
 import { PRIVATE_PAGE_PATHS } from "./pages";
 export type NavItem = {
   key: string;
-  label:string;
+  label: string;
   href: string;
   icon: LucideIcon;
-}
+};
 
 export const NAV_ITEMS: NavItem[] = [
   {
@@ -38,4 +45,4 @@ export const NAV_ITEMS: NavItem[] = [
     href: PRIVATE_PAGE_PATHS.SETTINGS.path,
     icon: SettingsIcon,
   },
-]
+];

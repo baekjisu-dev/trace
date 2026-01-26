@@ -1,7 +1,7 @@
 import { useBooksSearchModal } from "@/store/books-search-modal";
-import { Dialog, DialogContent, DialogTitle } from "../ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useEffect, useState } from "react";
-import { useBooksData  } from "@/hooks/queries/use-books-data";
+import { useBooksData } from "@/hooks/queries/use-books-data";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Input } from "../ui/input";
 import type { Book } from "@/types";
@@ -18,14 +18,14 @@ const BooksSearchModal = () => {
 
   const {
     isOpen,
-    actions: { close }
+    actions: { close },
   } = useBooksSearchModal();
 
   const isDisabled = isLoading || isFetching || !search.trim();
 
   useEffect(() => {
     if (!isOpen) setSearch("");
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     if (!data || data.documents.length === 0) {
@@ -35,27 +35,49 @@ const BooksSearchModal = () => {
 
     if (data.meta.is_end) setIsEnd(true);
     else setIsEnd(false);
-  }, [data])
+  }, [data]);
 
   return (
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogTitle>도서 검색</DialogTitle>
-        <Input placeholder="검색어를 입력해 주세요" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <Input
+          placeholder="검색어를 입력해 주세요"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div className="flex flex-col gap-2">
-          { data && data.documents.length > 0 ?
+          {data && data.documents.length > 0 ? (
             data?.documents.map((book: Book) => (
               <BookItem key={book.isbn} book={book} />
-            )):<div className="flex items-center justify-center h-[500px] text-gray-500">{search.trim() ? "검색 결과가 없습니다." : "검색어를 입력해 주세요."}</div>
-          }
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-[500px] text-gray-500">
+              {search.trim()
+                ? "검색 결과가 없습니다."
+                : "검색어를 입력해 주세요."}
+            </div>
+          )}
         </div>
         <div className="flex justify-end gap-2">
-          <Button onClick={() => setPage(page - 1)} disabled={page === 1 || isDisabled} size="sm">이전</Button>
-          <Button onClick={() => setPage(page + 1)} disabled={isEnd || isDisabled} size="sm">다음</Button>
+          <Button
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1 || isDisabled}
+            size="sm"
+          >
+            이전
+          </Button>
+          <Button
+            onClick={() => setPage(page + 1)}
+            disabled={isEnd || isDisabled}
+            size="sm"
+          >
+            다음
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default BooksSearchModal
+export default BooksSearchModal;

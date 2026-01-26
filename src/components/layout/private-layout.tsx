@@ -12,7 +12,7 @@ const PrivateLayout = () => {
 
   const activeNavKey = useMemo(() => {
     return NAV_ITEMS.find((item) => item.href === location.pathname)?.key;
-  }, [pathname])
+  }, [pathname]);
 
   const session = useSession();
   if (!session) return <Navigate to={PUBLIC_PAGE_PATHS.SIGN_IN.path} replace />;

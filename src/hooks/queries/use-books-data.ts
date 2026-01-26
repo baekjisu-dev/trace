@@ -8,7 +8,7 @@ export const useBooksData = (query: string, page: number) => {
   return useQuery({
     queryKey: QUERY_KEYS.book.list(query, page),
     queryFn: async () => {
-      const books = await fetchBooks({page, size: PAGE_SIZE, query});
+      const books = await fetchBooks({ page, size: PAGE_SIZE, query });
 
       return books;
     },
