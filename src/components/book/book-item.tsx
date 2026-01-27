@@ -9,7 +9,7 @@ const BookItem = ({ book }: BookItemProps) => {
   return (
     <div
       key={book.isbn}
-      className="flex gap-2 items-center border p-1.5 rounded-md hover:bg-gray-100 cursor-pointer"
+      className="flex gap-2 items-center border p-1.5 rounded-md hover:bg-primary-foreground cursor-pointer"
     >
       {book.thumbnail ? (
         <img
@@ -18,7 +18,7 @@ const BookItem = ({ book }: BookItemProps) => {
           className="h-20 w-14 object-cover rounded-md"
         />
       ) : (
-        <div className="h-20 w-14 bg-gray-100 rounded-md flex items-center justify-center">
+        <div className="h-20 w-14 bg-primary-foreground rounded-md flex items-center justify-center">
           <BookIcon className="size-4 text-gray-500" />
         </div>
       )}

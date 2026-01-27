@@ -46,7 +46,7 @@ const BooksSearchModal = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-h-[50vh] overflow-auto">
           {data && data.documents.length > 0 ? (
             data?.documents.map((book: Book) => (
               <BookItem key={book.isbn} book={book} />
