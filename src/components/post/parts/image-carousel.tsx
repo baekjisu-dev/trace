@@ -1,27 +1,22 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent } from "@/components/ui/carousel";
+import ImageItem from "./image-item";
 
 interface ImageCarouselProps {
   images: string[];
+  onDelete?: (index: number) => void;
 }
 
-const ImageCarousel = ({ images }: ImageCarouselProps) => {
+const ImageCarousel = ({ images, onDelete }: ImageCarouselProps) => {
   return (
     <Carousel className="p-2.5">
       <CarouselContent className="w-full">
         {images.map((image, index) => (
-          <CarouselItem className="basis-3/5" key={image + index}>
-            <div className="overflow-hidden rounded-xl">
-              <img
-                src={image}
-                alt="image"
-                className="w-full h-full max-h-[30vh] object-cover"
-              />
-            </div>
-          </CarouselItem>
+          <ImageItem
+            key={image + index}
+            image={image}
+            index={index}
+            onDelete={onDelete}
+          />
         ))}
       </CarouselContent>
     </Carousel>

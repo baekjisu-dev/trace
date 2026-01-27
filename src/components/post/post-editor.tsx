@@ -74,6 +74,18 @@ const PostEditor = () => {
     }
   };
 
+  const handleImageDelete = (targetIndex: number) => {
+    setImageFiles(
+      imageFiles.filter((image, index) => {
+        if (index === targetIndex) {
+          URL.revokeObjectURL(image.url);
+        }
+
+        return index !== targetIndex;
+      }),
+    );
+  };
+
   const handleBookDelete = () => {
     setBook(null);
   };
@@ -115,7 +127,10 @@ const PostEditor = () => {
           editor={editor}
         />
       </EditorContext.Provider>
-      <ImageCarousel images={imageFiles.map((image) => image.url)} />
+      <ImageCarousel
+        images={imageFiles.map((image) => image.url)}
+        onDelete={handleImageDelete}
+      />
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
           <input
