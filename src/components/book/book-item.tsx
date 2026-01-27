@@ -19,7 +19,7 @@ const BookItem = ({ book }: BookItemProps) => {
         />
       ) : (
         <div className="h-20 w-14 bg-primary-foreground rounded-md flex items-center justify-center">
-          <BookIcon className="size-4 text-gray-500" />
+          <BookIcon className="size-4 text-primary" />
         </div>
       )}
       <div className="flex flex-col gap-1 flex-1 min-w-0">

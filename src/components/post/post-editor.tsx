@@ -28,6 +28,8 @@ import { Button } from "@/components/ui/button";
 import { BookOpenTextIcon, ImagePlusIcon } from "lucide-react";
 import TooltipWrapper from "@/components/ui/tooltip-wrapper";
 import { useOpenBooksSearchModal } from "@/store/books-search-modal";
+import { useEffect, useRef, useState } from "react";
+import ImageCarousel from "./parts/image-carousel";
 
 const lowlight = createLowlight(all);
 
@@ -47,10 +49,38 @@ const extensions = [
 const PostEditor = () => {
   const openBooksSearchModal = useOpenBooksSearchModal();
 
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const [imageFiles, setImageFiles] = useState<{ file: File; url: string }[]>(
+    [],
+  );
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files) {
+      setImageFiles(
+        Array.from(files).map((file) => ({
+          file,
+          url: URL.createObjectURL(file),
+        })),
+      );
+
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
   const editor = useEditor({
     extensions,
     content: "",
   });
+
+  useEffect(() => {
+    return () => {
+      if (imageFiles.length > 0)
+        imageFiles.forEach((image) => URL.revokeObjectURL(image.url));
+    };
+  }, [imageFiles]);
 
   return (
     <div className="w-full border-b">
@@ -72,11 +102,24 @@ const PostEditor = () => {
           editor={editor}
         />
       </EditorContext.Provider>
-      {/* <ImageCarousel images={["https://picsum.photos/400/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"]} /> */}
+      <ImageCarousel images={imageFiles.map((image) => image.url)} />
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
+          <input
+            className="hidden"
+            type="file"
+            accept="image/*"
+            multiple
+            ref={fileRef}
+            onChange={handleImageUpload}
+          />
           <TooltipWrapper tooltip="이미지">
-            <Button className="rounded-full" size="icon" variant="outline">
+            <Button
+              className="rounded-full"
+              size="icon"
+              variant="outline"
+              onClick={() => fileRef.current?.click()}
+            >
               <ImagePlusIcon className="size-4" />
             </Button>
           </TooltipWrapper>
