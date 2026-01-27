@@ -27,9 +27,10 @@ import { MarkButton } from "@/components/tiptap-ui/mark-button";
 import { Button } from "@/components/ui/button";
 import { BookOpenTextIcon, ImagePlusIcon } from "lucide-react";
 import TooltipWrapper from "@/components/ui/tooltip-wrapper";
-import { useOpenBooksSearchModal } from "@/store/books-search-modal";
 import { useEffect, useRef, useState } from "react";
 import ImageCarousel from "./parts/image-carousel";
+import BookItem from "../book/book-item";
+import { useBooksSearchModal } from "@/store/books-search-modal";
 
 const lowlight = createLowlight(all);
 
@@ -47,7 +48,10 @@ const extensions = [
 ];
 
 const PostEditor = () => {
-  const openBooksSearchModal = useOpenBooksSearchModal();
+  const {
+    book: bookInfo,
+    actions: { open: openBooksSearchModal, setBook },
+  } = useBooksSearchModal();
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -68,6 +72,10 @@ const PostEditor = () => {
 
       if (fileRef.current) fileRef.current.value = "";
     }
+  };
+
+  const handleBookDelete = () => {
+    setBook(null);
   };
 
   const editor = useEditor({
@@ -97,6 +105,11 @@ const PostEditor = () => {
           <ColorHighlightPopover />
           <LinkPopover />
         </div>
+        {bookInfo && (
+          <div className="p-2.5">
+            <BookItem book={bookInfo} asCard onDelete={handleBookDelete} />
+          </div>
+        )}
         <EditorContent
           className="max-h-[200px] overflow-auto"
           editor={editor}

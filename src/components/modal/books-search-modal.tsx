@@ -18,10 +18,15 @@ const BooksSearchModal = () => {
 
   const {
     isOpen,
-    actions: { close },
+    actions: { close, setBook },
   } = useBooksSearchModal();
 
   const isDisabled = isLoading || isFetching || !search.trim();
+
+  const handleBookClick = (book: Book) => {
+    setBook(book);
+    close();
+  };
 
   useEffect(() => {
     if (!isOpen) setSearch("");
@@ -49,7 +54,11 @@ const BooksSearchModal = () => {
         <div className="flex flex-col gap-2 max-h-[50vh] overflow-auto">
           {data && data.documents.length > 0 ? (
             data?.documents.map((book: Book) => (
-              <BookItem key={book.isbn} book={book} />
+              <BookItem
+                key={book.isbn}
+                book={book}
+                onClick={() => handleBookClick(book)}
+              />
             ))
           ) : (
             <div className="flex items-center justify-center h-[500px] text-gray-500">
