@@ -63,12 +63,13 @@ const PostEditor = () => {
     const files = e.target.files;
 
     if (files) {
-      setImageFiles(
-        Array.from(files).map((file) => ({
+      setImageFiles([
+        ...imageFiles,
+        ...Array.from(files).map((file) => ({
           file,
           url: URL.createObjectURL(file),
         })),
-      );
+      ]);
 
       if (fileRef.current) fileRef.current.value = "";
     }
