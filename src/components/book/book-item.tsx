@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import type { Book } from "@/types";
 import { BookIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState } from "react";
 
 interface BookItemProps {
   book: Book;
@@ -17,18 +16,14 @@ const BookItem = ({
   onClick,
   onDelete,
 }: BookItemProps) => {
-  const [isHovering, setIsHovering] = useState(false);
-
   return (
     <div
       key={book.isbn}
       className={cn(
-        "flex gap-2 items-center border p-1.5 rounded-md relative",
+        "flex gap-2 items-center border p-1.5 rounded-md relative group",
         !asCard && "hover:bg-primary-foreground cursor-pointer",
       )}
       onClick={onClick}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       {book.thumbnail ? (
         <img
@@ -50,9 +45,9 @@ const BookItem = ({
         </div>
         <p className="text-xs text-gray-500 line-clamp-2">{book.contents}</p>
       </div>
-      {onDelete && isHovering && (
+      {onDelete && (
         <Button
-          className="absolute top-2 right-2 bg-muted-foreground/30 hover:bg-muted-foreground/60 cursor-pointer rounded-full"
+          className="absolute top-2 right-2 md:hidden md:group-hover:inline-flex bg-muted-foreground/30 hover:bg-muted-foreground/60 cursor-pointer rounded-full"
           variant="secondary"
           size="icon-sm"
           onClick={onDelete}

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CarouselItem } from "@/components/ui/carousel";
 import { XIcon } from "lucide-react";
-import { useState } from "react";
 
 interface ImageItemProps {
   image: string;
@@ -10,23 +9,17 @@ interface ImageItemProps {
 }
 
 const ImageItem = ({ image, index, onDelete }: ImageItemProps) => {
-  const [isHovering, setIsHovering] = useState(false);
-
   return (
-    <CarouselItem
-      className="basis-3/5"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <div className="overflow-hidden rounded-xl relative">
+    <CarouselItem className="basis-3/5">
+      <div className="overflow-hidden rounded-xl relative group">
         <img
           src={image}
           alt="image"
           className="w-full h-full max-h-[30vh] object-cover"
         />
-        {onDelete && isHovering && (
+        {onDelete && (
           <Button
-            className="absolute top-2 right-2 bg-primary-foreground/60 hover:bg-primary-foreground/80 cursor-pointer rounded-full"
+            className="absolute top-2 right-2 bg-primary-foreground/60 inline-flex md:hidden md:group-hover:inline-flex hover:bg-primary-foreground/80 cursor-pointer rounded-full"
             variant="secondary"
             size="icon-sm"
             onClick={() => onDelete(index)}
