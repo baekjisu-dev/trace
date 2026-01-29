@@ -102,10 +102,12 @@ const PostEditor = () => {
 
   const handleCreatePost = () => {
     if (!session) return;
+
     createPost({
       content: editor.getJSON(),
       images: imageFiles.map((image) => image.file),
       userId: session.user.id,
+      book: bookInfo,
     });
   };
 

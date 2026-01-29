@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      book: {
+        Row: {
+          authors: string[]
+          category: string | null
+          contents: string | null
+          created_at: string
+          datetime: string | null
+          isbn: string
+          price: number | null
+          publisher: string | null
+          sale_price: number | null
+          status: string | null
+          thumbnail: string | null
+          title: string
+          translators: string[] | null
+          url: string | null
+        }
+        Insert: {
+          authors: string[]
+          category?: string | null
+          contents?: string | null
+          created_at?: string
+          datetime?: string | null
+          isbn?: string
+          price?: number | null
+          publisher?: string | null
+          sale_price?: number | null
+          status?: string | null
+          thumbnail?: string | null
+          title?: string
+          translators?: string[] | null
+          url?: string | null
+        }
+        Update: {
+          authors?: string[]
+          category?: string | null
+          contents?: string | null
+          created_at?: string
+          datetime?: string | null
+          isbn?: string
+          price?: number | null
+          publisher?: string | null
+          sale_price?: number | null
+          status?: string | null
+          thumbnail?: string | null
+          title?: string
+          translators?: string[] | null
+          url?: string | null
+        }
+        Relationships: []
+      }
       comment: {
         Row: {
           author_id: string
@@ -137,6 +188,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profile"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_book_isbn_fkey"
+            columns: ["book_isbn"]
+            isOneToOne: false
+            referencedRelation: "book"
+            referencedColumns: ["isbn"]
           },
         ]
       }

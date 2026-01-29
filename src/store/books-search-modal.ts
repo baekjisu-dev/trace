@@ -1,10 +1,10 @@
-import type { Book } from "@/types";
+import type { BookEntity } from "@/types";
 import { create } from "zustand";
 import { combine, devtools } from "zustand/middleware";
 
 type State = {
   isOpen: boolean;
-  book: Book | null;
+  book: BookEntity | null;
 };
 
 const initialState: State = {
@@ -16,7 +16,7 @@ const useBooksSearchModalStore = create(
   devtools(
     combine(initialState, (set) => ({
       actions: {
-        setBook: (book: Book | null) => set({ book }),
+        setBook: (book: BookEntity | null) => set({ book }),
         open: () => set({ isOpen: true }),
         close: () => set({ isOpen: false }),
       },

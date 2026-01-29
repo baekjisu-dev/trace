@@ -1,7 +1,8 @@
 import supabase from "@/lib/supabase";
-import type { PostEntity } from "@/types";
+import type { BookEntity, PostEntity } from "@/types";
 import type { DocumentType, NodeType, TextType } from "@tiptap/core";
 import { uploadImage } from "./image";
+import { createBook, fetchBookByIsbn } from "./book";
 
 type PostContent = DocumentType<
   Record<string, any> | undefined,
@@ -31,34 +32,53 @@ export const createPostWithImages = async ({
   content,
   images,
   userId,
+  book,
 }: {
   content: PostContent;
   images: File[];
   userId: string;
+  book?: BookEntity | null;
 }) => {
   // * 1. 새로운 포스트 생성
   const post = await createPost(content);
-  if (images.length === 0) return post;
 
   try {
-    // * 2. 이미지 업로드
-    const imagesUrls = await Promise.all(
-      images.map((image) => {
-        const fileExtension = image.name.split(".").pop() || "webp";
-        const fileName = `${Date.now()}-${crypto.randomUUID()}.${fileExtension}`;
-        const filePath = `${userId}/${post.id}/${fileName}`;
+    if (images.length > 0 || book) {
+      let imagesUrls: string[] = [];
 
-        return uploadImage({ file: image, filePath });
-      }),
-    );
+      if (images.length > 0) {
+        // * 2. 이미지 업로드
+        imagesUrls = await Promise.all(
+          images.map((image) => {
+            const fileExtension = image.name.split(".").pop() || "webp";
+            const fileName = `${Date.now()}-${crypto.randomUUID()}.${fileExtension}`;
+            const filePath = `${userId}/${post.id}/${fileName}`;
 
-    // * 3. 포스트 테이블 업데이트
-    const updatedPost = await updatePost({
-      id: post.id,
-      image_urls: imagesUrls,
-    });
+            return uploadImage({ file: image, filePath });
+          }),
+        );
+      }
 
-    return updatedPost;
+      if (book) {
+        // * 4. 책 정보 업데이트
+        const bookData = await fetchBookByIsbn(book.isbn);
+        console.log(bookData);
+
+        if (!bookData) {
+          // * 5. 책 정보 생성
+          await createBook(book);
+        }
+      }
+
+      // * 3. 포스트 테이블 업데이트
+      const updatedPost = await updatePost({
+        id: post.id,
+        ...(images.length > 0 && { image_urls: imagesUrls }),
+        ...(book && { book_isbn: book.isbn }),
+      });
+
+      return updatedPost;
+    }
   } catch (error) {
     await deletePost(post.id);
     throw error;

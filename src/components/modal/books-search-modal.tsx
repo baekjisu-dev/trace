@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useBooksData } from "@/hooks/queries/use-books-data";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Input } from "../ui/input";
-import type { Book } from "@/types";
+import type { BookEntity } from "@/types";
 import BookItem from "../book/book-item";
 import { Button } from "../ui/button";
 
@@ -23,7 +23,7 @@ const BooksSearchModal = () => {
 
   const isDisabled = isLoading || isFetching || !search.trim();
 
-  const handleBookClick = (book: Book) => {
+  const handleBookClick = (book: BookEntity) => {
     setBook(book);
     close();
   };
@@ -53,7 +53,7 @@ const BooksSearchModal = () => {
         />
         <div className="flex flex-col gap-2 max-h-[50vh] overflow-auto">
           {data && data.documents.length > 0 ? (
-            data?.documents.map((book: Book) => (
+            data?.documents.map((book: BookEntity) => (
               <BookItem
                 key={book.isbn}
                 book={book}

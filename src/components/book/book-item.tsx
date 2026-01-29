@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import type { Book } from "@/types";
+import type { BookEntity } from "@/types";
 import { BookIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface BookItemProps {
-  book: Book;
+  book: BookEntity;
   asCard?: boolean;
   onClick?: () => void;
   onDelete?: () => void;
