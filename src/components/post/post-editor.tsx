@@ -33,6 +33,11 @@ import BookItem from "../book/book-item";
 import { useBooksSearchModal } from "@/store/books-search-modal";
 import { useCreatePost } from "@/hooks/mutations/use-create-post";
 import { useSession } from "@/store/session";
+import { toast } from "sonner";
+import {
+  useHideMessageLoader,
+  useShowMessageLoader,
+} from "@/store/message-loader";
 
 const lowlight = createLowlight(all);
 
@@ -50,13 +55,29 @@ const extensions = [
 ];
 
 const PostEditor = () => {
+  const showMessageLoader = useShowMessageLoader();
+  const hideMessageLoader = useHideMessageLoader();
   const session = useSession();
   const editor = useEditor({
     extensions,
     content: "",
+    onUpdate: ({ editor }) => {
+      setIsEmpty(editor.isEmpty);
+    },
   });
-  const { mutate: createPost, isPending: isCreatePostPending } =
-    useCreatePost();
+  const { mutate: createPost, isPending: isCreatePostPending } = useCreatePost({
+    onSuccess: () => {
+      editor?.commands.setContent("");
+      setImageFiles([]);
+      setBook(null);
+
+      hideMessageLoader();
+    },
+    onError: () => {
+      toast.error("포스트 게시에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+      hideMessageLoader();
+    },
+  });
   const {
     book: bookInfo,
     actions: { open: openBooksSearchModal, setBook },
@@ -64,6 +85,7 @@ const PostEditor = () => {
 
   const fileRef = useRef<HTMLInputElement>(null);
 
+  const [isEmpty, setIsEmpty] = useState(true);
   const [imageFiles, setImageFiles] = useState<{ file: File; url: string }[]>(
     [],
   );
@@ -102,6 +124,8 @@ const PostEditor = () => {
 
   const handleCreatePost = () => {
     if (!session) return;
+
+    showMessageLoader("포스트 게시 중...");
 
     createPost({
       content: editor.getJSON(),
@@ -178,7 +202,10 @@ const PostEditor = () => {
             </Button>
           </TooltipWrapper>
         </div>
-        <Button disabled={isCreatePostPending} onClick={handleCreatePost}>
+        <Button
+          disabled={isCreatePostPending || isEmpty}
+          onClick={handleCreatePost}
+        >
           게시하기
         </Button>
       </div>
