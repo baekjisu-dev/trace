@@ -18,3 +18,5 @@ export const QUERY_KEYS = {
     list: (query: string, page: number) => ["book", "list", query, page],
   },
 };
+
+export const BUCKET_NAME = "uploads";

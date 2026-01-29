@@ -31,6 +31,8 @@ import { useEffect, useRef, useState } from "react";
 import ImageCarousel from "./parts/image-carousel";
 import BookItem from "../book/book-item";
 import { useBooksSearchModal } from "@/store/books-search-modal";
+import { useCreatePost } from "@/hooks/mutations/use-create-post";
+import { useSession } from "@/store/session";
 
 const lowlight = createLowlight(all);
 
@@ -48,6 +50,13 @@ const extensions = [
 ];
 
 const PostEditor = () => {
+  const session = useSession();
+  const editor = useEditor({
+    extensions,
+    content: "",
+  });
+  const { mutate: createPost, isPending: isCreatePostPending } =
+    useCreatePost();
   const {
     book: bookInfo,
     actions: { open: openBooksSearchModal, setBook },
@@ -91,10 +100,14 @@ const PostEditor = () => {
     setBook(null);
   };
 
-  const editor = useEditor({
-    extensions,
-    content: "",
-  });
+  const handleCreatePost = () => {
+    if (!session) return;
+    createPost({
+      content: editor.getJSON(),
+      images: imageFiles.map((image) => image.file),
+      userId: session.user.id,
+    });
+  };
 
   useEffect(() => {
     return () => {
@@ -163,7 +176,9 @@ const PostEditor = () => {
             </Button>
           </TooltipWrapper>
         </div>
-        <Button>게시하기</Button>
+        <Button disabled={isCreatePostPending} onClick={handleCreatePost}>
+          게시하기
+        </Button>
       </div>
     </div>
   );
