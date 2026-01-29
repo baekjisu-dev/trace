@@ -1,6 +1,8 @@
 import { type Database } from "@/database.types";
 
-export type TestEntity = Database["public"]["Tables"]["test"]["Row"];
+export type PostEntity = Database["public"]["Tables"]["post"]["Row"];
+export type ProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
+export type CommentEntity = Database["public"]["Tables"]["comment"]["Row"];
 
 export type UseMutationCallback = {
   onSuccess?: () => void;
@@ -21,4 +23,4 @@ export type Book = {
   sale_price: number;
   thumbnail: string;
   category: string;
-}
+};
