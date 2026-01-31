@@ -48,10 +48,14 @@ const PostEditor = () => {
 
       hideMessageLoader();
 
-      toast.success("포스트가 게시되었습니다.");
+      toast.success("포스트가 게시되었습니다.", {
+        position: "top-center",
+      });
     },
     onError: () => {
-      toast.error("포스트 게시에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+      toast.error("포스트 게시에 실패했습니다. 잠시 후 다시 시도해 주세요.", {
+        position: "top-center",
+      });
       hideMessageLoader();
     },
   });

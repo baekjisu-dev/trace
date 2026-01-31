@@ -13,6 +13,7 @@ import { usePostByIdData } from "@/hooks/queries/use-post-by-id";
 import Loader from "../loader";
 import Fallback from "../fallback";
 import { cn } from "@/lib/utils";
+import { useSession } from "@/store/session";
 
 interface PostItemProps {
   postId: number;
@@ -23,6 +24,8 @@ const COLLAPSED_MAX_HEIGHT = 200;
 
 const PostItem = ({ postId, type }: PostItemProps) => {
   const navigate = useNavigate();
+  const session = useSession();
+
   const {
     data: post,
     isPending,
@@ -67,6 +70,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
   if (error) return <Fallback />;
 
   const { author, book } = post;
+  const isOwner = session?.user.id === author.id;
 
   const handleNavigate = () => {
     navigate(PRIVATE_PAGE_PATHS.POST.getPath(post.id));
@@ -92,7 +96,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
             </p>
           </div>
         </div>
-        <PostEditButton />
+        {isOwner && <PostEditButton postId={post.id} />}
       </div>
       <div className="flex flex-col gap-2 mt-2.5" onClick={handleNavigate}>
         {book && <BookItem book={book} />}
