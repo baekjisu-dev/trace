@@ -8,7 +8,27 @@ import {
   type InfiniteData,
 } from "@tanstack/react-query";
 
-export const useDeletePost = (callbacks?: UseMutationCallback) => {
+type Page = { nextCursor: PostCursor; posts: number[] };
+
+const removePostFromInfinite = (
+  prev: InfiniteData<Page> | undefined,
+  deletedId: number
+): InfiniteData<Page> | undefined => {
+  if (!prev) return prev;
+
+  return {
+    ...prev,
+    pages: prev.pages.map((page) => ({
+      ...page,
+      posts: page.posts.filter((id) => id !== deletedId),
+    })),
+  };
+};
+
+export const useDeletePost = (
+  callbacks?: UseMutationCallback,
+  userId?: string
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -20,25 +40,19 @@ export const useDeletePost = (callbacks?: UseMutationCallback) => {
         await deleteImagesInPath(`${deletedPost.author_id}/${deletedPost.id}`);
       }
 
-      queryClient.setQueryData<
-        InfiniteData<{ nexCursor: PostCursor; posts: number[] }>
-      >(QUERY_KEYS.post.list, (prev) => {
-        if (!prev) {
-          throw new Error("이전 캐시 데이터를 찾을 수 없습니다.");
-        }
+      // 1) 전체 list
+      queryClient.setQueryData<InfiniteData<Page>>(
+        QUERY_KEYS.post.list,
+        (prev) => removePostFromInfinite(prev, deletedPost.id)
+      );
 
-        return {
-          ...prev,
-          pages: prev.pages.map(
-            (page: { nexCursor: PostCursor; posts: number[] }) => {
-              return {
-                ...page,
-                posts: page.posts.filter((post) => post !== deletedPost.id),
-              };
-            }
-          ),
-        };
-      });
+      // 2) user list (프로필)
+      if (userId) {
+        queryClient.setQueryData<InfiniteData<Page>>(
+          QUERY_KEYS.post.userList(userId),
+          (prev) => removePostFromInfinite(prev, deletedPost.id)
+        );
+      }
 
       queryClient.removeQueries({
         queryKey: QUERY_KEYS.post.byId(deletedPost.id),

@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import ImageCarousel from "./parts/image-carousel";
 import BookItem from "../book/book-item";
 import { useBooksSearchModal } from "@/store/books-search-modal";
-import { useCreatePost } from "@/hooks/mutations/use-create-post";
+import { useCreatePost } from "@/hooks/mutations/post/use-create-post";
 import { useSession } from "@/store/session";
 import { toast } from "sonner";
 import {

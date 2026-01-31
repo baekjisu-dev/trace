@@ -5,12 +5,14 @@ import { Toaster } from "sonner";
 
 import "./index.css";
 import App from "./App.tsx";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
+      staleTime: 60_000,
     },
   },
 });
@@ -18,6 +20,7 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <Toaster />
       <App />
     </QueryClientProvider>

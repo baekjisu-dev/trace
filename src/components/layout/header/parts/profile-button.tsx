@@ -1,5 +1,5 @@
 import PopoverButton from "@/components/ui/popover-button";
-import { useSignOut } from "@/hooks/mutations/use-sign-out";
+import { useSignOut } from "@/hooks/mutations/auth/use-sign-out";
 import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
 import { useTheme } from "@/lib/theme-context";
 import { useSession } from "@/store/session";

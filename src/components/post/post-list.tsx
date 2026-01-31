@@ -1,11 +1,15 @@
-import { useInfinitePosts } from "@/hooks/queries/use-infinite-posts";
+import { useInfinitePosts } from "@/hooks/queries/post/use-infinite-posts";
 import PostItem from "./post-item";
 import { useInView } from "react-intersection-observer";
 import Loader from "../loader";
 import { useEffect } from "react";
 import Fallback from "../fallback";
 
-const PostList = () => {
+interface PostListProps {
+  userId?: string;
+}
+
+const PostList = ({ userId }: PostListProps) => {
   const {
     data,
     error,
@@ -13,7 +17,7 @@ const PostList = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePosts();
+  } = useInfinitePosts(userId);
   const { ref, inView } = useInView();
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];

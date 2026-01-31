@@ -13,5 +13,6 @@ export const useBooksData = (query: string, page: number) => {
       return books;
     },
     placeholderData: (prev) => prev,
+    staleTime: 60_000,
   });
 };

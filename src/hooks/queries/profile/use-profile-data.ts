@@ -22,5 +22,6 @@ export const useProfileData = (userId?: string) => {
       }
     },
     enabled: !!userId,
+    staleTime: 60_000,
   });
 };

@@ -1,7 +1,7 @@
 import { useBooksSearchModal } from "@/store/books-search-modal";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useEffect, useState } from "react";
-import { useBooksData } from "@/hooks/queries/use-books-data";
+import { useBooksData } from "@/hooks/queries/post/use-books-data";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Input } from "../ui/input";
 import type { BookEntity } from "@/types";

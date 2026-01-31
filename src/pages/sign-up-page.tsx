@@ -12,10 +12,10 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
-import { useSignUp } from "@/hooks/mutations/use-sign-up";
+import { useSignUp } from "@/hooks/mutations/auth/use-sign-up";
 import { handleError } from "@/lib/error";
-import { useSignInWithGoogle } from "@/hooks/mutations/use-sign-in-with-google";
-import { useSignInWithKakao } from "@/hooks/mutations/use-sign-in-with-kakao";
+import { useSignInWithGoogle } from "@/hooks/mutations/auth/use-sign-in-with-google";
+import { useSignInWithKakao } from "@/hooks/mutations/auth/use-sign-in-with-kakao";
 import { PUBLIC_PAGE_PATHS } from "@/lib/pages";
 
 const signUpSchema = z.object({

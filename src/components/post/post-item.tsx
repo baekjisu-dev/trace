@@ -9,7 +9,7 @@ import ImageCarousel from "./parts/image-carousel";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
-import { usePostByIdData } from "@/hooks/queries/use-post-by-id";
+import { usePostByIdData } from "@/hooks/queries/post/use-post-by-id";
 import Loader from "../loader";
 import Fallback from "../fallback";
 import { cn } from "@/lib/utils";
@@ -76,6 +76,10 @@ const PostItem = ({ postId, type }: PostItemProps) => {
     navigate(PRIVATE_PAGE_PATHS.POST.getPath(post.id));
   };
 
+  const handleNavigateToProfile = () => {
+    navigate(PRIVATE_PAGE_PATHS.PROFILE.getPath(author.id));
+  };
+
   return (
     <div
       className={cn(
@@ -86,7 +90,12 @@ const PostItem = ({ postId, type }: PostItemProps) => {
     >
       <div className="flex items-center justify-between w-full">
         <div className="w-full flex items-center gap-2">
-          <Button className="rounded-full" variant="secondary" size="icon">
+          <Button
+            className="rounded-full"
+            variant="secondary"
+            size="icon"
+            onClick={handleNavigateToProfile}
+          >
             <UserIcon className="size-4" />
           </Button>
           <div className="flex flex-col">

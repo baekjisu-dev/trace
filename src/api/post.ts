@@ -5,7 +5,7 @@ import { createBook, fetchBookByIsbn } from "./book";
 
 const PAGE_SIZE = 15;
 
-export const fetchPosts = async (cursor: PostCursor) => {
+export const fetchPosts = async (cursor: PostCursor, userId?: string) => {
   let query = supabase
     .from("post")
     .select(
@@ -18,6 +18,10 @@ export const fetchPosts = async (cursor: PostCursor) => {
     query = query.or(
       `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
     );
+  }
+
+  if (userId) {
+    query = query.eq("author_id", userId);
   }
 
   const { data, error } = await query;
