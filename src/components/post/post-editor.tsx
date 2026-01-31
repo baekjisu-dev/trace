@@ -47,6 +47,8 @@ const PostEditor = () => {
       setBook(null);
 
       hideMessageLoader();
+
+      toast.success("포스트가 게시되었습니다.");
     },
     onError: () => {
       toast.error("포스트 게시에 실패했습니다. 잠시 후 다시 시도해 주세요.");

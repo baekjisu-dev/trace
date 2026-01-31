@@ -1,25 +1,16 @@
 import supabase from "@/lib/supabase";
-import type { BookEntity, PostCursor, PostEntity } from "@/types";
-import type { DocumentType, NodeType, TextType } from "@tiptap/core";
+import type { BookEntity, PostContent, PostCursor, PostEntity } from "@/types";
 import { uploadImage } from "./image";
 import { createBook, fetchBookByIsbn } from "./book";
 
 const PAGE_SIZE = 15;
 
-type PostContent = DocumentType<
-  Record<string, any> | undefined,
-  NodeType<
-    string,
-    undefined | Record<string, any>,
-    any,
-    (NodeType | TextType)[]
-  >[]
->;
-
 export const fetchPosts = async (cursor: PostCursor) => {
   let query = supabase
     .from("post")
-    .select("*, author: profile!author_id (*), book: book!book_isbn (*)")
+    .select(
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*)"
+    )
     .order("created_at", { ascending: false })
     .limit(PAGE_SIZE);
 
@@ -33,7 +24,10 @@ export const fetchPosts = async (cursor: PostCursor) => {
   if (error) throw error;
 
   return {
-    items: data,
+    items: data.map((post) => ({
+      ...post,
+      isLiked: post.myLiked && post.myLiked.length > 0,
+    })),
     nextCursor:
       data.length === PAGE_SIZE
         ? {
@@ -41,6 +35,29 @@ export const fetchPosts = async (cursor: PostCursor) => {
             id: data[data.length - 1].id,
           }
         : null,
+  };
+};
+
+export const fetchPostById = async ({
+  postId,
+  userId,
+}: {
+  postId: number;
+  userId: string;
+}) => {
+  const { data, error } = await supabase
+    .from("post")
+    .select(
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*)"
+    )
+    .eq("like.user_id", userId)
+    .eq("id", postId)
+    .single();
+
+  if (error) throw error;
+  return {
+    ...data,
+    isLiked: data.myLiked && data.myLiked.length > 0,
   };
 };
 
