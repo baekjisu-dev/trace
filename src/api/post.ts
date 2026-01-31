@@ -1,8 +1,10 @@
 import supabase from "@/lib/supabase";
-import type { BookEntity, PostEntity } from "@/types";
+import type { BookEntity, PostCursor, PostEntity } from "@/types";
 import type { DocumentType, NodeType, TextType } from "@tiptap/core";
 import { uploadImage } from "./image";
 import { createBook, fetchBookByIsbn } from "./book";
+
+const PAGE_SIZE = 10;
 
 type PostContent = DocumentType<
   Record<string, any> | undefined,
@@ -13,6 +15,34 @@ type PostContent = DocumentType<
     (NodeType | TextType)[]
   >[]
 >;
+
+export const fetchPosts = async (cursor: PostCursor) => {
+  let query = supabase
+    .from("post")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(PAGE_SIZE);
+
+  if (cursor) {
+    query = query.or(
+      `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
+    );
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  return {
+    items: data,
+    nextCursor:
+      data.length === PAGE_SIZE
+        ? {
+            createdAt: data[data.length - 1].created_at,
+            id: data[data.length - 1].id,
+          }
+        : null,
+  };
+};
 
 export const createPost = async (content: PostContent) => {
   const { data, error } = await supabase
@@ -55,7 +85,7 @@ export const createPostWithImages = async ({
             const filePath = `${userId}/${post.id}/${fileName}`;
 
             return uploadImage({ file: image, filePath });
-          }),
+          })
         );
       }
 
@@ -86,7 +116,7 @@ export const createPostWithImages = async ({
 };
 
 export const updatePost = async (
-  post: Partial<PostEntity> & { id: number },
+  post: Partial<PostEntity> & { id: number }
 ) => {
   const { data, error } = await supabase
     .from("post")

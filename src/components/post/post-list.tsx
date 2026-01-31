@@ -1,0 +1,42 @@
+import { useInfinitePosts } from "@/hooks/queries/use-infinite-posts";
+import PostItem from "./post-item";
+import { useInView } from "react-intersection-observer";
+import Loader from "../loader";
+import { useEffect } from "react";
+import Fallback from "../fallback";
+
+const PostList = () => {
+  const {
+    data,
+    error,
+    isPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfinitePosts();
+  const { ref, inView } = useInView();
+
+  const posts = data?.pages.flatMap((page) => page.items) || [];
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage]);
+
+  if (error) return <Fallback />;
+  if (isPending) return <Loader />;
+
+  return (
+    <section className="w-full p-2.5 overflow-auto flex flex-col gap-4">
+      {posts.map((post) => (
+        <PostItem key={post.id} />
+      ))}
+      {isPending && <Loader />}
+
+      <div ref={ref} />
+    </section>
+  );
+};
+
+export default PostList;

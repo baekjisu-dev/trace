@@ -11,3 +11,8 @@ export type UseMutationCallback = {
   onMutate?: () => void;
   onSettled?: () => void;
 };
+
+export type PostCursor = {
+  createdAt: string;
+  id: number;
+} | null;
