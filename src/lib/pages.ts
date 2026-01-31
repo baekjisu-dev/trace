@@ -33,7 +33,7 @@ const PRIVATE_PAGE_PATHS = {
   },
   POST: {
     path: "/post/:postId",
-    getPath: (postId: string) => `/post/${postId}`,
+    getPath: (postId: number) => `/post/${postId}`,
   },
   RESET_PASSWORD: {
     path: "/reset-password",
