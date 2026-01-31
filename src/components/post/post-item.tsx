@@ -1,8 +1,25 @@
 import { UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import PostEditButton from "./parts/post-edit-button";
+import { formatTimeAgo } from "@/lib/time";
+import BookItem from "../book/book-item";
+import { EditorContent, useEditor, type Content } from "@tiptap/react";
+import type { Post } from "@/types";
+import { TIPTAP_EXTENSIONS } from "@/lib/constants";
+import ImageCarousel from "./parts/image-carousel";
 
-const PostItem = () => {
+interface PostItemProps {
+  post: Post;
+}
+
+const PostItem = ({ post }: PostItemProps) => {
+  const editor = useEditor({
+    extensions: TIPTAP_EXTENSIONS,
+    content: post.content as Content,
+    editable: false,
+  });
+  const { author, book } = post;
+
   return (
     <div className="w-full p-2.5 border rounded-md">
       <div className="flex items-center justify-between w-full">
@@ -11,12 +28,19 @@ const PostItem = () => {
             <UserIcon className="size-4" />
           </Button>
           <div className="flex flex-col">
-            <p className="text-sm">작성자</p>
-            <p className="text-xs text-muted-foreground">2026-01-18</p>
+            <p className="text-sm">{author.nickname}</p>
+            <p className="text-xs text-muted-foreground">
+              {formatTimeAgo(post.created_at)}
+            </p>
           </div>
         </div>
         <PostEditButton />
       </div>
+      <div className="flex flex-col gap-2 mt-2.5">
+        {book && <BookItem book={book} />}
+        <EditorContent editor={editor} />
+      </div>
+      {post.image_urls && <ImageCarousel images={post.image_urls} />}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import type { DocumentType, NodeType, TextType } from "@tiptap/core";
 import { uploadImage } from "./image";
 import { createBook, fetchBookByIsbn } from "./book";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 type PostContent = DocumentType<
   Record<string, any> | undefined,
@@ -19,7 +19,7 @@ type PostContent = DocumentType<
 export const fetchPosts = async (cursor: PostCursor) => {
   let query = supabase
     .from("post")
-    .select("*")
+    .select("*, author: profile!author_id (*), book: book!book_isbn (*)")
     .order("created_at", { ascending: false })
     .limit(PAGE_SIZE);
 

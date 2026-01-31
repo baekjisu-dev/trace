@@ -1,3 +1,15 @@
+import Code from "@tiptap/extension-code";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Highlight from "@tiptap/extension-highlight";
+import Placeholder from "@tiptap/extension-placeholder";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import { TextStyleKit } from "@tiptap/extension-text-style";
+import Underline from "@tiptap/extension-underline";
+import StarterKit from "@tiptap/starter-kit";
+import { all, createLowlight } from "lowlight";
+
 export const QUERY_KEYS = {
   profile: {
     all: ["profile"],
@@ -20,3 +32,17 @@ export const QUERY_KEYS = {
 };
 
 export const BUCKET_NAME = "uploads";
+
+const lowlight = createLowlight(all);
+export const TIPTAP_EXTENSIONS = [
+  TextStyleKit,
+  StarterKit,
+  CodeBlockLowlight.configure({ lowlight }),
+  Code,
+  Highlight.configure({ multicolor: true }),
+  Underline,
+  Superscript,
+  Subscript,
+  TextAlign.configure({ types: ["heading", "paragraph"] }),
+  Placeholder.configure({ placeholder: "가치 있는 순간을 기록해 보세요." }),
+];

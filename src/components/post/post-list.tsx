@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import Loader from "../loader";
 import { useEffect } from "react";
 import Fallback from "../fallback";
+import type { Post } from "@/types";
 
 const PostList = () => {
   const {
@@ -30,7 +31,7 @@ const PostList = () => {
   return (
     <section className="w-full p-2.5 overflow-auto flex flex-col gap-4">
       {posts.map((post) => (
-        <PostItem key={post.id} />
+        <PostItem key={post.id} post={post as Post} />
       ))}
       {isPending && <Loader />}
 

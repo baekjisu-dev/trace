@@ -5,6 +5,11 @@ export type ProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
 export type CommentEntity = Database["public"]["Tables"]["comment"]["Row"];
 export type BookEntity = Database["public"]["Tables"]["book"]["Row"];
 
+export type Post = PostEntity & {
+  author: ProfileEntity;
+  book: BookEntity;
+};
+
 export type UseMutationCallback = {
   onSuccess?: () => void;
   onError?: (error: Error) => void;

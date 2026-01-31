@@ -7,21 +7,10 @@ import "@/components/tiptap-node/list-node/list-node.scss";
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
 
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
-import { TextStyleKit } from "@tiptap/extension-text-style";
-import Placeholder from "@tiptap/extension-placeholder";
-import StarterKit from "@tiptap/starter-kit";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { all, createLowlight } from "lowlight";
-import Code from "@tiptap/extension-code";
-import Highlight from "@tiptap/extension-highlight";
-import TextAlign from "@tiptap/extension-text-align";
 import { BlockquoteButton } from "@/components/tiptap-ui/blockquote-button";
 import { ColorHighlightPopover } from "@/components/tiptap-ui/color-highlight-popover";
 import { LinkPopover } from "@/components/tiptap-ui/link-popover";
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
-import { Underline } from "@tiptap/extension-underline";
-import { Superscript } from "@tiptap/extension-superscript";
-import { Subscript } from "@tiptap/extension-subscript";
 import { MarkButton } from "@/components/tiptap-ui/mark-button";
 
 import { Button } from "@/components/ui/button";
@@ -38,28 +27,14 @@ import {
   useHideMessageLoader,
   useShowMessageLoader,
 } from "@/store/message-loader";
-
-const lowlight = createLowlight(all);
-
-const extensions = [
-  TextStyleKit,
-  StarterKit,
-  CodeBlockLowlight.configure({ lowlight }),
-  Code,
-  Highlight.configure({ multicolor: true }),
-  Underline,
-  Superscript,
-  Subscript,
-  TextAlign.configure({ types: ["heading", "paragraph"] }),
-  Placeholder.configure({ placeholder: "가치 있는 순간을 기록해 보세요." }),
-];
+import { TIPTAP_EXTENSIONS } from "@/lib/constants";
 
 const PostEditor = () => {
   const showMessageLoader = useShowMessageLoader();
   const hideMessageLoader = useHideMessageLoader();
   const session = useSession();
   const editor = useEditor({
-    extensions,
+    extensions: TIPTAP_EXTENSIONS,
     content: "",
     onUpdate: ({ editor }) => {
       setIsEmpty(editor.isEmpty);
@@ -87,7 +62,7 @@ const PostEditor = () => {
 
   const [isEmpty, setIsEmpty] = useState(true);
   const [imageFiles, setImageFiles] = useState<{ file: File; url: string }[]>(
-    [],
+    []
   );
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +89,7 @@ const PostEditor = () => {
         }
 
         return index !== targetIndex;
-      }),
+      })
     );
   };
 
@@ -167,10 +142,12 @@ const PostEditor = () => {
           editor={editor}
         />
       </EditorContext.Provider>
-      <ImageCarousel
-        images={imageFiles.map((image) => image.url)}
-        onDelete={handleImageDelete}
-      />
+      {imageFiles.length > 0 && (
+        <ImageCarousel
+          images={imageFiles.map((image) => image.url)}
+          onDelete={handleImageDelete}
+        />
+      )}
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
           <input
