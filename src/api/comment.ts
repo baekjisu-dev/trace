@@ -36,3 +36,15 @@ export const createComment = async ({
   if (error) throw error;
   return data;
 };
+
+export const deleteComment = async (commentId: number) => {
+  const { data, error } = await supabase
+    .from("comment")
+    .delete()
+    .eq("id", commentId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
