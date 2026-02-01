@@ -17,7 +17,7 @@ export const fetchPosts = async ({
   let query = supabase
     .from("post")
     .select(
-      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), comments: comment!post_id (*)"
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), commentCount: comment!post_id (count)"
     )
     .eq("like.user_id", userId)
     .order("created_at", { ascending: false })
@@ -39,6 +39,7 @@ export const fetchPosts = async ({
   return {
     items: data.map((post) => ({
       ...post,
+      commentCount: post.commentCount[0].count,
       isLiked: post.myLiked && post.myLiked.length > 0,
     })),
     nextCursor:
@@ -61,7 +62,7 @@ export const fetchPostById = async ({
   const { data, error } = await supabase
     .from("post")
     .select(
-      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), comments: comment!post_id (*)"
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), commentCount: comment!post_id (count)"
     )
     .eq("like.user_id", userId)
     .eq("id", postId)
@@ -70,6 +71,7 @@ export const fetchPostById = async ({
   if (error) throw error;
   return {
     ...data,
+    commentCount: data.commentCount[0].count,
     isLiked: data.myLiked && data.myLiked.length > 0,
   };
 };

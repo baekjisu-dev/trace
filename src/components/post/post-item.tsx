@@ -157,10 +157,10 @@ const PostItem = ({ postId, type }: PostItemProps) => {
         />
         <Button variant="ghost" size="sm" onClick={handleNavigate}>
           <MessageCircleIcon className="size-4" />
-          <span>{post.comments.length}</span>
+          <span>{post.commentCount}</span>
         </Button>
       </div>
-      {type === "DETAIL" && <CommentList />}
+      {type === "DETAIL" && <CommentList postId={post.id} />}
     </div>
   );
 };
