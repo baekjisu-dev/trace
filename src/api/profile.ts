@@ -1,3 +1,4 @@
+import { generateRandomNickname } from "@/lib/name";
 import supabase from "@/lib/supabase";
 
 export const getProfile = async (userId: string) => {
@@ -12,11 +13,13 @@ export const getProfile = async (userId: string) => {
 };
 
 export const createProfile = async (userId: string) => {
+  const nickname = generateRandomNickname(userId);
+
   const { data, error } = await supabase
     .from("profile")
     .insert({
       id: userId,
-      nickname: "random_nickname",
+      nickname,
     })
     .select()
     .single();
