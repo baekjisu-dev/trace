@@ -1,6 +1,6 @@
 import { deleteComment } from "@/api/comment";
 import { QUERY_KEYS } from "@/lib/constants";
-import type { Comment, UseMutationCallback } from "@/types";
+import type { Comment, Post, UseMutationCallback } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteComment = (callbacks?: UseMutationCallback) => {
@@ -10,6 +10,18 @@ export const useDeleteComment = (callbacks?: UseMutationCallback) => {
     mutationFn: deleteComment,
     onSuccess: (deletedComment) => {
       callbacks?.onSuccess?.();
+
+      queryClient.setQueryData<Post>(
+        QUERY_KEYS.post.byId(deletedComment.post_id),
+        (post) => {
+          if (!post) throw new Error("포스트가 존재하지 않습니다.");
+
+          return {
+            ...post,
+            commentCount: post.commentCount - 1,
+          };
+        }
+      );
 
       queryClient.setQueryData<Comment[]>(
         QUERY_KEYS.comment.post(deletedComment.post_id),
