@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useSession } from "@/store/session";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import LikeButton from "./parts/like-button";
+import CommentList from "../comment/comment-list";
 
 interface PostItemProps {
   postId: number;
@@ -159,6 +160,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
           <span>{post.comments.length}</span>
         </Button>
       </div>
+      {type === "DETAIL" && <CommentList />}
     </div>
   );
 };
