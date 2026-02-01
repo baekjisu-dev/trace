@@ -14,6 +14,7 @@ import Loader from "../loader";
 import Fallback from "../fallback";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/store/session";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface PostItemProps {
   postId: number;
@@ -96,7 +97,12 @@ const PostItem = ({ postId, type }: PostItemProps) => {
             size="icon"
             onClick={handleNavigateToProfile}
           >
-            <UserIcon className="size-4" />
+            <Avatar className="size-full">
+              <AvatarImage src={author.avatar_url ?? ""} />
+              <AvatarFallback>
+                <UserIcon className="size-4" />
+              </AvatarFallback>
+            </Avatar>
           </Button>
           <div className="flex flex-col">
             <p className="text-sm">{author.nickname}</p>
