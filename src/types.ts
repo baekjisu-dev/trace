@@ -9,6 +9,8 @@ export type BookEntity = Database["public"]["Tables"]["book"]["Row"];
 export type Post = PostEntity & {
   author: ProfileEntity;
   book: BookEntity;
+  commentCount: number;
+  isLiked: boolean;
 };
 
 export type UseMutationCallback = {

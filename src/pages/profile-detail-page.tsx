@@ -73,7 +73,7 @@ const ProfileDetailPage = () => {
             </Button>
           )}
         </div>
-        <PostList userId={userId} />
+        <PostList authorId={userId} />
       </div>
     </div>
   );

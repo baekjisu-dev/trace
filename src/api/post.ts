@@ -5,12 +5,21 @@ import { createBook, fetchBookByIsbn } from "./book";
 
 const PAGE_SIZE = 15;
 
-export const fetchPosts = async (cursor: PostCursor, userId?: string) => {
+export const fetchPosts = async ({
+  cursor,
+  userId,
+  authorId,
+}: {
+  cursor: PostCursor;
+  userId: string;
+  authorId?: string;
+}) => {
   let query = supabase
     .from("post")
     .select(
-      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*)"
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), comments: comment!post_id (*)"
     )
+    .eq("like.user_id", userId)
     .order("created_at", { ascending: false })
     .limit(PAGE_SIZE);
 
@@ -20,8 +29,8 @@ export const fetchPosts = async (cursor: PostCursor, userId?: string) => {
     );
   }
 
-  if (userId) {
-    query = query.eq("author_id", userId);
+  if (authorId) {
+    query = query.eq("author_id", authorId);
   }
 
   const { data, error } = await query;
@@ -52,7 +61,7 @@ export const fetchPostById = async ({
   const { data, error } = await supabase
     .from("post")
     .select(
-      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*)"
+      "*, author: profile!author_id (*), book: book!book_isbn (*), myLiked: like!post_id (*), comments: comment!post_id (*)"
     )
     .eq("like.user_id", userId)
     .eq("id", postId)

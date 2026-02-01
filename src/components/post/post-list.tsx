@@ -6,10 +6,10 @@ import { useEffect } from "react";
 import Fallback from "../fallback";
 
 interface PostListProps {
-  userId?: string;
+  authorId?: string;
 }
 
-const PostList = ({ userId }: PostListProps) => {
+const PostList = ({ authorId }: PostListProps) => {
   const {
     data,
     error,
@@ -17,7 +17,7 @@ const PostList = ({ userId }: PostListProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePosts(userId);
+  } = useInfinitePosts(authorId);
   const { ref, inView } = useInView();
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];

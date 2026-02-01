@@ -1,4 +1,4 @@
-import { UserIcon } from "lucide-react";
+import { MessageCircleIcon, UserIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import PostEditButton from "./parts/post-edit-button";
 import { formatTimeAgo } from "@/lib/time";
@@ -15,6 +15,7 @@ import Fallback from "../fallback";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/store/session";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import LikeButton from "./parts/like-button";
 
 interface PostItemProps {
   postId: number;
@@ -74,7 +75,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
   const isOwner = session?.user.id === author.id;
 
   const handleNavigate = () => {
-    navigate(PRIVATE_PAGE_PATHS.POST.getPath(post.id));
+    if (type === "FEED") navigate(PRIVATE_PAGE_PATHS.POST.getPath(post.id));
   };
 
   const handleNavigateToProfile = () => {
@@ -147,6 +148,17 @@ const PostItem = ({ postId, type }: PostItemProps) => {
         </div>
       </div>
       {post.image_urls && <ImageCarousel images={post.image_urls} />}
+      <div className="w-full">
+        <LikeButton
+          postId={post.id}
+          likeCount={post.like_count}
+          isLiked={post.isLiked}
+        />
+        <Button variant="ghost" size="sm" onClick={handleNavigate}>
+          <MessageCircleIcon className="size-4" />
+          <span>{post.comments.length}</span>
+        </Button>
+      </div>
     </div>
   );
 };
