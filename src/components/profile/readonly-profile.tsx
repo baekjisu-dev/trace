@@ -8,7 +8,7 @@ const ReadonlyProfile = ({ profile }: ReadonlyProfileProps) => {
   return (
     <div className="flex flex-col items-center gap-1">
       <p className="text-2xl font-bold">{profile?.nickname}</p>
-      <p className="text-sm text-muted-foreground line-clamp-2 h-12">
+      <p className="text-sm text-muted-foreground line-clamp-2 h-12 whitespace-pre-wrap break-all">
         {profile?.bio || "자기소개가 없어요."}
       </p>
     </div>

@@ -41,7 +41,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       </Avatar>
       <div className="flex flex-col gap-2 w-[calc(100%-32px)]">
         <p className="text-sm font-bold line-clamp-1">{author.nickname}</p>
-        <p className="text-sm">{comment.content}</p>
+        <p className="text-sm whitespace-pre-wrap break-all">
+          {comment.content}
+        </p>
         <div className="flex justify-between">
           <div className="flex items-center gap-1">
             <Button
