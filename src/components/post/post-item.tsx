@@ -45,6 +45,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
   });
 
   const contentWrapRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
@@ -83,8 +84,20 @@ const PostItem = ({ postId, type }: PostItemProps) => {
     navigate(PRIVATE_PAGE_PATHS.PROFILE.getPath(author.id));
   };
 
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 1);
+  };
+
   return (
     <div
+      ref={scrollRef}
       className={cn(
         "w-full p-2.5",
         type === "FEED" && "border rounded-md",
@@ -160,7 +173,9 @@ const PostItem = ({ postId, type }: PostItemProps) => {
           <span>{post.commentCount}</span>
         </Button>
       </div>
-      {type === "DETAIL" && <CommentList postId={post.id} />}
+      {type === "DETAIL" && (
+        <CommentList postId={post.id} scrollToBottom={scrollToBottom} />
+      )}
     </div>
   );
 };

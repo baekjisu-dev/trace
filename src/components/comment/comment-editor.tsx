@@ -7,6 +7,7 @@ import { toast } from "sonner";
 type CreateMode = {
   type: "CREATE";
   postId: number;
+  onSuccess: () => void;
 };
 
 type Props = CreateMode;
@@ -21,6 +22,10 @@ const CommentEditor = (props: Props) => {
         toast.success("댓글을 작성했어요.", {
           position: "top-center",
         });
+
+        if (props.type === "CREATE") {
+          props.onSuccess();
+        }
       },
       onError: (error) => {
         console.error(error);

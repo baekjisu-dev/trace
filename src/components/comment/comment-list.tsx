@@ -7,9 +7,10 @@ import { useRef } from "react";
 
 interface CommentListProps {
   postId: number;
+  scrollToBottom: () => void;
 }
 
-const CommentList = ({ postId }: CommentListProps) => {
+const CommentList = ({ postId, scrollToBottom }: CommentListProps) => {
   const {
     data: comments,
     isLoading: isLoadingComments,
@@ -23,7 +24,7 @@ const CommentList = ({ postId }: CommentListProps) => {
 
   return (
     <div className="w-full border-t pt-4" ref={listRef}>
-      <CommentEditor type="CREATE" postId={postId} />
+      <CommentEditor type="CREATE" postId={postId} onSuccess={scrollToBottom} />
       <div className="w-full mt-2.5">
         {comments?.map((comment) => (
           <CommentItem key={comment.id} comment={comment} />
