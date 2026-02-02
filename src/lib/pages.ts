@@ -16,7 +16,20 @@ const PRIVATE_PAGE_PATHS = {
   },
   SEARCH: {
     path: "/search",
-    getPath: (query: string) => `/search?query=${query}`,
+    getPath: (filters: { searchText?: string; authorId?: string }) => {
+      const params = Object.entries(filters)
+        .filter(([, value]) => value !== undefined && value !== "")
+        .reduce(
+          (acc, [key, value]) => {
+            acc[key] = value as string;
+            return acc;
+          },
+          {} as Record<string, string>
+        );
+
+      const paramString = new URLSearchParams(params).toString();
+      return paramString ? `/search?${paramString}` : "/search";
+    },
   },
   DM: {
     path: "/dm",

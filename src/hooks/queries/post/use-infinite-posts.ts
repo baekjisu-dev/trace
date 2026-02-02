@@ -4,17 +4,24 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import type { PostCursor } from "@/types";
 import { useSession } from "@/store/session";
 
-export const useInfinitePosts = (filters?: {
-  authorId?: string;
-  searchText?: string;
+export const useInfinitePosts = ({
+  filters,
+  type,
+}: {
+  filters: {
+    authorId?: string;
+    searchText?: string;
+  };
+  type: "SEARCH" | "FEED";
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
 
   return useInfiniteQuery({
-    queryKey: filters?.authorId
-      ? QUERY_KEYS.post.listWithFilters(filters)
-      : QUERY_KEYS.post.list,
+    queryKey:
+      type === "SEARCH"
+        ? QUERY_KEYS.post.listWithFilters(filters)
+        : QUERY_KEYS.post.list,
     queryFn: async ({ pageParam }: { pageParam: PostCursor }) => {
       const posts = await fetchPosts({
         cursor: pageParam,
@@ -32,6 +39,7 @@ export const useInfinitePosts = (filters?: {
         posts: posts.items.map((post) => post.id),
       };
     },
+    enabled: filters === undefined || filters.searchText !== "",
     initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
 

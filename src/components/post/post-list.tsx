@@ -7,17 +7,20 @@ import Fallback from "../fallback";
 
 interface PostListProps {
   authorId?: string;
+  searchText?: string;
+  type: "SEARCH" | "FEED";
 }
 
-const PostList = ({ authorId }: PostListProps) => {
+const PostList = ({ authorId, searchText, type }: PostListProps) => {
   const {
     data,
     error,
-    isPending,
+    isLoading,
+    isFetching,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePosts({ authorId });
+  } = useInfinitePosts({ filters: { authorId, searchText }, type });
   const { ref, inView } = useInView();
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];
@@ -29,14 +32,23 @@ const PostList = ({ authorId }: PostListProps) => {
   }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (error) return <Fallback />;
-  if (isPending) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <section className="w-full p-2.5 overflow-auto flex flex-col gap-4">
       {posts.map((post) => (
         <PostItem key={post} postId={post} type="FEED" />
       ))}
-      {isPending && <Loader />}
+      {(isLoading || isFetching) && <Loader />}
+      {posts.length === 0 && (
+        <div className="text-center text-sm text-muted-foreground">
+          {type === "SEARCH"
+            ? searchText
+              ? "검색 결과가 없습니다."
+              : "검색어를 입력해 주세요."
+            : "등록된 포스트가 없습니다."}
+        </div>
+      )}
 
       <div ref={ref} />
     </section>

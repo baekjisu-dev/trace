@@ -5,7 +5,7 @@ const IndexPage = () => {
   return (
     <div className="h-full w-full flex flex-col">
       <PostEditor />
-      <PostList />
+      <PostList type="FEED" />
     </div>
   );
 };

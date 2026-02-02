@@ -73,7 +73,7 @@ const ProfileDetailPage = () => {
             </Button>
           )}
         </div>
-        <PostList authorId={userId} />
+        <PostList authorId={userId} type="FEED" />
       </div>
     </div>
   );

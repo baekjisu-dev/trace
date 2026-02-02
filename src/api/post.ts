@@ -32,7 +32,7 @@ export const fetchPosts = async ({
   }
 
   if (searchText) {
-    query = query.textSearch("content_text", searchText);
+    query = query.ilike("content_text", `%${searchText}%`);
   }
 
   if (authorId) {

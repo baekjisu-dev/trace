@@ -260,6 +260,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
       toggle_post_like: {
         Args: { p_post_id: number; p_user_id: string }
         Returns: boolean
