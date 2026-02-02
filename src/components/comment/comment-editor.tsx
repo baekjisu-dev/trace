@@ -18,7 +18,15 @@ type EditMode = {
   onClose: () => void;
 };
 
-type Props = CreateMode | EditMode;
+type ReplyMode = {
+  type: "REPLY";
+  postId: number;
+  parentCommentId: number;
+  rootCommentId: number;
+  onClose: () => void;
+};
+
+type Props = CreateMode | EditMode | ReplyMode;
 
 const CommentEditor = (props: Props) => {
   const [comment, setComment] = useState("");
@@ -33,6 +41,8 @@ const CommentEditor = (props: Props) => {
 
         if (props.type === "CREATE") {
           props.onSuccess();
+        } else if (props.type === "REPLY") {
+          props.onClose();
         }
       },
       onError: (error) => {
@@ -74,6 +84,13 @@ const CommentEditor = (props: Props) => {
         commentId: props.commentId,
         content: comment,
       });
+    } else if (props.type === "REPLY") {
+      createComment({
+        postId: props.postId,
+        content: comment,
+        parentCommentId: props.parentCommentId,
+        rootCommentId: props.rootCommentId,
+      });
     }
   };
 
@@ -93,7 +110,7 @@ const CommentEditor = (props: Props) => {
         disabled={isCreatingComment}
       />
       <div className="flex gap-2">
-        {props.type === "EDIT" && (
+        {(props.type === "EDIT" || props.type === "REPLY") && (
           <Button
             variant="outline"
             size="sm"

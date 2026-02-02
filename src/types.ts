@@ -17,6 +17,11 @@ export type Comment = CommentEntity & {
   author: ProfileEntity;
 };
 
+export type NestedComment = Comment & {
+  parentComment?: Comment;
+  children: NestedComment[];
+};
+
 export type UseMutationCallback = {
   onSuccess?: () => void;
   onError?: (error: Error) => void;

@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserIcon } from "lucide-react";
-import type { Comment } from "@/types";
+import type { NestedComment } from "@/types";
 import { formatTimeAgo } from "@/lib/time";
 import { useDeleteComment } from "@/hooks/mutations/comment/use-delete-comment";
 import { toast } from "sonner";
@@ -8,9 +8,10 @@ import { Button } from "../ui/button";
 import { useSession } from "@/store/session";
 import { useState } from "react";
 import CommentEditor from "./comment-editor";
+import { cn } from "@/lib/tiptap-utils";
 
 interface CommentItemProps {
-  comment: Comment;
+  comment: NestedComment;
 }
 
 const CommentItem = ({ comment }: CommentItemProps) => {
@@ -32,16 +33,24 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
 
   const handleDeleteComment = () => {
     deleteComment(comment.id);
   };
 
   const isOwner = session?.user.id === author.id;
+  const isRootComment = comment.parentComment === undefined;
+  const isOverTwoLevels = comment.parent_comment_id !== comment.root_comment_id;
 
   return (
-    <div className="w-full flex flex-col gap-2">
-      <div className="w-full flex gap-2 p-2.5 border-t">
+    <div
+      className={cn(
+        "w-full flex flex-col gap-2",
+        isRootComment ? "border-t" : "pl-6"
+      )}
+    >
+      <div className="w-full flex gap-2 p-2.5">
         <Avatar className="size-6">
           <AvatarImage src={author.avatar_url ?? ""} className="size-full" />
           <AvatarFallback>
@@ -66,10 +75,15 @@ const CommentItem = ({ comment }: CommentItemProps) => {
             />
           ) : (
             <p className="text-sm whitespace-pre-wrap break-all">
+              {isOverTwoLevels && (
+                <span className="font-bold text-blue-500">
+                  @{comment.parentComment?.author.nickname}&nbsp;
+                </span>
+              )}
               {comment.content}
             </p>
           )}
-          {!isEditing && (
+          {!isEditing && !isReplying && (
             <div className="flex justify-between">
               <div className="flex items-center gap-1">
                 <Button
@@ -77,6 +91,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                   size="sm"
                   className="text-xs text-muted-foreground p-0"
                   disabled={isDeletingComment}
+                  onClick={() => setIsReplying(true)}
                 >
                   답글
                 </Button>
@@ -108,6 +123,18 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           )}
         </div>
       </div>
+      {isReplying && (
+        <CommentEditor
+          type="REPLY"
+          postId={comment.post_id}
+          parentCommentId={comment.id}
+          rootCommentId={comment.root_comment_id ?? comment.id}
+          onClose={() => setIsReplying(false)}
+        />
+      )}
+      {comment.children.map((child) => (
+        <CommentItem key={child.id} comment={child} />
+      ))}
     </div>
   );
 };
