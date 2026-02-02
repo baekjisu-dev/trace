@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { useCreateComment } from "@/hooks/mutations/comment/use-create-comment";
 import { toast } from "sonner";
 import { useUpdateComment } from "@/hooks/mutations/comment/use-update.comment";
+import { cn } from "@/lib/utils";
 
 type CreateMode = {
   type: "CREATE";
@@ -101,7 +102,12 @@ const CommentEditor = (props: Props) => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-end gap-2">
+    <div
+      className={cn(
+        "w-full flex flex-col items-end gap-2",
+        props.type === "REPLY" && "pl-6 pb-2.5"
+      )}
+    >
       <Textarea
         className="resize-none h-24"
         value={comment}
@@ -126,7 +132,7 @@ const CommentEditor = (props: Props) => {
           disabled={!comment.trim() || isCreatingComment || isUpdatingComment}
           onClick={handleCreateComment}
         >
-          {props.type === "CREATE" ? "작성" : "수정"}
+          {props.type === "CREATE" || props.type === "REPLY" ? "작성" : "수정"}
         </Button>
       </div>
     </div>
