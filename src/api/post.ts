@@ -9,10 +9,12 @@ export const fetchPosts = async ({
   cursor,
   userId,
   authorId,
+  searchText,
 }: {
   cursor: PostCursor;
   userId: string;
   authorId?: string;
+  searchText?: string;
 }) => {
   let query = supabase
     .from("post")
@@ -27,6 +29,10 @@ export const fetchPosts = async ({
     query = query.or(
       `created_at.lt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.lt.${cursor.id})`
     );
+  }
+
+  if (searchText) {
+    query = query.textSearch("content_text", searchText);
   }
 
   if (authorId) {
@@ -76,11 +82,12 @@ export const fetchPostById = async ({
   };
 };
 
-export const createPost = async (content: PostContent) => {
+export const createPost = async (content: PostContent, contentText: string) => {
   const { data, error } = await supabase
     .from("post")
     .insert({
       content,
+      content_text: contentText,
     })
     .select()
     .single();
@@ -92,17 +99,19 @@ export const createPost = async (content: PostContent) => {
 
 export const createPostWithImages = async ({
   content,
+  contentText,
   images,
   userId,
   book,
 }: {
   content: PostContent;
+  contentText: string;
   images: File[];
   userId: string;
   book?: BookEntity | null;
 }) => {
   // * 1. 새로운 포스트 생성
-  const post = await createPost(content);
+  const post = await createPost(content, contentText);
 
   try {
     if (images.length > 0 || book) {

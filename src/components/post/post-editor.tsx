@@ -110,6 +110,7 @@ const PostEditor = () => {
 
     createPost({
       content: editor.getJSON(),
+      contentText: editor.getText(),
       images: imageFiles.map((image) => image.file),
       userId: session.user.id,
       book: bookInfo,

@@ -19,6 +19,11 @@ export const QUERY_KEYS = {
   post: {
     all: ["post"],
     list: ["post", "list"],
+    listWithFilters: (filters: { authorId?: string; searchText?: string }) => [
+      "post",
+      "listWithFilters",
+      filters,
+    ],
     userList: (userId: string) => ["post", "userList", userId],
     byId: (postId: number) => ["post", "byId", postId],
   },

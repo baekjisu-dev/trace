@@ -4,19 +4,23 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import type { PostCursor } from "@/types";
 import { useSession } from "@/store/session";
 
-export const useInfinitePosts = (authorId?: string) => {
+export const useInfinitePosts = (filters?: {
+  authorId?: string;
+  searchText?: string;
+}) => {
   const queryClient = useQueryClient();
   const session = useSession();
 
   return useInfiniteQuery({
-    queryKey: authorId
-      ? QUERY_KEYS.post.userList(authorId)
+    queryKey: filters?.authorId
+      ? QUERY_KEYS.post.listWithFilters(filters)
       : QUERY_KEYS.post.list,
     queryFn: async ({ pageParam }: { pageParam: PostCursor }) => {
       const posts = await fetchPosts({
         cursor: pageParam,
         userId: session!.user.id,
-        authorId,
+        authorId: filters?.authorId,
+        searchText: filters?.searchText,
       });
 
       posts.items.forEach((post) => {

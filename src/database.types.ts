@@ -153,11 +153,42 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          actor_id: string | null
+          context: Json
+          created_at: string
+          id: number
+          is_read: boolean
+          type: string
+          user_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          context?: Json
+          created_at?: string
+          id?: never
+          is_read?: boolean
+          type: string
+          user_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          context?: Json
+          created_at?: string
+          id?: never
+          is_read?: boolean
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       post: {
         Row: {
           author_id: string
           book_isbn: string | null
           content: Json
+          content_text: string
           created_at: string
           id: number
           image_urls: string[] | null
@@ -167,6 +198,7 @@ export type Database = {
           author_id?: string
           book_isbn?: string | null
           content: Json
+          content_text?: string
           created_at?: string
           id?: number
           image_urls?: string[] | null
@@ -176,6 +208,7 @@ export type Database = {
           author_id?: string
           book_isbn?: string | null
           content?: Json
+          content_text?: string
           created_at?: string
           id?: number
           image_urls?: string[] | null

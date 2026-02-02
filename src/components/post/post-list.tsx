@@ -17,7 +17,7 @@ const PostList = ({ authorId }: PostListProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePosts(authorId);
+  } = useInfinitePosts({ authorId });
   const { ref, inView } = useInView();
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];
