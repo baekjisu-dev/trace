@@ -43,16 +43,16 @@ const toNestedComments = (comments: Comment[]): NestedComment[] => {
 const CommentList = ({ postId, scrollToBottom }: CommentListProps) => {
   const {
     data: comments,
-    isPending: isPendingComments,
+    isPending: isCommentsPending,
     isError: isErrorComments,
   } = useCommentsData(postId);
 
   const listRef = useRef<HTMLDivElement>(null);
 
-  if (isPendingComments) return <Loader />;
+  if (isCommentsPending) return <Loader />;
   if (isErrorComments) return <Fallback />;
 
-  const nestedComments = toNestedComments(comments);
+  const nestedComments = toNestedComments(comments || []);
 
   return (
     <div className="w-full border-t pt-4" ref={listRef}>

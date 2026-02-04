@@ -9,7 +9,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
   const setSession = useSetSession();
   const isSessionLoaded = useIsSessionLoaded();
 
-  const { isLoading: isProfileLoading } = useProfileData(session?.user.id);
+  const { isPending: isProfilePending } = useProfileData(session?.user.id);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_, session) => {
@@ -18,7 +18,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   if (!isSessionLoaded) return <GlobalLoader />;
-  if (isProfileLoading) return <GlobalLoader />;
+  if (isProfilePending) return <GlobalLoader />;
 
   return children;
 };

@@ -17,7 +17,7 @@ const ProfileDetailPage = () => {
   const { userId } = useParams();
   const {
     data: profile,
-    isLoading: isProfileLoading,
+    isPending: isProfilePending,
     isError: isProfileError,
   } = useProfileData(userId);
 
@@ -29,7 +29,7 @@ const ProfileDetailPage = () => {
 
   if (!userId) return <Navigate to={PRIVATE_PAGE_PATHS.HOME.path} replace />;
 
-  if (isProfileLoading) return <Loader />;
+  if (isProfilePending) return <Loader />;
   if (isProfileError) return <Fallback />;
 
   const isMine = userId === session?.user?.id;

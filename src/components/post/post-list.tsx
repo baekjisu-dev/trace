@@ -15,7 +15,7 @@ const PostList = ({ authorId, searchText, type }: PostListProps) => {
   const {
     data,
     error,
-    isLoading,
+    isPending,
     isFetching,
     fetchNextPage,
     hasNextPage,
@@ -32,14 +32,14 @@ const PostList = ({ authorId, searchText, type }: PostListProps) => {
   }, [inView, hasNextPage, isFetchingNextPage]);
 
   if (error) return <Fallback />;
-  if (isLoading) return <Loader />;
+  if (isPending && isFetching) return <Loader />;
 
   return (
     <section className="w-full p-2.5 overflow-auto flex flex-col gap-4">
       {posts.map((post) => (
         <PostItem key={post} postId={post} type="FEED" />
       ))}
-      {(isLoading || isFetching) && <Loader />}
+      {isFetching && <Loader />}
       {posts.length === 0 && (
         <div className="text-center text-sm text-muted-foreground">
           {type === "SEARCH"

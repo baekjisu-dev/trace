@@ -14,14 +14,14 @@ const BooksSearchModal = () => {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isLoading, isFetching } = useBooksData(debouncedSearch, page);
+  const { data, isPending, isFetching } = useBooksData(debouncedSearch, page);
 
   const {
     isOpen,
     actions: { close, setBook },
   } = useBooksSearchModal();
 
-  const isDisabled = isLoading || isFetching || !search.trim();
+  const isDisabled = isPending || isFetching || !search.trim();
 
   const handleBookClick = (book: BookEntity) => {
     setBook(book);
