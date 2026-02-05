@@ -41,8 +41,16 @@ export type CommentNotification = Notification & {
   context: {
     commentId: number;
     postId: number;
-    parentCommentId: number | null;
-    rootCommentId: number | null;
+  };
+};
+
+export type ReplyNotification = Notification & {
+  type: "comment_reply";
+  context: {
+    commentId: number;
+    postId: number;
+    parentCommentId: number;
+    rootCommentId: number;
   };
 };
 

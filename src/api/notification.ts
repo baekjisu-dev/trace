@@ -92,3 +92,15 @@ export const markNotificationAsRead = async (notificationId: number) => {
   if (error) throw error;
   return data;
 };
+
+export const markAllNotificationsAsRead = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("user_id", userId)
+    .eq("is_read", false)
+    .select();
+
+  if (error) throw error;
+  return data;
+};

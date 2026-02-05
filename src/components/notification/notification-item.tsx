@@ -1,8 +1,16 @@
-import type { CommentNotification, LikeNotification } from "@/types";
+import type {
+  CommentNotification,
+  LikeNotification,
+  ReplyNotification,
+} from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserIcon } from "lucide-react";
 import { useMemo } from "react";
-import { isCommentNotification, isLikeNotification } from "@/lib/type-guard";
+import {
+  isCommentNotification,
+  isLikeNotification,
+  isReplyNotification,
+} from "@/lib/type-guard";
 import { formatTimeAgo } from "@/lib/time";
 import { useNavigate } from "react-router";
 import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
@@ -10,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { useReadNotification } from "@/hooks/mutations/notification/use-read-notification";
 
 interface NotificationItemProps {
-  notification: LikeNotification | CommentNotification;
+  notification: LikeNotification | CommentNotification | ReplyNotification;
 }
 
 const COMMON_CLASS_NAME =
@@ -50,6 +58,18 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
         >
           <span className="font-bold">{notification.actor.nickname}</span>
           님이 회원님의 포스트에 댓글을 남겼어요.
+        </div>
+      );
+    } else if (isReplyNotification(notification)) {
+      return (
+        <div
+          className={cn(
+            COMMON_CLASS_NAME,
+            notification.is_read && "text-muted-foreground"
+          )}
+        >
+          <span className="font-bold">{notification.actor.nickname}</span>
+          님이 댓글에 답글을 남겼어요.
         </div>
       );
     } else {

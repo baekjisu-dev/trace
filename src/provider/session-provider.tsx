@@ -30,6 +30,10 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
             QUERY_KEYS.notification.count(session.user.id),
             (old: number) => old + 1
           );
+
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.notification.list(session.user.id),
+          });
         },
       });
 
