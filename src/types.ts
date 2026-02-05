@@ -24,6 +24,28 @@ export type NestedComment = Comment & {
   children: NestedComment[];
 };
 
+export type Notification = NotificationEntity & {
+  actor: ProfileEntity;
+};
+
+export type LikeNotification = Notification & {
+  type: "like";
+  context: {
+    likeId: number;
+    postId: number;
+  };
+};
+
+export type CommentNotification = Notification & {
+  type: "comment";
+  context: {
+    commentId: number;
+    postId: number;
+    parentCommentId: number | null;
+    rootCommentId: number | null;
+  };
+};
+
 export type UseMutationCallback = {
   onSuccess?: () => void;
   onError?: (error: Error) => void;
