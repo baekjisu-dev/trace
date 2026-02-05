@@ -8,10 +8,11 @@ import Fallback from "../fallback";
 interface PostListProps {
   authorId?: string;
   searchText?: string;
-  type: "SEARCH" | "FEED";
+  type: "SEARCH" | "FEED" | "PROFILE";
 }
 
 const PostList = ({ authorId, searchText, type }: PostListProps) => {
+  console.log(authorId, searchText, type);
   const {
     data,
     error,

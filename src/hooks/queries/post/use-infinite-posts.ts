@@ -12,14 +12,14 @@ export const useInfinitePosts = ({
     authorId?: string;
     searchText?: string;
   };
-  type: "SEARCH" | "FEED";
+  type: "SEARCH" | "FEED" | "PROFILE";
 }) => {
   const queryClient = useQueryClient();
   const session = useSession();
 
   return useInfiniteQuery({
     queryKey:
-      type === "SEARCH"
+      type === "SEARCH" || type === "PROFILE"
         ? QUERY_KEYS.post.listWithFilters(filters)
         : QUERY_KEYS.post.list,
     queryFn: async ({ pageParam }: { pageParam: PostCursor }) => {
