@@ -133,7 +133,6 @@ export const createPostWithImages = async ({
       if (book) {
         // * 4. 책 정보 업데이트
         const bookData = await fetchBookByIsbn(book.isbn);
-        console.log(bookData);
 
         if (!bookData) {
           // * 5. 책 정보 생성
