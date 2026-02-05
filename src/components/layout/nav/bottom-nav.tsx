@@ -49,7 +49,7 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
               notificationCount !== undefined && (
                 <Badge
                   variant="default"
-                  className="absolute -top-1 right-4 rounded-full p-0 w-5 h-5"
+                  className="absolute -top-1 left-7/12 rounded-full p-0 w-5 h-5"
                 >
                   {notificationCount}
                 </Badge>
