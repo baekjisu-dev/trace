@@ -80,3 +80,15 @@ export const subscribeNotificationInserts = ({
     supabase.removeChannel(channel);
   };
 };
+
+export const markNotificationAsRead = async (notificationId: number) => {
+  const { data, error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("id", notificationId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};

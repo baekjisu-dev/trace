@@ -45,7 +45,8 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
             </span>
             {item.key === "NOTIFICATIONS" &&
               !isNotificationCountFetching &&
-              notificationCount && (
+              notificationCount !== 0 &&
+              notificationCount !== undefined && (
                 <Badge
                   variant="default"
                   className="absolute -top-1 right-4 rounded-full p-0 w-5 h-5"
