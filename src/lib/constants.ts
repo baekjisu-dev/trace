@@ -34,6 +34,11 @@ export const QUERY_KEYS = {
   book: {
     list: (query: string, page: number) => ["book", "list", query, page],
   },
+  notification: {
+    all: ["notification"],
+    list: (userId: string) => ["notification", "list", userId],
+    count: (userId: string) => ["notification", "count", userId],
+  },
 };
 
 export const BUCKET_NAME = "uploads";
