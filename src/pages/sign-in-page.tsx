@@ -18,6 +18,9 @@ import { useSignInWithKakao } from "@/hooks/mutations/auth/use-sign-in-with-kaka
 import { handleError } from "@/lib/error";
 import { PUBLIC_PAGE_PATHS } from "@/lib/pages";
 
+import GoogleIcon from "@/assets/icons/btn_google.svg?react";
+import KakaoIcon from "@/assets/icons/btn_kakao.svg?react";
+
 const signInSchema = z.object({
   email: z
     .email("이메일 형식이 올바르지 않습니다.")
@@ -131,13 +134,13 @@ const SignInPage = () => {
               </Button>
               <p>또는</p>
               <Button
-                className="w-full flex items-center justify-center gap-2 border border-input bg-white text-black hover:bg-gray-50"
+                className="w-full flex items-center justify-center gap-2 border border-input bg-white text-foreground hover:bg-gray-50"
                 variant="outline"
                 type="button"
                 disabled={isLoading}
                 onClick={() => signInWithGoogle()}
               >
-                {/* Google 아이콘 위치 */}
+                <GoogleIcon />
                 Google로 로그인
               </Button>
               <Button
@@ -146,7 +149,7 @@ const SignInPage = () => {
                 disabled={isLoading}
                 onClick={() => signInWithKakao()}
               >
-                {/* Kakao 아이콘 위치 */}
+                <KakaoIcon />
                 Kakao로 로그인
               </Button>
               <Link className="w-full" to={PUBLIC_PAGE_PATHS.SIGN_UP.path}>
