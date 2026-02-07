@@ -16,7 +16,13 @@ const DmPage = () => {
   const { conversationId } = useParams();
   const queryClient = useQueryClient();
 
-  const { mutate: markDmAsRead } = useReadMessage();
+  const { mutate: markDmAsRead } = useReadMessage({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.dm.hasUnread,
+      });
+    },
+  });
   const {
     data: conversationData,
     isPending: isConversationDataPending,
@@ -54,15 +60,13 @@ const DmPage = () => {
   };
 
   useEffect(() => {
-    return () => {
-      if (
-        conversationData &&
-        conversationId &&
-        conversationData.unread_count > 0
-      ) {
-        markDmAsRead({ conversationId: Number(conversationId) });
-      }
-    };
+    if (
+      conversationData &&
+      conversationId &&
+      conversationData.unread_count > 0
+    ) {
+      markDmAsRead({ conversationId: Number(conversationId) });
+    }
   }, [conversationData?.unread_count, conversationId]);
 
   useEffect(() => {

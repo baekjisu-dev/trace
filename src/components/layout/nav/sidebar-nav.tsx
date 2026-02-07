@@ -1,8 +1,9 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useDmUnreadData } from "@/hooks/queries/dm/use-dm-unread-data";
 import { useNotificationCount } from "@/hooks/queries/notification/use-notification-count";
-import { NAV_ITEMS } from "@/lib/nav-items";
+import { NAV_ITEMS, type NavItem } from "@/lib/nav-items";
 import { cn } from "@/lib/utils";
+import { useCallback } from "react";
 import { Link } from "react-router";
 
 interface SidebarNavProps {
@@ -10,17 +11,26 @@ interface SidebarNavProps {
 }
 
 const SidebarNav = ({ activeNavKey }: SidebarNavProps) => {
-  const { data: notificationCount, isFetching: isNotificationCountFetching } =
-    useNotificationCount();
+  const { data: notificationCount } = useNotificationCount();
+  const { data: hasUnreadDm } = useDmUnreadData();
+
+  const hasBadge = useCallback(
+    (item: NavItem) => {
+      if (item.key === "NOTIFICATIONS") {
+        return notificationCount !== 0 && notificationCount !== undefined;
+      }
+      if (item.key === "DM") {
+        return hasUnreadDm;
+      }
+      return false;
+    },
+    [notificationCount, hasUnreadDm]
+  );
 
   return (
     <nav className="hidden md:flex w-40 h-full border-x flex-col gap-2 px-2 py-4">
       {NAV_ITEMS.map((item) => (
-        <Link
-          className="w-full box-border relative"
-          key={item.key}
-          to={item.href}
-        >
+        <Link className="w-full box-border " key={item.key} to={item.href}>
           <Button
             variant="ghost"
             className={cn(
@@ -34,25 +44,19 @@ const SidebarNav = ({ activeNavKey }: SidebarNavProps) => {
                 activeNavKey === item.key && "stroke-3"
               )}
             />
-            <span
-              className={cn(
-                "text-xs",
-                activeNavKey === item.key && "font-bold"
+            <div className="relative">
+              <span
+                className={cn(
+                  "text-xs",
+                  activeNavKey === item.key && "font-bold"
+                )}
+              >
+                {item.label}
+              </span>
+              {hasBadge(item) && (
+                <div className="w-2 h-2 bg-primary rounded-full absolute -right-2 -top-0.5" />
               )}
-            >
-              {item.label}
-            </span>
-            {item.key === "NOTIFICATIONS" &&
-              !isNotificationCountFetching &&
-              notificationCount !== 0 &&
-              notificationCount !== undefined && (
-                <Badge
-                  variant="default"
-                  className="absolute -top-1 left-1/2 -translate-x-1/2 rounded-full p-0 w-5 h-5"
-                >
-                  {notificationCount}
-                </Badge>
-              )}
+            </div>
           </Button>
         </Link>
       ))}

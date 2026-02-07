@@ -1,8 +1,9 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useDmUnreadData } from "@/hooks/queries/dm/use-dm-unread-data";
 import { useNotificationCount } from "@/hooks/queries/notification/use-notification-count";
-import { NAV_ITEMS } from "@/lib/nav-items";
+import { NAV_ITEMS, type NavItem } from "@/lib/nav-items";
 import { cn } from "@/lib/utils";
+import { useCallback } from "react";
 import { Link } from "react-router";
 
 interface BottomNavProps {
@@ -10,8 +11,21 @@ interface BottomNavProps {
 }
 
 const BottomNav = ({ activeNavKey }: BottomNavProps) => {
-  const { data: notificationCount, isFetching: isNotificationCountFetching } =
-    useNotificationCount();
+  const { data: notificationCount } = useNotificationCount();
+  const { data: hasUnreadDm } = useDmUnreadData();
+
+  const hasBadge = useCallback(
+    (item: NavItem) => {
+      if (item.key === "NOTIFICATIONS") {
+        return notificationCount !== 0 && notificationCount !== undefined;
+      }
+      if (item.key === "DM") {
+        return hasUnreadDm;
+      }
+      return false;
+    },
+    [notificationCount, hasUnreadDm]
+  );
 
   return (
     <nav className="md:hidden border-t w-full px-4 py-2 h-15 flex items-center justify-between gap-2 box-border">
@@ -24,17 +38,22 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
           <Button
             variant="ghost"
             className={cn(
-              "w-full h-full flex-col text-muted-foreground gap-1 relative",
+              "w-full h-full flex-col text-muted-foreground gap-1",
               activeNavKey === item.key && "text-primary"
             )}
             size="icon-lg"
           >
-            <item.icon
-              className={cn(
-                "size-4 stroke-2",
-                activeNavKey === item.key && "stroke-3"
+            <div className="relative">
+              <item.icon
+                className={cn(
+                  "size-4 stroke-2",
+                  activeNavKey === item.key && "stroke-3"
+                )}
+              />
+              {hasBadge(item) && (
+                <div className="w-2 h-2 bg-primary rounded-full absolute -right-1.5 -top-0.5" />
               )}
-            />
+            </div>
             <span
               className={cn(
                 "text-xs",
@@ -43,17 +62,6 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
             >
               {item.label}
             </span>
-            {item.key === "NOTIFICATIONS" &&
-              !isNotificationCountFetching &&
-              notificationCount !== 0 &&
-              notificationCount !== undefined && (
-                <Badge
-                  variant="default"
-                  className="absolute -top-1 left-7/12 rounded-full p-0 w-5 h-5"
-                >
-                  {notificationCount}
-                </Badge>
-              )}
           </Button>
         </Link>
       ))}

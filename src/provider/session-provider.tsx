@@ -1,3 +1,4 @@
+import { subscribeIncomingDm } from "@/api/dm";
 import { subscribeNotificationInserts } from "@/api/notification";
 import GlobalLoader from "@/components/global-loader";
 import { useProfileData } from "@/hooks/queries/profile/use-profile-data";
@@ -37,7 +38,23 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
         },
       });
 
-      return () => unsubscribe();
+      const unsubscribeDm = subscribeIncomingDm({
+        userId: session.user.id,
+        onIncoming: () => {
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.dm.hasUnread,
+          });
+
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.dm.list,
+          });
+        },
+      });
+
+      return () => {
+        unsubscribe();
+        unsubscribeDm();
+      };
     }
   }, [session?.user.id]);
 

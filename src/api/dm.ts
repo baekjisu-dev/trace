@@ -11,7 +11,6 @@ export const fetchOrCreateDm = async (userId: string) => {
 };
 
 export const fetchDmList = async ({ cursor }: { cursor: DmCursor }) => {
-  console.log(cursor);
   const { data, error } = await supabase.rpc("get_dm_list_page", {
     p_cursor_last_message_at: cursor?.lastMessageAt ?? undefined,
     p_cursor_conversation_id: cursor?.conversationId ?? undefined,
@@ -43,31 +42,6 @@ export const createMessage = async ({
 
   if (error) throw error;
   return data;
-};
-
-export const subscribeMessages = (
-  conversationId: number,
-  onInsert: (message: MessageEntity) => void
-) => {
-  const channel = supabase
-    .channel(`messages:${conversationId}`)
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "messages",
-        filter: `conversation_id=eq.${conversationId}`,
-      },
-      (payload) => {
-        onInsert(payload.new as MessageEntity);
-      }
-    )
-    .subscribe();
-
-  return () => {
-    supabase.removeChannel(channel);
-  };
 };
 
 export const fetchMessages = async ({
@@ -111,4 +85,66 @@ export const markDmAsRead = async ({
 
   if (error) throw error;
   return data;
+};
+
+export const subscribeMessages = (
+  conversationId: number,
+  onInsert: (message: MessageEntity) => void
+) => {
+  const channel = supabase
+    .channel(`messages:${conversationId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter: `conversation_id=eq.${conversationId}`,
+      },
+      (payload) => {
+        onInsert(payload.new as MessageEntity);
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+};
+
+export const subscribeIncomingDm = ({
+  userId,
+  onIncoming,
+}: {
+  userId: string;
+  onIncoming: (message: MessageEntity) => void;
+}) => {
+  const channel = supabase
+    .channel(`dm-incoming:${userId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter: `sender_id=neq.${userId}`,
+      },
+      (payload) => {
+        const msg = payload.new as MessageEntity;
+
+        onIncoming(msg);
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+};
+
+export const fetchHasUnreadDm = async () => {
+  const { data, error } = await supabase.rpc("has_unread_dm");
+
+  if (error) throw error;
+  return data ?? false;
 };

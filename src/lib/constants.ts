@@ -14,6 +14,7 @@ export const QUERY_KEYS = {
   dm: {
     all: ["dm"],
     list: ["dm", "list"],
+    hasUnread: ["dm", "hasUnread"],
     byId: (conversationId: number) => ["dm", "byId", conversationId],
     conversation: (conversationId: number) => [
       "dm",

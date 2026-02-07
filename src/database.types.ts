@@ -402,6 +402,7 @@ export type Database = {
         }[]
       }
       get_or_create_dm: { Args: { other_user_id: string }; Returns: number }
+      has_unread_dm: { Args: never; Returns: boolean }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       toggle_post_like: {
