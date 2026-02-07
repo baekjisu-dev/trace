@@ -19,7 +19,7 @@ export const useInfiniteMessages = ({
       const oldest = messages[messages.length - 1];
 
       return {
-        messages: messages,
+        items: messages,
         nextCursor: oldest
           ? {
               createdAt: oldest.created_at,

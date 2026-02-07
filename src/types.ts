@@ -85,6 +85,11 @@ export type PostCursor = {
   id: number;
 } | null;
 
+export type PageData<T> = {
+  items: T[];
+  nextCursor: PostCursor | null;
+};
+
 export type PostContent = DocumentType<
   Record<string, any> | undefined,
   NodeType<

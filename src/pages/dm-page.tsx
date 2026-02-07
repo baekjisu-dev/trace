@@ -4,12 +4,16 @@ import MessageList from "@/components/dm/message-list";
 import Loader from "@/components/loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useConversationData } from "@/hooks/queries/dm/use-conversation-data";
+import { QUERY_KEYS } from "@/lib/constants";
+import type { MessageEntity, PageData } from "@/types";
+import type { InfiniteData } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { UserIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
-
 const DmPage = () => {
   const { conversationId } = useParams();
+  const queryClient = useQueryClient();
 
   const {
     data: conversationData,
@@ -19,13 +23,39 @@ const DmPage = () => {
     conversationId: conversationId ? Number(conversationId) : 0,
   });
 
+  const updateQueryData = (message: MessageEntity) => {
+    const conversationId = message.conversation_id;
+
+    queryClient.setQueryData<InfiniteData<PageData<MessageEntity>>>(
+      QUERY_KEYS.dm.conversation(conversationId),
+      (prevMessages) => {
+        if (!prevMessages) throw new Error("메시지가 존재하지 않습니다.");
+
+        const exists = prevMessages.pages.some((page) =>
+          page.items.some((item) => item.id === message.id)
+        );
+        if (exists) return prevMessages;
+
+        const first = prevMessages.pages[0];
+
+        const nextFirst = {
+          ...first,
+          items: [message, ...first.items],
+        };
+
+        return {
+          ...prevMessages,
+          pages: [nextFirst, ...prevMessages.pages.slice(1)],
+        };
+      }
+    );
+  };
+
   useEffect(() => {
     if (conversationId) {
       const unsubscribe = subscribeMessages(
         Number(conversationId),
-        (message) => {
-          console.log(message);
-        }
+        updateQueryData
       );
 
       return () => unsubscribe();

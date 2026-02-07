@@ -16,7 +16,7 @@ const MessageItem = ({ message }: MessageItemProps) => {
     <div
       className={cn(
         "max-w-10/12 flex items-end gap-2",
-        isSender ? "self-end" : "self-start"
+        isSender ? "self-end flex-row-reverse" : "self-start flex-row"
       )}
     >
       <div
