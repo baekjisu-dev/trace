@@ -1,5 +1,5 @@
 import supabase from "@/lib/supabase";
-import type { MessageEntity } from "@/types";
+import type { DmHeader, MessageEntity, PostCursor } from "@/types";
 
 export const fetchOrCreateDm = async (userId: string) => {
   const { data, error } = await supabase.rpc("get_or_create_dm", {
@@ -56,4 +56,31 @@ export const subscribeMessages = (
   return () => {
     supabase.removeChannel(channel);
   };
+};
+
+export const fetchMessages = async ({
+  cursor,
+  conversationId,
+}: {
+  cursor: PostCursor;
+  conversationId: number;
+}) => {
+  const { data, error } = await supabase.rpc("get_messages_page", {
+    p_conversation_id: conversationId,
+    p_cursor_created_at: cursor?.createdAt ?? undefined,
+    p_cursor_id: cursor?.id ?? undefined,
+    p_limit: 30,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+export const fetchDmHeader = async (conversationId: number) => {
+  const { data, error } = await supabase.rpc("get_dm_header", {
+    p_conversation_id: conversationId,
+  });
+
+  if (error) throw error;
+  return (data?.[0] ?? null) as DmHeader | null;
 };

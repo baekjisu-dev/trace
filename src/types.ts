@@ -55,6 +55,24 @@ export type ReplyNotification = Notification & {
   };
 };
 
+export type DmHeader = {
+  conversation_id: number;
+  created_at: string;
+  last_message_at: string | null;
+  my_last_read_at: string | null;
+
+  other_user_id: string;
+  other_nickname: string | null;
+  other_avatar_url: string | null;
+
+  last_message_id: number | null;
+  last_message_content: string | null;
+  last_message_created_at: string | null;
+  last_message_sender_id: string | null;
+
+  unread_count: number;
+};
+
 export type UseMutationCallback = {
   onSuccess?: (data?: any) => void;
   onError?: (error: Error) => void;

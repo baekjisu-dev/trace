@@ -1,5 +1,5 @@
 const MessageList = () => {
-  return <div>MessageList</div>;
+  return <div className="flex-1 overflow-auto">MessageList</div>;
 };
 
 export default MessageList;

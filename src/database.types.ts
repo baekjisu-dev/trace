@@ -350,7 +350,39 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_or_create_dm: { Args: { other_user_id: string }; Returns: string }
+      get_dm_header: {
+        Args: { p_conversation_id: number }
+        Returns: {
+          conversation_id: number
+          created_at: string
+          last_message_at: string
+          last_message_content: string
+          last_message_created_at: string
+          last_message_id: number
+          last_message_sender_id: string
+          my_last_read_at: string
+          other_avatar_url: string
+          other_nickname: string
+          other_user_id: string
+          unread_count: number
+        }[]
+      }
+      get_messages_page: {
+        Args: {
+          p_conversation_id: number
+          p_cursor_created_at?: string
+          p_cursor_id?: number
+          p_limit?: number
+        }
+        Returns: {
+          content: string
+          conversation_id: number
+          created_at: string
+          id: number
+          sender_id: string
+        }[]
+      }
+      get_or_create_dm: { Args: { other_user_id: string }; Returns: number }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       toggle_post_like: {

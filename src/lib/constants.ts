@@ -11,6 +11,16 @@ import StarterKit from "@tiptap/starter-kit";
 import { all, createLowlight } from "lowlight";
 
 export const QUERY_KEYS = {
+  dm: {
+    all: ["dm"],
+    list: ["dm", "list"],
+    byId: (conversationId: number) => ["dm", "byId", conversationId],
+    conversation: (conversationId: number) => [
+      "dm",
+      "conversation",
+      conversationId,
+    ],
+  },
   profile: {
     all: ["profile"],
     list: ["profile", "list"],
