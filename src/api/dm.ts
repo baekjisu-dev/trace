@@ -37,7 +37,7 @@ export const subscribeMessages = (
   conversationId: number,
   onInsert: (message: MessageEntity) => void
 ) => {
-  return supabase
+  const channel = supabase
     .channel(`messages:${conversationId}`)
     .on(
       "postgres_changes",
@@ -52,4 +52,8 @@ export const subscribeMessages = (
       }
     )
     .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
 };
