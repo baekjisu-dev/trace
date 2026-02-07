@@ -51,7 +51,7 @@ const DmPage = () => {
           {conversationData.other_nickname}
         </span>
       </div>
-      <MessageList />
+      <MessageList conversationId={Number(conversationId)} />
       <MessageEditor conversationId={Number(conversationId)} />
     </div>
   );
