@@ -12,7 +12,6 @@ interface PostListProps {
 }
 
 const PostList = ({ authorId, searchText, type }: PostListProps) => {
-  console.log(authorId, searchText, type);
   const {
     data,
     error,

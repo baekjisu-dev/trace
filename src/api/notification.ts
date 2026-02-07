@@ -72,9 +72,7 @@ export const subscribeNotificationInserts = ({
         onInsert(payload.new as NotificationEntity);
       }
     )
-    .subscribe((status) => {
-      console.log("[realtime] status:", status);
-    });
+    .subscribe();
 
   return () => {
     supabase.removeChannel(channel);

@@ -31,8 +31,12 @@ const PRIVATE_PAGE_PATHS = {
       return paramString ? `/search?${paramString}` : "/search";
     },
   },
-  DM: {
+  DM_LIST: {
     path: "/dm",
+  },
+  DM: {
+    path: "/dm/:conversationId",
+    getPath: (conversationId: number) => `/dm/${conversationId}`,
   },
   NOTIFICATIONS: {
     path: "/notifications",

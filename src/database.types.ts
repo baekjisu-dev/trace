@@ -124,6 +124,56 @@ export type Database = {
           },
         ]
       }
+      conversation_participants: {
+        Row: {
+          conversation_id: number
+          created_at: string
+          last_read_at: string | null
+          user_id: string
+        }
+        Insert: {
+          conversation_id: number
+          created_at?: string
+          last_read_at?: string | null
+          user_id: string
+        }
+        Update: {
+          conversation_id?: number
+          created_at?: string
+          last_read_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          id: number
+          last_message_at: string | null
+          pair_key: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          last_message_at?: string | null
+          pair_key?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          last_message_at?: string | null
+          pair_key?: string | null
+        }
+        Relationships: []
+      }
       like: {
         Row: {
           created_at: string
@@ -149,6 +199,38 @@ export type Database = {
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "post"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: number
+          created_at: string
+          id: number
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: number
+          created_at?: string
+          id?: never
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: number
+          created_at?: string
+          id?: never
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -268,6 +350,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_or_create_dm: { Args: { other_user_id: string }; Returns: string }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       toggle_post_like: {

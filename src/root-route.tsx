@@ -12,6 +12,8 @@ import PrivateLayout from "./components/layout/private-layout";
 import { PRIVATE_PAGE_PATHS, PUBLIC_PAGE_PATHS } from "./lib/pages";
 import SearchPage from "./pages/search-page";
 import NotificationPage from "./pages/notification-page";
+import DmPage from "./pages/dm-page";
+import DmListPage from "./pages/dm-list-page";
 
 const RootRoute = () => {
   return (
@@ -54,6 +56,11 @@ const RootRoute = () => {
             path={PRIVATE_PAGE_PATHS.NOTIFICATIONS.path}
             element={<NotificationPage />}
           />
+          <Route
+            path={PRIVATE_PAGE_PATHS.DM_LIST.path}
+            element={<DmListPage />}
+          />
+          <Route path={PRIVATE_PAGE_PATHS.DM.path} element={<DmPage />} />
         </Route>
       </Route>
     </Routes>

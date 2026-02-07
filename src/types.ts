@@ -7,6 +7,7 @@ export type CommentEntity = Database["public"]["Tables"]["comment"]["Row"];
 export type BookEntity = Database["public"]["Tables"]["book"]["Row"];
 export type NotificationEntity =
   Database["public"]["Tables"]["notifications"]["Row"];
+export type MessageEntity = Database["public"]["Tables"]["messages"]["Row"];
 
 export type Post = PostEntity & {
   author: ProfileEntity;
@@ -55,7 +56,7 @@ export type ReplyNotification = Notification & {
 };
 
 export type UseMutationCallback = {
-  onSuccess?: () => void;
+  onSuccess?: (data?: any) => void;
   onError?: (error: Error) => void;
   onMutate?: () => void;
   onSettled?: () => void;
