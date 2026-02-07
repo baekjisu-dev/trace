@@ -3,6 +3,7 @@ import MessageEditor from "@/components/dm/message-editor";
 import MessageList from "@/components/dm/message-list";
 import Loader from "@/components/loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useReadMessage } from "@/hooks/mutations/dm/use-read-message";
 import { useConversationData } from "@/hooks/queries/dm/use-conversation-data";
 import { QUERY_KEYS } from "@/lib/constants";
 import type { MessageEntity, PageData } from "@/types";
@@ -15,6 +16,7 @@ const DmPage = () => {
   const { conversationId } = useParams();
   const queryClient = useQueryClient();
 
+  const { mutate: markDmAsRead } = useReadMessage();
   const {
     data: conversationData,
     isPending: isConversationDataPending,
@@ -50,6 +52,18 @@ const DmPage = () => {
       }
     );
   };
+
+  useEffect(() => {
+    return () => {
+      if (
+        conversationData &&
+        conversationId &&
+        conversationData.unread_count > 0
+      ) {
+        markDmAsRead({ conversationId: Number(conversationId) });
+      }
+    };
+  }, [conversationData?.unread_count, conversationId]);
 
   useEffect(() => {
     if (conversationId) {

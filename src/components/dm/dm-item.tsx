@@ -25,9 +25,12 @@ const DmItem = ({ dmId }: DmItemProps) => {
 
   return (
     <div
-      className="w-full flex items-center justify-between p-2.5 border rounded-md hover:bg-primary-foreground cursor-pointer"
+      className="w-full flex items-center justify-between p-2.5 border rounded-md hover:bg-primary-foreground cursor-pointer relative"
       onClick={handleNavigate}
     >
+      {dmData && dmData.unread_count > 0 && (
+        <div className="w-2 h-2 bg-primary rounded-full absolute left-2.5 top-2.5" />
+      )}
       <div className="flex items-center gap-2 w-full">
         <Avatar size="lg">
           <AvatarImage src={dmData?.other_avatar_url ?? ""} />
@@ -35,7 +38,7 @@ const DmItem = ({ dmId }: DmItemProps) => {
             <UserIcon className="size-8" />
           </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-1 flex-1">
           <div className="flex items-center justify-between w-full">
             <p className="text-sm font-bold line-clamp-1 flex-1">
               {dmData?.other_nickname}

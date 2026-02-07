@@ -77,7 +77,6 @@ export const fetchMessages = async ({
   cursor: PostCursor;
   conversationId: number;
 }) => {
-  console.log(cursor);
   const { data, error } = await supabase.rpc("get_messages_page", {
     p_conversation_id: conversationId,
     p_cursor_created_at: cursor?.createdAt ?? undefined,
@@ -96,4 +95,20 @@ export const fetchDmHeader = async (conversationId: number) => {
 
   if (error) throw error;
   return (data?.[0] ?? null) as DmHeader | null;
+};
+
+export const markDmAsRead = async ({
+  conversationId,
+}: {
+  conversationId: number;
+}) => {
+  const { data, error } = await supabase
+    .from("conversation_participants")
+    .update({ last_read_at: new Date().toISOString() })
+    .eq("conversation_id", conversationId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
 };
