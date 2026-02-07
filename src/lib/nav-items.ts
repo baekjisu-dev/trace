@@ -30,7 +30,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "DM",
     label: "DM",
-    href: PRIVATE_PAGE_PATHS.DM.path,
+    href: PRIVATE_PAGE_PATHS.DM_LIST.path,
     icon: MessageCircleIcon,
   },
   {

@@ -1,9 +1,21 @@
 import supabase from "@/lib/supabase";
-import type { DmHeader, MessageEntity, PostCursor } from "@/types";
+import type { DmCursor, DmHeader, MessageEntity, PostCursor } from "@/types";
 
 export const fetchOrCreateDm = async (userId: string) => {
   const { data, error } = await supabase.rpc("get_or_create_dm", {
     other_user_id: userId,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+export const fetchDmList = async ({ cursor }: { cursor: DmCursor }) => {
+  console.log(cursor);
+  const { data, error } = await supabase.rpc("get_dm_list_page", {
+    p_cursor_last_message_at: cursor?.lastMessageAt ?? undefined,
+    p_cursor_conversation_id: cursor?.conversationId ?? undefined,
+    p_limit: 30,
   });
 
   if (error) throw error;
@@ -65,6 +77,7 @@ export const fetchMessages = async ({
   cursor: PostCursor;
   conversationId: number;
 }) => {
+  console.log(cursor);
   const { data, error } = await supabase.rpc("get_messages_page", {
     p_conversation_id: conversationId,
     p_cursor_created_at: cursor?.createdAt ?? undefined,

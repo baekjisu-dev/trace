@@ -67,7 +67,6 @@ export type DmHeader = {
 
   last_message_id: number | null;
   last_message_content: string | null;
-  last_message_created_at: string | null;
   last_message_sender_id: string | null;
 
   unread_count: number;
@@ -83,6 +82,11 @@ export type UseMutationCallback = {
 export type PostCursor = {
   createdAt: string;
   id: number;
+} | null;
+
+export type DmCursor = {
+  lastMessageAt: string;
+  conversationId: number;
 } | null;
 
 export type PageData<T> = {
