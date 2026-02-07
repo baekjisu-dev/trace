@@ -1,7 +1,7 @@
-import { formatTimeAgo } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/store/session";
 import type { MessageEntity } from "@/types";
+import dayjs from "dayjs";
 
 interface MessageItemProps {
   message: MessageEntity;
@@ -35,7 +35,7 @@ const MessageItem = ({ message }: MessageItemProps) => {
         </p>
       </div>
       <span className="text-xs text-muted-foreground">
-        {formatTimeAgo(message.created_at)}
+        {dayjs(message.created_at).format("HH:mm")}
       </span>
     </div>
   );
