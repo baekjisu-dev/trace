@@ -3,11 +3,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import type { PostCursor } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useInfiniteMessages = ({
-  conversationId,
-}: {
-  conversationId: number;
-}) => {
+export const useInfiniteMessages = (conversationId: number) => {
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.dm.conversation(conversationId),
     queryFn: async ({ pageParam }: { pageParam: PostCursor }) => {

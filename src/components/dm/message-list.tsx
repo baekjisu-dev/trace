@@ -2,6 +2,7 @@ import { useInfiniteMessages } from "@/hooks/queries/dm/use-infinite-message";
 import MessageItem from "./message-item";
 import { useEffect } from "react";
 import Loader from "../loader";
+import { useInView } from "react-intersection-observer";
 
 interface MessageListProps {
   conversationId: number;
@@ -15,13 +16,14 @@ const MessageList = ({ conversationId }: MessageListProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteMessages({ conversationId });
+  } = useInfiniteMessages(conversationId);
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (hasNextPage && !isFetchingNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isPending && isFetching) return <Loader />;
 
@@ -32,6 +34,7 @@ const MessageList = ({ conversationId }: MessageListProps) => {
       {messages.map((message) => (
         <MessageItem key={message.id} message={message} />
       ))}
+      <div ref={ref} />
     </div>
   ) : (
     <div className="w-full h-full flex items-center justify-center flex-1">

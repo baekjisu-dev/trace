@@ -27,7 +27,7 @@ const MessageEditor = ({ conversationId }: MessageEditorProps) => {
   const [message, setMessage] = useState("");
 
   const handleCreateMessage = () => {
-    if (!message.trim() || !session?.user.id) return;
+    if (!message.trim() || !session?.user.id || isCreatingMessage) return;
 
     createMessage({
       content: message,
@@ -41,6 +41,12 @@ const MessageEditor = ({ conversationId }: MessageEditorProps) => {
       <Textarea
         className="resize-none h-10"
         value={message}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleCreateMessage();
+          }
+        }}
         onChange={(e) => setMessage(e.target.value)}
       />
       <Button
