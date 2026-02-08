@@ -6,6 +6,12 @@ interface ImageCarouselProps {
   onDelete?: (index: number) => void;
 }
 
+/** -----------------------------
+ * @description 이미지 캐러셀
+ * @param images 이미지 리스트
+ * @param onDelete 이미지 삭제 핸들러
+ * @returns 이미지 캐러셀 컴포넌트
+ * ----------------------------- */
 const ImageCarousel = ({ images, onDelete }: ImageCarouselProps) => {
   return (
     <Carousel className="p-2.5">

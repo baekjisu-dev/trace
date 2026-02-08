@@ -9,6 +9,10 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { LogOutIcon, MoonIcon, SunIcon, UserIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 
+/** -----------------------------
+ * @description 프로필 버튼
+ * @returns 프로필 버튼 컴포넌트
+ * ----------------------------- */
 const ProfileButton = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();

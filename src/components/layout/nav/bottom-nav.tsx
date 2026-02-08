@@ -10,10 +10,20 @@ interface BottomNavProps {
   activeNavKey?: string;
 }
 
+/** -----------------------------
+ * @description 하단 네비게이션 바 - 화면의 너비가 작을 때만 표시
+ * @param activeNavKey 활성화된 네비게이션 키
+ * @returns 하단 네비게이션 바 컴포넌트
+ * ----------------------------- */
 const BottomNav = ({ activeNavKey }: BottomNavProps) => {
   const { data: notificationCount } = useNotificationCount();
   const { data: hasUnreadDm } = useDmUnreadData();
 
+  /** -----------------------------
+   * @description 뱃지 존재 여부 체크
+   * @param item 네비게이션 아이템
+   * @returns 뱃지 존재 여부
+   * ----------------------------- */
   const hasBadge = useCallback(
     (item: NavItem) => {
       if (item.key === "NOTIFICATIONS") {
@@ -28,6 +38,7 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
   );
 
   return (
+    // * 하단 네비게이션 바 아래 공간 조정 (안전 영역 고려 - ios)
     <nav
       className="md:hidden border-t w-full px-4 pt-2 h-15 flex items-center justify-between gap-2 box-border"
       style={{
@@ -55,6 +66,7 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
                   activeNavKey === item.key && "stroke-3"
                 )}
               />
+              {/** 뱃지 존재 시 알림 아이콘 */}
               {hasBadge(item) && (
                 <div className="w-2 h-2 bg-primary rounded-full absolute -right-1.5 -top-0.5" />
               )}

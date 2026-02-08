@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useAlertModal } from "@/store/alert-modal";
 
-export default function AlertModal() {
+/** -----------------------------
+ * @description 알림 모달
+ * @returns 알림 모달 컴포넌트
+ * ----------------------------- */
+const AlertModal = () => {
   const store = useAlertModal();
   if (!store.isOpen) return null;
 
@@ -42,4 +46,6 @@ export default function AlertModal() {
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
+
+export default AlertModal;

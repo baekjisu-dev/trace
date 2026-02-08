@@ -7,9 +7,15 @@ interface MessageItemProps {
   message: MessageEntity;
 }
 
+/** -----------------------------
+ * @description 메시지 아이템
+ * @param message 메시지 정보
+ * @returns 메시지 아이템 컴포넌트
+ * ----------------------------- */
 const MessageItem = ({ message }: MessageItemProps) => {
   const session = useSession();
 
+  // * 메시지 발신자 여부 체크
   const isSender = session?.user.id === message.sender_id;
 
   return (

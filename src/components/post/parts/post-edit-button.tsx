@@ -12,6 +12,12 @@ interface PostEditButtonProps {
   type: "FEED" | "DETAIL";
 }
 
+/** -----------------------------
+ * @description 포스트 상세 메뉴 버튼
+ * @param postId 포스트 ID
+ * @param type 포스트 타입
+ * @returns 포스트 상세 메뉴 버튼 컴포넌트
+ * ----------------------------- */
 const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();

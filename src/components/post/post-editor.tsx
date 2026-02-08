@@ -29,10 +29,18 @@ import {
 } from "@/store/message-loader";
 import { TIPTAP_EXTENSIONS } from "@/lib/constants";
 
+/** -----------------------------
+ * @description 포스트 작성 컴포넌트 - 팁탭 에디터 사용
+ * @returns 포스트 작성 컴포넌트
+ * ----------------------------- */
 const PostEditor = () => {
+  // * 로딩 메시지 표시 및 숨기기
   const showMessageLoader = useShowMessageLoader();
   const hideMessageLoader = useHideMessageLoader();
+
   const session = useSession();
+
+  // * 팁탭 에디터 생성
   const editor = useEditor({
     extensions: TIPTAP_EXTENSIONS,
     content: "",
@@ -40,6 +48,7 @@ const PostEditor = () => {
       setIsEmpty(editor.isEmpty);
     },
   });
+
   const { mutate: createPost, isPending: isCreatePostPending } = useCreatePost({
     onSuccess: () => {
       editor?.commands.setContent("");
@@ -59,18 +68,24 @@ const PostEditor = () => {
       hideMessageLoader();
     },
   });
+
+  // * 선택한 책 정보 조회 및 설정
   const {
     book: bookInfo,
     actions: { open: openBooksSearchModal, setBook },
   } = useBooksSearchModal();
 
+  // * 이미지 업로드 참조 생성
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // * 포스트 내용 비어있는지 여부 상태 관리
   const [isEmpty, setIsEmpty] = useState(true);
+  // * 이미지 파일 상태 관리
   const [imageFiles, setImageFiles] = useState<{ file: File; url: string }[]>(
     []
   );
 
+  // * 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
@@ -87,6 +102,7 @@ const PostEditor = () => {
     }
   };
 
+  // * 이미지 삭제 핸들러
   const handleImageDelete = (targetIndex: number) => {
     setImageFiles(
       imageFiles.filter((image, index) => {
@@ -99,10 +115,12 @@ const PostEditor = () => {
     );
   };
 
+  // * 책 정보 삭제 핸들러
   const handleBookDelete = () => {
     setBook(null);
   };
 
+  // * 포스트 게시 핸들러
   const handleCreatePost = () => {
     if (!session) return;
 
@@ -117,6 +135,7 @@ const PostEditor = () => {
     });
   };
 
+  // * 컴포넌트 언마운트 시 이미지 URL 정리
   useEffect(() => {
     return () => {
       if (imageFiles.length > 0)
@@ -127,6 +146,7 @@ const PostEditor = () => {
   return (
     <div className="w-full border-b">
       <EditorContext.Provider value={{ editor }}>
+        {/** 에디터 메뉴바 */}
         <div className="flex items-center gap-1 w-full overflow-auto border-b px-2.5 py-1">
           <HeadingDropdownMenu levels={[1, 2, 3, 4]} />
           <BlockquoteButton />
@@ -139,22 +159,30 @@ const PostEditor = () => {
           <ColorHighlightPopover />
           <LinkPopover />
         </div>
+
+        {/** 선택한 책 정보 */}
         {bookInfo && (
           <div className="p-2.5">
             <BookItem book={bookInfo} asCard onDelete={handleBookDelete} />
           </div>
         )}
+
+        {/** 포스트 내용 */}
         <EditorContent
           className="max-h-[200px] overflow-auto"
           editor={editor}
         />
       </EditorContext.Provider>
+
+      {/** 이미지 캐러셀 */}
       {imageFiles.length > 0 && (
         <ImageCarousel
           images={imageFiles.map((image) => image.url)}
           onDelete={handleImageDelete}
         />
       )}
+
+      {/** 이미지 업로드 버튼 및 게시 버튼 */}
       <div className="w-full p-2.5 flex items-center justify-between">
         <div className="flex items-center gap-1">
           <input

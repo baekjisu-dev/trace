@@ -24,6 +24,11 @@ interface NotificationItemProps {
 const COMMON_CLASS_NAME =
   "text-sm flex-1 line-clamp-2 hover:underline cursor-pointer";
 
+/** -----------------------------
+ * @description 알림 아이템
+ * @param notification 알림 정보
+ * @returns 알림 아이템 컴포넌트
+ * ----------------------------- */
 const NotificationItem = ({ notification }: NotificationItemProps) => {
   const navigate = useNavigate();
 
@@ -35,6 +40,10 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
     navigate(PRIVATE_PAGE_PATHS.POST.getPath(notification.context.postId));
   };
 
+  /** -----------------------------
+   * @description 알림 내용 렌더링 - 타입에 따라 다른 내용 렌더입
+   * @returns 알림 내용 렌더링
+   * ----------------------------- */
   const contentRenderer = useMemo(() => {
     if (isLikeNotification(notification)) {
       return (

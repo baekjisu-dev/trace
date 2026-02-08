@@ -6,12 +6,14 @@ import { toast } from "sonner";
 import { useUpdateComment } from "@/hooks/mutations/comment/use-update.comment";
 import { cn } from "@/lib/utils";
 
+// * 댓글 작성 모드
 type CreateMode = {
   type: "CREATE";
   postId: number;
   onSuccess: () => void;
 };
 
+// * 댓글 수정 모드
 type EditMode = {
   type: "EDIT";
   commentId: number;
@@ -19,6 +21,7 @@ type EditMode = {
   onClose: () => void;
 };
 
+// * 댓글 답글 작성 모드
 type ReplyMode = {
   type: "REPLY";
   postId: number;
@@ -29,9 +32,15 @@ type ReplyMode = {
 
 type Props = CreateMode | EditMode | ReplyMode;
 
+/** -----------------------------
+ * @description 댓글 작성, 수정, 답글 작성 컴포넌트
+ * @param props 댓글 작성, 수정, 답글 작성 컴포넌트 프로퍼티
+ * @returns 댓글 작성, 수정, 답글 작성 컴포넌트
+ * ----------------------------- */
 const CommentEditor = (props: Props) => {
   const [comment, setComment] = useState("");
 
+  // * 댓글 작성 요청
   const { mutate: createComment, isPending: isCreatingComment } =
     useCreateComment({
       onSuccess: () => {
@@ -54,6 +63,7 @@ const CommentEditor = (props: Props) => {
       },
     });
 
+  // * 댓글 수정 요청
   const { mutate: updateComment, isPending: isUpdatingComment } =
     useUpdateComment({
       onSuccess: () => {
@@ -74,6 +84,7 @@ const CommentEditor = (props: Props) => {
       },
     });
 
+  // * 댓글 작성, 수정, 답글 작성 핸들러
   const handleCreateComment = () => {
     if (props.type === "CREATE") {
       createComment({
@@ -108,6 +119,7 @@ const CommentEditor = (props: Props) => {
         props.type === "REPLY" && "pl-6 pb-2.5"
       )}
     >
+      {/** 댓글 입력 영역 */}
       <Textarea
         className="resize-none h-24"
         value={comment}
@@ -115,6 +127,8 @@ const CommentEditor = (props: Props) => {
         onChange={(e) => setComment(e.target.value)}
         disabled={isCreatingComment}
       />
+
+      {/** 댓글 작성, 수정, 답글 작성 버튼 */}
       <div className="flex gap-2">
         {(props.type === "EDIT" || props.type === "REPLY") && (
           <Button

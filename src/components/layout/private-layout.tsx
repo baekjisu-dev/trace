@@ -7,9 +7,17 @@ import { PUBLIC_PAGE_PATHS } from "@/lib/pages";
 import { useMemo } from "react";
 import { NAV_ITEMS } from "@/lib/nav-items";
 
+/** -----------------------------
+ * @description 프라이빗 레이아웃 - 로그인 상태일 때만 표시
+ * @returns 프라이빗 레이아웃 컴포넌트
+ * ----------------------------- */
 const PrivateLayout = () => {
   const pathname = useLocation();
 
+  /** -----------------------------
+   * @description 활성화된 네비게이션 키 조회
+   * @returns 활성화된 네비게이션 키
+   * ----------------------------- */
   const activeNavKey = useMemo(() => {
     return NAV_ITEMS.find((item) => item.href === location.pathname)?.key;
   }, [pathname]);

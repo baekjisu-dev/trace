@@ -11,6 +11,13 @@ interface PostListProps {
   type: "SEARCH" | "FEED" | "PROFILE";
 }
 
+/** -----------------------------
+ * @description 포스트 리스트
+ * @param authorId 작성자 ID
+ * @param searchText 검색어
+ * @param type 포스트 타입
+ * @returns 포스트 리스트 컴포넌트
+ * ----------------------------- */
 const PostList = ({ authorId, searchText, type }: PostListProps) => {
   const {
     data,

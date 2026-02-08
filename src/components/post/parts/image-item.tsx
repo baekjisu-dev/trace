@@ -8,6 +8,13 @@ interface ImageItemProps {
   onDelete?: (index: number) => void;
 }
 
+/** -----------------------------
+ * @description 이미지 아이템
+ * @param image 이미지 URL
+ * @param index 이미지 인덱스
+ * @param onDelete 이미지 삭제 핸들러
+ * @returns 이미지 아이템 컴포넌트
+ * ----------------------------- */
 const ImageItem = ({ image, index, onDelete }: ImageItemProps) => {
   return (
     <CarouselItem className="basis-3/5">

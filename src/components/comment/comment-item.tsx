@@ -15,6 +15,11 @@ interface CommentItemProps {
   comment: NestedComment;
 }
 
+/** -----------------------------
+ * @description 댓글 아이템
+ * @param comment 댓글 정보
+ * @returns 댓글 아이템 컴포넌트
+ * ----------------------------- */
 const CommentItem = ({ comment }: CommentItemProps) => {
   const session = useSession();
   const openAlertModal = useOpenAlertModal();
@@ -47,8 +52,13 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     });
   };
 
+  // * 댓글 소유자 여부 체크
   const isOwner = session?.user.id === author.id;
+
+  // * 댓글 루트 여부 체크 (대댓글이 아닌 댓글)
   const isRootComment = comment.parentComment === undefined;
+
+  // * 댓글 두 번째 레벨 이상 여부 체크 (대댓글의 대댓글)
   const isOverTwoLevels = comment.parent_comment_id !== comment.root_comment_id;
 
   return (
@@ -59,12 +69,14 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       )}
     >
       <div className="w-full flex gap-2 p-2.5">
+        {/** 댓글 작성자 아바타 */}
         <Avatar className="size-6">
           <AvatarImage src={author.avatar_url ?? ""} className="size-full" />
           <AvatarFallback>
             <UserIcon className="size-full" />
           </AvatarFallback>
         </Avatar>
+        {/** 댓글 작성자 정보 및 댓글 내용 */}
         <div className="flex flex-col gap-2 w-[calc(100%-32px)]">
           <div className="flex items-center justify-between w-full">
             <p className="text-sm font-bold line-clamp-1 flex-1">
@@ -74,6 +86,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               {formatTimeAgo(comment.created_at)}
             </p>
           </div>
+          {/** 댓글 내용 - 수정 시 editor로 변경 */}
           {isEditing ? (
             <CommentEditor
               type="EDIT"
@@ -91,6 +104,8 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               {comment.content}
             </p>
           )}
+
+          {/** 댓글 수정, 삭제, 답글 버튼 - 수정 중이거나 답글 작성 중일 떄는 보이지 않음 */}
           {!isEditing && !isReplying && (
             <div className="flex justify-between">
               <div className="flex items-center gap-1">
@@ -131,6 +146,8 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           )}
         </div>
       </div>
+
+      {/** 답글 작성 모드 시 답글 작성 컴포넌트 */}
       {isReplying && (
         <CommentEditor
           type="REPLY"
@@ -140,6 +157,8 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           onClose={() => setIsReplying(false)}
         />
       )}
+
+      {/** 자식 댓글 리스트 */}
       {comment.children.map((child) => (
         <CommentItem key={child.id} comment={child} />
       ))}

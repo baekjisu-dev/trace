@@ -25,6 +25,12 @@ interface PostItemProps {
 
 const COLLAPSED_MAX_HEIGHT = 200;
 
+/** -----------------------------
+ * @description 포스트 아이템
+ * @param postId 포스트 ID
+ * @param type 포스트 타입
+ * @returns 포스트 아이템 컴포넌트
+ * ----------------------------- */
 const PostItem = ({ postId, type }: PostItemProps) => {
   const navigate = useNavigate();
   const session = useSession();
@@ -38,6 +44,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
     type,
   });
 
+  // * 팁탭 에디터 생성 - view 용
   const editor = useEditor({
     extensions: TIPTAP_EXTENSIONS,
     content: "",
@@ -48,22 +55,27 @@ const PostItem = ({ postId, type }: PostItemProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
+  // * 포스트 내용 넘침 여부 확인
   useEffect(() => {
     const el = contentWrapRef.current;
     if (!el) return;
 
+    // * 스크롤 높이가 최대 높이를 초과하면 오버플로우 상태 설정
     const measure = () => {
       setIsOverflowing(el.scrollHeight > COLLAPSED_MAX_HEIGHT + 1);
     };
 
     measure();
 
+    // * resize observer 설정
     const ro = new ResizeObserver(() => measure());
     ro.observe(el);
 
+    // * resize observer 해제
     return () => ro.disconnect();
   }, [editor, post?.content]);
 
+  // * 포스트 내용 설정
   useEffect(() => {
     if (post?.content) {
       editor?.commands.setContent(post.content as Content);

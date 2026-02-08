@@ -8,6 +8,10 @@ import type { BookEntity } from "@/types";
 import BookItem from "../book/book-item";
 import { Button } from "../ui/button";
 
+/** -----------------------------
+ * @description 도서 검색 모달 - 클릭한 데이터는 zustand store에 저장
+ * @returns 도서 검색 모달 컴포넌트
+ * ----------------------------- */
 const BooksSearchModal = () => {
   const [page, setPage] = useState(1);
   const [isEnd, setIsEnd] = useState(false);
@@ -28,10 +32,12 @@ const BooksSearchModal = () => {
     close();
   };
 
+  // * 모달 오픈 시 검색어 초기화
   useEffect(() => {
     if (!isOpen) setSearch("");
   }, [isOpen]);
 
+  // * 도서 검색 결과 조회 시 끝 여부 체크
   useEffect(() => {
     if (!data || data.documents.length === 0) {
       setIsEnd(true);
@@ -46,11 +52,13 @@ const BooksSearchModal = () => {
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogTitle>도서 검색</DialogTitle>
+        {/** 검색어 입력 필드 */}
         <Input
           placeholder="검색어를 입력해 주세요"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        {/** 도서 검색 결과 리스트 */}
         <div className="flex flex-col gap-2 max-h-[50vh] overflow-auto">
           {data && data.documents.length > 0 ? (
             data?.documents.map((book: BookEntity) => (
@@ -68,6 +76,7 @@ const BooksSearchModal = () => {
             </div>
           )}
         </div>
+        {/** 이전, 다음 페이지 버튼 */}
         <div className="flex justify-end gap-2">
           <Button
             onClick={() => setPage(page - 1)}

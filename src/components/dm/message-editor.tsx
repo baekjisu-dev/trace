@@ -10,6 +10,11 @@ interface MessageEditorProps {
   conversationId: number;
 }
 
+/** -----------------------------
+ * @description 메시지 작성 컴포넌트
+ * @param conversationId 대화방 ID
+ * @returns 메시지 작성 컴포넌트
+ * ----------------------------- */
 const MessageEditor = ({ conversationId }: MessageEditorProps) => {
   const session = useSession();
   const { mutate: createMessage, isPending: isCreatingMessage } =

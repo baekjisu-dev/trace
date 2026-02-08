@@ -11,17 +11,25 @@ interface CommentListProps {
   scrollToBottom: () => void;
 }
 
+/** -----------------------------
+ * @description 댓글 리스트를 대댓글 계층 구조로 변환 (원래는 1차 배열)
+ * @param comments 댓글 리스트
+ * @returns 대댓글 계층 구조 댓글 리스트
+ * ----------------------------- */
 const toNestedComments = (comments: Comment[]): NestedComment[] => {
   const result: NestedComment[] = [];
 
   comments.forEach((comment) => {
     if (!comment.root_comment_id) {
+      // * 루트 댓글인 경우 (상위 댓글이 없는 경우)
       result.push({ ...comment, children: [] });
     } else {
+      // * 가장 상위의 root comment 찾기
       const rootCommentIndex = result.findIndex(
         (c) => c.id === comment.root_comment_id
       );
 
+      // * 바로 위의 부모 comment 찾기
       const parentComment = comments.find(
         (item) => item.id === comment.parent_comment_id
       );
@@ -29,6 +37,8 @@ const toNestedComments = (comments: Comment[]): NestedComment[] => {
       if (rootCommentIndex === -1) return;
       if (!parentComment) return;
 
+      // * 루트 댓글의 자식 댓글 리스트에 추가
+      // * 부모 댓글이 있고, 그 부모 댓글이 루트 댓글과 다르다면 대댓글의 대댓글임
       result[rootCommentIndex].children.push({
         ...comment,
         children: [],
@@ -40,6 +50,12 @@ const toNestedComments = (comments: Comment[]): NestedComment[] => {
   return result;
 };
 
+/** -----------------------------
+ * @description 댓글 리스트
+ * @param postId 포스트 ID
+ * @param scrollToBottom 스크롤 하단으로 이동 핸들러
+ * @returns 댓글 리스트 컴포넌트
+ * ----------------------------- */
 const CommentList = ({ postId, scrollToBottom }: CommentListProps) => {
   const {
     data: comments,

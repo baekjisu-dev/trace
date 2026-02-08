@@ -6,6 +6,10 @@ import { useInView } from "react-intersection-observer";
 import NotificationItem from "./notification-item";
 import type { CommentNotification, LikeNotification } from "@/types";
 
+/** -----------------------------
+ * @description 알림 리스트
+ * @returns 알림 리스트 컴포넌트
+ * ----------------------------- */
 const NotificationList = () => {
   const {
     data,
@@ -18,6 +22,7 @@ const NotificationList = () => {
   } = useInfiniteNotifications();
   const { ref, inView } = useInView();
 
+  // * 알림 무한 스크롤 핸들러 (가장 하단에 도달하면 다음 페이지 로드)
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();

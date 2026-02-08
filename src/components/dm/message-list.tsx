@@ -9,6 +9,11 @@ interface MessageListProps {
   conversationId: number;
 }
 
+/** -----------------------------
+ * @description 메시지 리스트
+ * @param conversationId 대화방 ID
+ * @returns 메시지 리스트 컴포넌트
+ * ----------------------------- */
 const MessageList = ({ conversationId }: MessageListProps) => {
   const {
     data,
@@ -20,6 +25,7 @@ const MessageList = ({ conversationId }: MessageListProps) => {
   } = useInfiniteMessages(conversationId);
   const { ref, inView } = useInView();
 
+  // * 메시지 무한 스크롤 핸들러 (가장 상단에 도달하면 다음 페이지 로드)
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -30,6 +36,12 @@ const MessageList = ({ conversationId }: MessageListProps) => {
 
   const messages = data?.pages.flatMap((page) => page.items) || [];
 
+  /** -----------------------------
+   * @description 두 날짜 간 차이 체크 (하루 이상 차이 나면 날짜 표시)
+   * @param date1 날짜 1
+   * @param date2 날짜 2
+   * @returns 두 날짜 간 차이 여부
+   * ----------------------------- */
   const checkDateDiff = (date1: string, date2?: string) => {
     if (!date2) return false;
 
