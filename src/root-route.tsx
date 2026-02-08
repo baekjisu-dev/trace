@@ -15,6 +15,7 @@ import NotificationPage from "./pages/notification-page";
 import DmPage from "./pages/dm-page";
 import DmListPage from "./pages/dm-list-page";
 import NotFoundPage from "./pages/not-found-page";
+import SettingsPage from "./pages/settings-page";
 
 const RootRoute = () => {
   return (
@@ -62,6 +63,10 @@ const RootRoute = () => {
             element={<DmListPage />}
           />
           <Route path={PRIVATE_PAGE_PATHS.DM.path} element={<DmPage />} />
+          <Route
+            path={PRIVATE_PAGE_PATHS.SETTINGS.path}
+            element={<SettingsPage />}
+          />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
