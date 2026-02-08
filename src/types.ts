@@ -103,3 +103,11 @@ export type PostContent = DocumentType<
     (NodeType | TextType)[]
   >[]
 >;
+
+export type Theme = {
+  name: "evergreen" | "afterglow" | "linen" | "midnight";
+  description: string;
+  color: string;
+  className: string;
+  mainColorList: string[];
+};

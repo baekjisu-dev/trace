@@ -1,0 +1,70 @@
+/* =========================
+   SOFTBLUSH · LIGHT
+   warm beige + cocoa brown + soft rose
+========================= */
+html[data-theme="linen"] {
+  /* Backgrounds */
+  --background: oklch(0.975 0.012 85); /* creamy beige */
+  --foreground: oklch(0.33 0.03 25); /* cocoa brown */
+
+  --card: oklch(0.985 0.01 85);
+  --card-foreground: oklch(0.33 0.03 25);
+
+  --popover: oklch(0.985 0.01 85);
+  --popover-foreground: oklch(0.33 0.03 25);
+
+  /* Brand (brownish-rose) */
+  --primary: oklch(0.45 0.06 25); /* warm rose-brown */
+  --primary-foreground: oklch(0.985 0.01 85);
+
+  /* Subtle surfaces */
+  --secondary: oklch(0.955 0.012 85);
+  --secondary-foreground: oklch(0.36 0.03 25);
+
+  --muted: oklch(0.945 0.01 85);
+  --muted-foreground: oklch(0.55 0.02 25);
+
+  /* Accent (soft blush) */
+  --accent: oklch(0.91 0.03 20);
+  --accent-foreground: oklch(0.35 0.03 25);
+
+  /* System */
+  --border: oklch(0.91 0.012 85);
+  --input: oklch(0.91 0.012 85);
+  --ring: oklch(0.55 0.08 25);
+
+  --destructive: oklch(0.7 0.18 28);
+}
+
+/* =========================
+   SOFTBLUSH · DARK
+   deep cocoa + warm blush highlight
+========================= */
+html[data-theme="linen"].dark {
+  --background: oklch(0.19 0.02 25); /* deep cocoa */
+  --foreground: oklch(0.965 0.015 85); /* warm off-white */
+
+  --card: oklch(0.23 0.02 25);
+  --card-foreground: oklch(0.965 0.015 85);
+
+  --popover: oklch(0.23 0.02 25);
+  --popover-foreground: oklch(0.965 0.015 85);
+
+  --primary: oklch(0.78 0.05 25); /* soft cocoa highlight */
+  --primary-foreground: oklch(0.22 0.02 25);
+
+  --secondary: oklch(0.27 0.02 25);
+  --secondary-foreground: oklch(0.965 0.015 85);
+
+  --muted: oklch(0.27 0.02 25);
+  --muted-foreground: oklch(0.78 0.015 85);
+
+  --accent: oklch(0.32 0.03 20); /* muted blush */
+  --accent-foreground: oklch(0.965 0.015 85);
+
+  --destructive: oklch(0.7 0.18 28);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.78 0.06 25);
+}

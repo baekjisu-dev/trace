@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 
-import "./index.css";
+import "./styles/index.css";
 import App from "./App.tsx";
 
 const queryClient = new QueryClient({

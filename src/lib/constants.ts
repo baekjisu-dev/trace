@@ -1,3 +1,4 @@
+import type { Theme } from "@/types";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
@@ -235,4 +236,55 @@ export const KOREAN_ANIMALS = [
   "사막여우",
   "북극곰",
   "눈표범",
+];
+
+export const THEMES: Theme[] = [
+  {
+    name: "evergreen",
+    description: "기본이 되는 기록의 색",
+    color: "oklch(0.42 0.085 145)",
+    className: "bg-[oklch(0.42_0.085_145)]",
+    mainColorList: [
+      "bg-[oklch(0.42_0.085_145)]",
+      "bg-[oklch(0.95_0.025_145)]",
+      "bg-[oklch(0.65_0.07_145)]",
+      "bg-[oklch(0.30_0.06_145)]",
+    ],
+  },
+  {
+    name: "afterglow",
+    description: "활동과 감정이 남는 기록",
+    color: "oklch(0.52 0.14 265)",
+    className: "bg-[oklch(0.52_0.14_265)]",
+    mainColorList: [
+      "bg-[oklch(0.52_0.14_265)]",
+      "bg-[oklch(0.95_0.035_265)]",
+      "bg-[oklch(0.68_0.18_345)]",
+      "bg-[oklch(0.34_0.11_265)]",
+    ],
+  },
+  {
+    name: "linen",
+    description: "종이처럼 남는 기록",
+    color: "oklch(0.45 0.06 25)",
+    className: "bg-[oklch(0.45_0.06_25)]",
+    mainColorList: [
+      "bg-[oklch(0.45_0.06_25)]",
+      "bg-[oklch(0.96_0.02_25)]",
+      "bg-[oklch(0.68_0.06_35)]",
+      "bg-[oklch(0.32_0.05_25)]",
+    ],
+  },
+  {
+    name: "midnight",
+    description: "집중과 회고를 위한 테마",
+    color: "oklch(0.38 0.06 260)",
+    className: "bg-[oklch(0.38_0.06_260)]",
+    mainColorList: [
+      "bg-[oklch(0.38_0.06_260)]",
+      "bg-[oklch(0.94_0.02_260)]",
+      "bg-[oklch(0.70_0.10_260)]",
+      "bg-[oklch(0.26_0.05_260)]",
+    ],
+  },
 ];
