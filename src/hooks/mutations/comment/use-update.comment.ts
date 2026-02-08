@@ -3,6 +3,11 @@ import { QUERY_KEYS } from "@/lib/constants";
 import type { Comment, UseMutationCallback } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 댓글 수정 뮤테이션
+ * @param callbacks 콜백
+ * @returns 댓글 수정 뮤테이션
+ * ----------------------------- */
 export const useUpdateComment = (callbacks?: UseMutationCallback) => {
   const queryClient = useQueryClient();
 
@@ -11,6 +16,7 @@ export const useUpdateComment = (callbacks?: UseMutationCallback) => {
     onSuccess: (updatedComment) => {
       callbacks?.onSuccess?.();
 
+      // * 포스트 댓글 목록 수정
       queryClient.setQueryData<Comment[]>(
         QUERY_KEYS.comment.post(updatedComment.post_id),
         (comments) => {

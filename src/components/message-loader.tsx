@@ -1,6 +1,10 @@
 import { useMessageLoader } from "@/store/message-loader";
 import { createPortal } from "react-dom";
 
+/** -----------------------------
+ * @description 메시지 로딩 컴포넌트 - 모달 루트 요소에 삽입
+ * @returns 메시지 로딩 컴포넌트
+ * ----------------------------- */
 const MessageLoader = () => {
   const { isOpen, message } = useMessageLoader();
 
@@ -36,7 +40,7 @@ const MessageLoader = () => {
         )}
       </div>
     </div>,
-    document.getElementById("modal-root")!,
+    document.getElementById("modal-root")!
   );
 };
 

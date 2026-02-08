@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { PRIVATE_PAGE_PATHS } from "./pages";
+
 export type NavItem = {
   key: string;
   label: string;
@@ -14,6 +15,7 @@ export type NavItem = {
   icon: LucideIcon;
 };
 
+// * 네비게이션 아이템 목록
 export const NAV_ITEMS: NavItem[] = [
   {
     key: "HOME",

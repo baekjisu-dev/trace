@@ -25,6 +25,11 @@ const removePostFromInfinite = (
   };
 };
 
+/** -----------------------------
+ * @description 포스트 삭제 뮤테이션
+ * @param callbacks 콜백
+ * @returns 포스트 삭제 뮤테이션
+ * ----------------------------- */
 export const useDeletePost = (
   callbacks?: UseMutationCallback,
   userId?: string
@@ -36,6 +41,7 @@ export const useDeletePost = (
     onSuccess: async (deletedPost) => {
       callbacks?.onSuccess?.();
 
+      // * 이미지 삭제
       if (deletedPost.image_urls && deletedPost.image_urls.length > 0) {
         await deleteImagesInPath(`${deletedPost.author_id}/${deletedPost.id}`);
       }
@@ -54,6 +60,7 @@ export const useDeletePost = (
         );
       }
 
+      // * 포스트 데이터 삭제
       queryClient.removeQueries({
         queryKey: QUERY_KEYS.post.byId(deletedPost.id),
       });

@@ -23,6 +23,15 @@ const editProfileSchema = z.object({
   bio: z.string().max(100, "최대 100자까지 입력할 수 있어요.").optional(),
 });
 
+/** -----------------------------
+ * @description 프로필 수정 컴포넌트
+ * @param profile 프로필 정보
+ * @param avatarImageUrl 아바타 이미지 URL
+ * @param setIsEdit 프로필 수정 상태 설정 핸들러
+ * @param fileRef 파일 참조
+ * @param setAvatarImageUrl 아바타 이미지 URL 설정 핸들러
+ * @returns 프로필 수정 컴포넌트
+ * ----------------------------- */
 export const EditableProfile = ({
   profile,
   avatarImageUrl,
@@ -45,6 +54,7 @@ export const EditableProfile = ({
       },
     });
 
+  // * 폼 생성
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
@@ -54,6 +64,7 @@ export const EditableProfile = ({
     },
   });
 
+  // * 취소 핸들러
   const handleCancel = () => {
     setIsEdit(false);
 
@@ -65,6 +76,7 @@ export const EditableProfile = ({
     form.reset();
   };
 
+  // * 제출 핸들러
   const onSubmit = (data: z.infer<typeof editProfileSchema>) => {
     if (!profile?.id) return;
 
@@ -87,6 +99,7 @@ export const EditableProfile = ({
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FieldGroup className="w-[200px] md:w-[300px] gap-2">
+        {/** 닉네임 필드 */}
         <Controller
           name="nickname"
           control={form.control}
@@ -105,6 +118,7 @@ export const EditableProfile = ({
             </Field>
           )}
         />
+        {/** 자기소개 필드 */}
         <Controller
           name="bio"
           control={form.control}
@@ -125,6 +139,7 @@ export const EditableProfile = ({
             </Field>
           )}
         />
+        {/** 아바타 이미지 업로드 필드 */}
         <Controller
           name="avatarImageFile"
           control={form.control}
@@ -146,6 +161,7 @@ export const EditableProfile = ({
           )}
         />
       </FieldGroup>
+      {/** 취소, 저장 버튼 */}
       <div className="flex justify-center gap-2 w-full">
         <Button
           variant="outline"

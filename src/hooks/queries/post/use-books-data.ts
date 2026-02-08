@@ -4,6 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 
 const PAGE_SIZE = 5;
 
+/** -----------------------------
+ * @description 도서 데이터 조회
+ * @param query 검색어
+ * @param page 페이지
+ * @returns 도서 데이터 조회
+ * ----------------------------- */
 export const useBooksData = (query: string, page: number) => {
   return useQuery({
     queryKey: QUERY_KEYS.book.list(query, page),

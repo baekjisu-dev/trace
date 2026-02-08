@@ -9,6 +9,7 @@ import { TextStyleKit } from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import { all, createLowlight } from "lowlight";
 
+// * 쿼리 키
 export const QUERY_KEYS = {
   dm: {
     all: ["dm"],
@@ -51,8 +52,10 @@ export const QUERY_KEYS = {
   },
 };
 
+// * 이미지가 업로드될 버킷 이름
 export const BUCKET_NAME = "uploads";
 
+// * Tiptap 확장
 const lowlight = createLowlight(all);
 export const TIPTAP_EXTENSIONS = [
   TextStyleKit,
@@ -65,6 +68,7 @@ export const TIPTAP_EXTENSIONS = [
   Placeholder.configure({ placeholder: "가치 있는 순간을 기록해 보세요." }),
 ];
 
+// * 한국어 형용사 - 닉네임 생성 용
 export const KOREAN_ADJECTIVES = [
   "활발한",
   "유쾌한",
@@ -144,6 +148,7 @@ export const KOREAN_ADJECTIVES = [
   "유려한",
 ];
 
+// * 한국어 동물 - 닉네임 생성 용
 export const KOREAN_ANIMALS = [
   "사자",
   "호랑이",
@@ -234,6 +239,7 @@ export const KOREAN_ANIMALS = [
   "눈표범",
 ];
 
+// * 테마 목록
 export const THEMES: ColorThemeItem[] = [
   {
     name: "evergreen",

@@ -2,6 +2,11 @@ import { signInWithGoogle } from "@/api/auth";
 import type { UseMutationCallback } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description Google 로그인 뮤테이션
+ * @param callbacks 콜백
+ * @returns Google 로그인 뮤테이션
+ * ----------------------------- */
 export const useSignInWithGoogle = (callbacks?: UseMutationCallback) => {
   return useMutation({
     mutationFn: signInWithGoogle,

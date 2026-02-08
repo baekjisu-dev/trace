@@ -1,3 +1,7 @@
+/** -----------------------------
+ * @description 전역 로딩 컴포넌트
+ * @returns 전역 로딩 컴포넌트
+ * ----------------------------- */
 const GlobalLoader = () => {
   return (
     <div className="h-screen w-screen flex items-center justify-center">

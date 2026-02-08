@@ -3,6 +3,11 @@ import { QUERY_KEYS } from "@/lib/constants";
 import type { PostCursor } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 대화방 메시지 리스트 조회
+ * @param conversationId 대화방 ID
+ * @returns 대화방 메시지 리스트 조회
+ * ----------------------------- */
 export const useInfiniteMessages = (conversationId: number) => {
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.dm.conversation(conversationId),
@@ -12,6 +17,7 @@ export const useInfiniteMessages = (conversationId: number) => {
         conversationId,
       });
 
+      // * 다음 커서 계산
       const oldest = messages[messages.length - 1];
 
       return {

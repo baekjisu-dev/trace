@@ -1,6 +1,8 @@
 import { AuthError } from "@supabase/supabase-js";
 import { toast } from "sonner";
 
+// * 인증 오류 메시지 매핑
+
 const AUTH_ERROR_MESSAGE_MAP: Record<string, string> = {
   email_exists: "이미 사용 중인 이메일입니다.",
   phone_exists: "이미 사용 중인 전화번호입니다.",

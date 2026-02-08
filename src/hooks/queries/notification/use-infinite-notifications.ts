@@ -4,6 +4,10 @@ import { useSession } from "@/store/session";
 import type { PostCursor } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 알림 리스트 조회
+ * @returns 알림 리스트 조회
+ * ----------------------------- */
 export const useInfiniteNotifications = () => {
   const session = useSession();
   const userId = session?.user.id;

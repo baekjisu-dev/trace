@@ -8,6 +8,11 @@ import {
   type InfiniteData,
 } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 모든 알림 읽음 처리 뮤테이션
+ * @param callbacks 콜백
+ * @returns 모든 알림 읽음 처리 뮤테이션
+ * ----------------------------- */
 export const useReadAllNotifications = (callbacks?: UseMutationCallback) => {
   const session = useSession();
   const userId = session?.user.id;
@@ -18,6 +23,7 @@ export const useReadAllNotifications = (callbacks?: UseMutationCallback) => {
     onSuccess: () => {
       callbacks?.onSuccess?.();
 
+      // * 알림 개수 초기화
       queryClient.setQueryData<number>(
         QUERY_KEYS.notification.count(userId!),
         () => {
@@ -25,6 +31,7 @@ export const useReadAllNotifications = (callbacks?: UseMutationCallback) => {
         }
       );
 
+      // * 알림 목록 업데이트
       queryClient.setQueryData<
         InfiniteData<{ notifications: Notification[]; nextCursor: PostCursor }>
       >(QUERY_KEYS.notification.list(userId!), (prevNotifications) => {

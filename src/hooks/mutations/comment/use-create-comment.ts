@@ -5,6 +5,11 @@ import { useSession } from "@/store/session";
 import type { Comment, Post, UseMutationCallback } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 댓글 생성 뮤테이션
+ * @param callbacks 콜백
+ * @returns 댓글 생성 뮤테이션
+ * ----------------------------- */
 export const useCreateComment = (callbacks?: UseMutationCallback) => {
   const queryClient = useQueryClient();
   const session = useSession();
@@ -16,6 +21,7 @@ export const useCreateComment = (callbacks?: UseMutationCallback) => {
     onSuccess: (newComment) => {
       callbacks?.onSuccess?.();
 
+      // * 포스트 댓글 수 증가
       queryClient.setQueryData<Post>(
         QUERY_KEYS.post.byId(newComment.post_id),
         (post) => {
@@ -28,6 +34,7 @@ export const useCreateComment = (callbacks?: UseMutationCallback) => {
         }
       );
 
+      // * 포스트 댓글 목록 추가
       queryClient.setQueryData<Comment[]>(
         QUERY_KEYS.comment.post(newComment.post_id),
         (comments) => {

@@ -2,6 +2,11 @@ import { fetchDmHeader } from "@/api/dm";
 import { QUERY_KEYS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 대화방 데이터 조회 - DM의 메타 정보
+ * @param conversationId 대화방 ID
+ * @returns 대화방 데이터 조회
+ * ----------------------------- */
 export const useConversationData = ({
   conversationId,
 }: {

@@ -3,6 +3,11 @@ import { QUERY_KEYS } from "@/lib/constants";
 import type { Comment, Post, UseMutationCallback } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+/** -----------------------------
+ * @description 댓글 삭제 뮤테이션
+ * @param callbacks 콜백
+ * @returns 댓글 삭제 뮤테이션
+ * ----------------------------- */
 export const useDeleteComment = (callbacks?: UseMutationCallback) => {
   const queryClient = useQueryClient();
 
@@ -11,6 +16,7 @@ export const useDeleteComment = (callbacks?: UseMutationCallback) => {
     onSuccess: (deletedComment) => {
       callbacks?.onSuccess?.();
 
+      // * 포스트 댓글 수 감소
       queryClient.setQueryData<Post>(
         QUERY_KEYS.post.byId(deletedComment.post_id),
         (post) => {
@@ -23,6 +29,7 @@ export const useDeleteComment = (callbacks?: UseMutationCallback) => {
         }
       );
 
+      // * 포스트 댓글 목록 삭제
       queryClient.setQueryData<Comment[]>(
         QUERY_KEYS.comment.post(deletedComment.post_id),
         (comments) => {

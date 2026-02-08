@@ -4,6 +4,11 @@ interface ReadonlyProfileProps {
   profile?: ProfileEntity;
 }
 
+/** -----------------------------
+ * @description 읽기 전용 프로필 컴포넌트
+ * @param profile 프로필 정보
+ * @returns 읽기 전용 프로필 컴포넌트
+ * ----------------------------- */
 const ReadonlyProfile = ({ profile }: ReadonlyProfileProps) => {
   return (
     <div className="flex flex-col items-center gap-1">
