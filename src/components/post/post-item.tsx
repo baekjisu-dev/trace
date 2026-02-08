@@ -126,7 +126,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
             </p>
           </div>
         </div>
-        {isOwner && <PostEditButton postId={post.id} />}
+        {isOwner && <PostEditButton postId={post.id} type={type} />}
       </div>
       <div className="flex flex-col gap-2 mt-2.5" onClick={handleNavigate}>
         {book && <BookItem book={book} />}

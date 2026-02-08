@@ -28,7 +28,12 @@ const BottomNav = ({ activeNavKey }: BottomNavProps) => {
   );
 
   return (
-    <nav className="md:hidden border-t w-full px-4 py-2 h-15 flex items-center justify-between gap-2 box-border">
+    <nav
+      className="md:hidden border-t w-full px-4 pt-2 h-15 flex items-center justify-between gap-2 box-border"
+      style={{
+        paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))",
+      }}
+    >
       {NAV_ITEMS.map((item) => (
         <Link
           className="w-full h-full box-border"

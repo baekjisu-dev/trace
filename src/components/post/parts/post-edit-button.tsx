@@ -1,15 +1,18 @@
 import PopoverButton from "@/components/ui/popover-button";
 import { useDeletePost } from "@/hooks/mutations/post/use-delete-post";
+import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
 import { useSession } from "@/store/session";
-import { PencilIcon, Trash2Icon } from "lucide-react";
-import { useLocation } from "react-router";
+import { Trash2Icon } from "lucide-react";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 interface PostEditButtonProps {
   postId: number;
+  type: "FEED" | "DETAIL";
 }
 
-const PostEditButton = ({ postId }: PostEditButtonProps) => {
+const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isProfilePage = pathname.includes("/profile/");
   const session = useSession();
@@ -20,6 +23,10 @@ const PostEditButton = ({ postId }: PostEditButtonProps) => {
         toast.success("포스트가 삭제되었습니다.", {
           position: "top-center",
         });
+
+        if (type === "DETAIL") {
+          navigate(PRIVATE_PAGE_PATHS.HOME.path);
+        }
       },
       onError: (error) => {
         console.error(error);
@@ -38,7 +45,7 @@ const PostEditButton = ({ postId }: PostEditButtonProps) => {
   return (
     <PopoverButton
       buttonList={[
-        { icon: PencilIcon, label: "수정" },
+        // { icon: PencilIcon, label: "수정" },
         { icon: Trash2Icon, label: "삭제", onClick: handleDeletePost },
       ]}
     />
