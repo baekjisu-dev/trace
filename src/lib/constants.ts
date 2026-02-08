@@ -1,4 +1,4 @@
-import type { Theme } from "@/types";
+import type { ColorThemeItem } from "@/types";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
@@ -238,7 +238,7 @@ export const KOREAN_ANIMALS = [
   "눈표범",
 ];
 
-export const THEMES: Theme[] = [
+export const THEMES: ColorThemeItem[] = [
   {
     name: "evergreen",
     description: "기본이 되는 기록의 색",

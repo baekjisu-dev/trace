@@ -1,13 +1,21 @@
 import { cn } from "@/lib/utils";
-import type { Theme } from "@/types";
+import type { ColorThemeItem } from "@/types";
 
 interface ThemeItemProps {
-  theme: Theme;
+  theme: ColorThemeItem;
+  selected: boolean;
+  onSelect: (theme: ColorThemeItem) => void;
 }
 
-const ThemeItem = ({ theme }: ThemeItemProps) => {
+const ThemeItem = ({ theme, selected, onSelect }: ThemeItemProps) => {
   return (
-    <div className="w-34 h-44 rounded-md border p-1.5 shadow-sm hover:bg-muted/50 cursor-pointer">
+    <div
+      className={cn(
+        "w-34 h-44 rounded-md border p-1.5 shadow-sm hover:bg-muted/50 cursor-pointer",
+        selected && "border-primary"
+      )}
+      onClick={() => onSelect(theme)}
+    >
       <div className={cn("w-full h-20 rounded-md", theme.className)} />
       <div className="flex flex-col gap-1 p-1">
         <p className="text-sm font-bold">{theme.name}</p>

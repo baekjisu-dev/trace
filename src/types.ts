@@ -1,5 +1,6 @@
 import { type Database } from "@/database.types";
 import type { DocumentType, NodeType, TextType } from "@tiptap/core";
+import type { ColorTheme } from "./lib/theme-context";
 
 export type PostEntity = Database["public"]["Tables"]["post"]["Row"];
 export type ProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
@@ -104,8 +105,8 @@ export type PostContent = DocumentType<
   >[]
 >;
 
-export type Theme = {
-  name: "evergreen" | "afterglow" | "linen" | "midnight";
+export type ColorThemeItem = {
+  name: ColorTheme;
   description: string;
   color: string;
   className: string;
