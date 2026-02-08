@@ -1,5 +1,18 @@
 import supabase from "@/lib/supabase";
 
+/** -----------------------------
+ * @description 댓글 관련 API
+ * - 댓글 조회
+ * - 댓글 생성
+ * - 댓글 삭제
+ * - 댓글 수정
+ * ----------------------------- */
+
+/** -----------------------------
+ * @description 댓글 조회
+ * @param postId 포스트 ID
+ * @returns 댓글 조회 결과
+ * ----------------------------- */
 export const fetchComments = async (postId: number) => {
   const { data, error } = await supabase
     .from("comment")
@@ -11,6 +24,14 @@ export const fetchComments = async (postId: number) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 댓글 생성
+ * @param postId 포스트 ID
+ * @param content 댓글 내용
+ * @param parentCommentId 부모 댓글 ID
+ * @param rootCommentId 루트 댓글 ID
+ * @returns 댓글 생성 결과
+ * ----------------------------- */
 export const createComment = async ({
   postId,
   content,
@@ -37,6 +58,11 @@ export const createComment = async ({
   return data;
 };
 
+/** -----------------------------
+ * @description 댓글 삭제
+ * @param commentId 댓글 ID
+ * @returns 댓글 삭제 결과
+ * ----------------------------- */
 export const deleteComment = async (commentId: number) => {
   const { data, error } = await supabase
     .from("comment")
@@ -49,6 +75,12 @@ export const deleteComment = async (commentId: number) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 댓글 수정
+ * @param commentId 댓글 ID
+ * @param content 댓글 내용
+ * @returns 댓글 수정 결과
+ * ----------------------------- */
 export const updateComment = async ({
   commentId,
   content,

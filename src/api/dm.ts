@@ -1,6 +1,20 @@
 import supabase from "@/lib/supabase";
 import type { DmCursor, DmHeader, MessageEntity, PostCursor } from "@/types";
 
+/** -----------------------------
+ * @description DM 관련 API
+ * - DM 생성
+ * - DM 조회
+ * - DM 헤더 조회
+ * - DM 읽음 처리
+ * - DM 구독
+ * ----------------------------- */
+
+/** -----------------------------
+ * @description DM 생성 - 이미 생성된 대화방이 있다면 단순 조회, 아니면 insert
+ * @param userId 상대방 유저 ID
+ * @returns DM 생성 결과
+ * ----------------------------- */
 export const fetchOrCreateDm = async (userId: string) => {
   const { data, error } = await supabase.rpc("get_or_create_dm", {
     other_user_id: userId,
@@ -10,6 +24,11 @@ export const fetchOrCreateDm = async (userId: string) => {
   return data;
 };
 
+/** -----------------------------
+ * @description DM 리스트 조회
+ * @param cursor DM 커서
+ * @returns DM 리스트 조회 결과
+ * ----------------------------- */
 export const fetchDmList = async ({ cursor }: { cursor: DmCursor }) => {
   const { data, error } = await supabase.rpc("get_dm_list_page", {
     p_cursor_last_message_at: cursor?.lastMessageAt ?? undefined,
@@ -21,6 +40,13 @@ export const fetchDmList = async ({ cursor }: { cursor: DmCursor }) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 메시지 생성
+ * @param content 메시지 내용
+ * @param conversationId 대화방 ID
+ * @param senderId 발신자 ID
+ * @returns 메시지 생성 결과
+ * ----------------------------- */
 export const createMessage = async ({
   content,
   conversationId,
@@ -44,6 +70,12 @@ export const createMessage = async ({
   return data;
 };
 
+/** -----------------------------
+ * @description 메시지 리스트 조회
+ * @param cursor 메시지 커서
+ * @param conversationId 대화방 ID
+ * @returns 메시지 리스트 조회 결과
+ * ----------------------------- */
 export const fetchMessages = async ({
   cursor,
   conversationId,
@@ -62,6 +94,11 @@ export const fetchMessages = async ({
   return data;
 };
 
+/** -----------------------------
+ * @description DM 헤더 조회 - 헤더: DM의 메타 정보
+ * @param conversationId 대화방 ID
+ * @returns DM 헤더 조회 결과
+ * ----------------------------- */
 export const fetchDmHeader = async (conversationId: number) => {
   const { data, error } = await supabase.rpc("get_dm_header", {
     p_conversation_id: conversationId,
@@ -71,6 +108,11 @@ export const fetchDmHeader = async (conversationId: number) => {
   return (data?.[0] ?? null) as DmHeader | null;
 };
 
+/** -----------------------------
+ * @description DM 읽음 처리
+ * @param conversationId 대화방 ID
+ * @returns DM 읽음 처리 결과
+ * ----------------------------- */
 export const markDmAsRead = async ({
   conversationId,
 }: {
@@ -87,6 +129,12 @@ export const markDmAsRead = async ({
   return data;
 };
 
+/** -----------------------------
+ * @description 메시지 구독
+ * @param conversationId 대화방 ID
+ * @param onInsert 메시지 삽입 콜백
+ * @returns 구독 해제 함수
+ * ----------------------------- */
 export const subscribeMessages = (
   conversationId: number,
   onInsert: (message: MessageEntity) => void
@@ -112,6 +160,12 @@ export const subscribeMessages = (
   };
 };
 
+/** -----------------------------
+ * @description 수신 메시지 구독
+ * @param userId 유저 ID
+ * @param onIncoming 수신 메시지 콜백
+ * @returns 구독 해제 함수
+ * ----------------------------- */
 export const subscribeIncomingDm = ({
   userId,
   onIncoming,
@@ -142,6 +196,10 @@ export const subscribeIncomingDm = ({
   };
 };
 
+/** -----------------------------
+ * @description 안 읽은 DM 존재 여부 체크
+ * @returns 안 읽은 DM 존재 여부
+ * ----------------------------- */
 export const fetchHasUnreadDm = async () => {
   const { data, error } = await supabase.rpc("has_unread_dm");
 

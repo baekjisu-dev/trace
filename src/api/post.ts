@@ -5,6 +5,23 @@ import { createBook, fetchBookByIsbn } from "./book";
 
 const PAGE_SIZE = 15;
 
+/** -----------------------------
+ * @description 포스트 관련 API
+ * - 포스트 조회
+ * - 포스트 생성
+ * - 포스트 수정
+ * - 포스트 삭제
+ * - 포스트 좋아요 토글
+ * ----------------------------- */
+
+/** -----------------------------
+ * @description 포스트 조회
+ * @param cursor 커서
+ * @param userId 유저 ID
+ * @param authorId 작성자 ID
+ * @param searchText 검색어
+ * @returns 포스트 조회 결과
+ * ----------------------------- */
 export const fetchPosts = async ({
   cursor,
   userId,
@@ -58,6 +75,12 @@ export const fetchPosts = async ({
   };
 };
 
+/** -----------------------------
+ * @description 포스트 상세 정보 조회
+ * @param postId 포스트 ID
+ * @param userId 유저 ID
+ * @returns 포스트 상세 정보 조회 결과
+ * ----------------------------- */
 export const fetchPostById = async ({
   postId,
   userId,
@@ -82,6 +105,12 @@ export const fetchPostById = async ({
   };
 };
 
+/** -----------------------------
+ * @description 포스트 생성
+ * @param content 포스트 내용
+ * @param contentText 포스트 내용 텍스트
+ * @returns 포스트 생성 결과
+ * ----------------------------- */
 export const createPost = async (content: PostContent, contentText: string) => {
   const { data, error } = await supabase
     .from("post")
@@ -97,6 +126,15 @@ export const createPost = async (content: PostContent, contentText: string) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 포스트 생성 - 이미지 업로드 포함
+ * @param content 포스트 내용
+ * @param contentText 포스트 내용 텍스트
+ * @param images 이미지 파일
+ * @param userId 유저 ID
+ * @param book 책 정보
+ * @returns 포스트 생성 결과
+ * ----------------------------- */
 export const createPostWithImages = async ({
   content,
   contentText,
@@ -155,6 +193,11 @@ export const createPostWithImages = async ({
   }
 };
 
+/** -----------------------------
+ * @description 포스트 수정
+ * @param post 포스트 정보
+ * @returns 포스트 수정 결과
+ * ----------------------------- */
 export const updatePost = async (
   post: Partial<PostEntity> & { id: number }
 ) => {
@@ -169,6 +212,11 @@ export const updatePost = async (
   return data;
 };
 
+/** -----------------------------
+ * @description 포스트 삭제
+ * @param id 포스트 ID
+ * @returns 포스트 삭제 결과
+ * ----------------------------- */
 export const deletePost = async (id: number) => {
   const { data, error } = await supabase
     .from("post")
@@ -181,6 +229,12 @@ export const deletePost = async (id: number) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 포스트 좋아요 토글
+ * @param postId 포스트 ID
+ * @param userId 유저 ID
+ * @returns 포스트 좋아요 토글 결과
+ * ----------------------------- */
 export const togglePostLike = async ({
   postId,
   userId,

@@ -9,6 +9,7 @@ import { useSession } from "@/store/session";
 import { useState } from "react";
 import CommentEditor from "./comment-editor";
 import { cn } from "@/lib/tiptap-utils";
+import { useOpenAlertModal } from "@/store/alert-modal";
 
 interface CommentItemProps {
   comment: NestedComment;
@@ -16,6 +17,7 @@ interface CommentItemProps {
 
 const CommentItem = ({ comment }: CommentItemProps) => {
   const session = useSession();
+  const openAlertModal = useOpenAlertModal();
   const { author } = comment;
 
   const { mutate: deleteComment, isPending: isDeletingComment } =
@@ -36,7 +38,13 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false);
 
   const handleDeleteComment = () => {
-    deleteComment(comment.id);
+    openAlertModal({
+      title: "댓글 삭제",
+      description: "댓글을 정말 삭제하시겠어요?",
+      onPositive: () => {
+        deleteComment(comment.id);
+      },
+    });
   };
 
   const isOwner = session?.user.id === author.id;

@@ -104,7 +104,9 @@ const PostItem = ({ postId, type }: PostItemProps) => {
         type === "DETAIL" && "overflow-auto h-full"
       )}
     >
+      {/** 유저 정보 및 삭제 버튼 */}
       <div className="flex items-center justify-between w-full">
+        {/** 유저 정보 */}
         <div className="w-full flex items-center gap-2">
           <Button
             className="rounded-full"
@@ -126,10 +128,17 @@ const PostItem = ({ postId, type }: PostItemProps) => {
             </p>
           </div>
         </div>
+
+        {/** 삭제 버튼 */}
         {isOwner && <PostEditButton postId={post.id} type={type} />}
       </div>
+
+      {/** 책 정보 및 내용 */}
       <div className="flex flex-col gap-2 mt-2.5" onClick={handleNavigate}>
+        {/** 책 정보 */}
         {book && <BookItem book={book} />}
+
+        {/** 내용 */}
         <div className="relative">
           <div
             ref={contentWrapRef}
@@ -141,10 +150,12 @@ const PostItem = ({ postId, type }: PostItemProps) => {
           >
             <EditorContent editor={editor} />
           </div>
+
           {/* 페이드 오버레이 (접힘 + 오버플로일 때만) */}
           {isOverflowing && type === "FEED" && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-background to-transparent" />
           )}
+
           {/* 더보기 버튼 */}
           {isOverflowing && type === "FEED" && (
             <div className="mt-2 flex justify-center z-10 relative">
@@ -161,7 +172,11 @@ const PostItem = ({ postId, type }: PostItemProps) => {
           )}
         </div>
       </div>
+
+      {/** 이미지 캐러셀 */}
       {post.image_urls && <ImageCarousel images={post.image_urls} />}
+
+      {/** 좋아요 버튼 및 댓글 버튼 */}
       <div className="w-full">
         <LikeButton
           postId={post.id}
@@ -173,6 +188,8 @@ const PostItem = ({ postId, type }: PostItemProps) => {
           <span>{post.commentCount}</span>
         </Button>
       </div>
+
+      {/** 댓글 리스트 */}
       {type === "DETAIL" && (
         <CommentList postId={post.id} scrollToBottom={scrollToBottom} />
       )}

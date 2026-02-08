@@ -1,6 +1,7 @@
 import PopoverButton from "@/components/ui/popover-button";
 import { useDeletePost } from "@/hooks/mutations/post/use-delete-post";
 import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
+import { useOpenAlertModal } from "@/store/alert-modal";
 import { useSession } from "@/store/session";
 import { Trash2Icon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router";
@@ -16,6 +17,8 @@ const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
   const { pathname } = useLocation();
   const isProfilePage = pathname.includes("/profile/");
   const session = useSession();
+
+  const openAlertModal = useOpenAlertModal();
 
   const { mutate: deletePost } = useDeletePost(
     {
@@ -39,7 +42,13 @@ const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
   );
 
   const handleDeletePost = () => {
-    deletePost(postId);
+    openAlertModal({
+      title: "포스트 삭제",
+      description: "포스트를 정말 삭제하시겠어요?",
+      onPositive: () => {
+        deletePost(postId);
+      },
+    });
   };
 
   return (

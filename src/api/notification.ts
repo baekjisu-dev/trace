@@ -3,6 +3,19 @@ import type { NotificationEntity, PostCursor } from "@/types";
 
 const PAGE_SIZE = 15;
 
+/** -----------------------------
+ * @description 알림 관련 API
+ * - 알림 조회
+ * - 알림 구독
+ * - 알림 읽음 처리
+ * - 모든 알림 읽음 처리
+ * ----------------------------- */
+
+/** -----------------------------
+ * @description 알림 개수 조회
+ * @param userId 유저 ID
+ * @returns 알림 개수
+ * ----------------------------- */
 export const fetchNotificationsCount = async (userId: string) => {
   const { count, error } = await supabase
     .from("notifications")
@@ -14,6 +27,12 @@ export const fetchNotificationsCount = async (userId: string) => {
   return count;
 };
 
+/** -----------------------------
+ * @description 알림 조회
+ * @param cursor 커서
+ * @param userId 유저 ID
+ * @returns 알림 조회 결과
+ * ----------------------------- */
 export const fetchNotifications = async ({
   cursor,
   userId,
@@ -51,6 +70,12 @@ export const fetchNotifications = async ({
   };
 };
 
+/** -----------------------------
+ * @description 알림 구독
+ * @param userId 유저 ID
+ * @param onInsert 알림 삽입 콜백
+ * @returns 구독 해제 함수
+ * ----------------------------- */
 export const subscribeNotificationInserts = ({
   userId,
   onInsert,
@@ -79,6 +104,11 @@ export const subscribeNotificationInserts = ({
   };
 };
 
+/** -----------------------------
+ * @description 알림 읽음 처리
+ * @param notificationId 알림 ID
+ * @returns 알림 읽음 처리 결과
+ * ----------------------------- */
 export const markNotificationAsRead = async (notificationId: number) => {
   const { data, error } = await supabase
     .from("notifications")
@@ -91,6 +121,11 @@ export const markNotificationAsRead = async (notificationId: number) => {
   return data;
 };
 
+/** -----------------------------
+ * @description 모든 알림 읽음 처리
+ * @param userId 유저 ID
+ * @returns 모든 알림 읽음 처리 결과
+ * ----------------------------- */
 export const markAllNotificationsAsRead = async (userId: string) => {
   const { data, error } = await supabase
     .from("notifications")
