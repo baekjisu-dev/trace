@@ -66,8 +66,8 @@ const SignUpPage = () => {
     <div className="w-full h-full flex flex-col items-center justify-center-safe overflow-auto">
       <div className="w-full max-w-xl flex flex-col p-4 gap-6">
         <header className="flex flex-col gap-2 items-center">
-          <h1 className="text-4xl font-bold">Trace</h1>
-          <p className="text-sm italic">Moments Worth Keeping</p>
+          <h1 className="text-4xl font-bold font-display">Trace</h1>
+          <p className="text-sm italic font-display">Moments Worth Keeping</p>
         </header>
         <main className="w-full">
           <Card className="w-full">
