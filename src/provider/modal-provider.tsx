@@ -3,6 +3,7 @@ import MessageLoader from "@/components/message-loader";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import AlertModal from "@/components/modal/alert-modal";
+import PostEditModal from "@/components/modal/post-edit-modal";
 
 export default function ModalProvider({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
           <BooksSearchModal />
           <MessageLoader />
           <AlertModal />
+          <PostEditModal />
         </>,
         document.getElementById("modal-root")!
       )}

@@ -17,6 +17,7 @@ import { useSession } from "@/store/session";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import LikeButton from "./parts/like-button";
 import CommentList from "../comment/comment-list";
+import type { PostContent } from "@/types";
 
 interface PostItemProps {
   postId: number;
@@ -142,7 +143,13 @@ const PostItem = ({ postId, type }: PostItemProps) => {
         </div>
 
         {/** 삭제 버튼 */}
-        {isOwner && <PostEditButton postId={post.id} type={type} />}
+        {isOwner && (
+          <PostEditButton
+            type={type}
+            postId={post.id}
+            content={post.content as PostContent}
+          />
+        )}
       </div>
 
       {/** 책 정보 및 내용 */}

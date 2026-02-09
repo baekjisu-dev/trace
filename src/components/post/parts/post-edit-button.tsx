@@ -2,13 +2,16 @@ import PopoverButton from "@/components/ui/popover-button";
 import { useDeletePost } from "@/hooks/mutations/post/use-delete-post";
 import { PRIVATE_PAGE_PATHS } from "@/lib/pages";
 import { useOpenAlertModal } from "@/store/alert-modal";
+import { useOpenEditPostModal } from "@/store/edit-post-modal";
 import { useSession } from "@/store/session";
-import { Trash2Icon } from "lucide-react";
+import type { PostContent } from "@/types";
+import { PencilIcon, Trash2Icon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 interface PostEditButtonProps {
   postId: number;
+  content: PostContent;
   type: "FEED" | "DETAIL";
 }
 
@@ -18,12 +21,13 @@ interface PostEditButtonProps {
  * @param type 포스트 타입
  * @returns 포스트 상세 메뉴 버튼 컴포넌트
  * ----------------------------- */
-const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
+const PostEditButton = ({ postId, content, type }: PostEditButtonProps) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isProfilePage = pathname.includes("/profile/");
   const session = useSession();
 
+  const openEditPostModal = useOpenEditPostModal();
   const openAlertModal = useOpenAlertModal();
 
   const { mutate: deletePost } = useDeletePost(
@@ -47,6 +51,10 @@ const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
     isProfilePage ? session?.user.id : undefined
   );
 
+  const handleEditPost = () => {
+    openEditPostModal(postId, content);
+  };
+
   const handleDeletePost = () => {
     openAlertModal({
       title: "포스트 삭제",
@@ -60,7 +68,7 @@ const PostEditButton = ({ postId, type }: PostEditButtonProps) => {
   return (
     <PopoverButton
       buttonList={[
-        // { icon: PencilIcon, label: "수정" },
+        { icon: PencilIcon, label: "수정", onClick: handleEditPost },
         { icon: Trash2Icon, label: "삭제", onClick: handleDeletePost },
       ]}
     />
