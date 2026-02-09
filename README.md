@@ -3,7 +3,6 @@
 ***moments worth keeping***
 
 <img height="500" alt="image" src="https://github.com/user-attachments/assets/ee460120-4639-42ce-8acd-2dfc2a1da981" />
-<img height="500" alt="image" src="https://github.com/user-attachments/assets/9106314f-be38-4a39-bd7c-50250a134b28" />
 <img height="500" alt="image" src="https://github.com/user-attachments/assets/5ca7172f-5332-47eb-9e59-5ed3c8cc6abb" />
 <img height="500" alt="image" src="https://github.com/user-attachments/assets/fc577ed1-6f55-4f3e-a583-0e7959fbdd50" />
 
