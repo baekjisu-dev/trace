@@ -141,7 +141,7 @@ const SignInPage = () => {
                 onClick={() => signInWithGoogle()}
               >
                 <GoogleIcon />
-                Google로 로그인
+                구글로 로그인
               </Button>
               <Button
                 className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black"
@@ -150,7 +150,7 @@ const SignInPage = () => {
                 onClick={() => signInWithKakao()}
               >
                 <KakaoIcon />
-                Kakao로 로그인
+                카카오로 로그인
               </Button>
               <Link className="w-full" to={PUBLIC_PAGE_PATHS.SIGN_UP.path}>
                 <Button
