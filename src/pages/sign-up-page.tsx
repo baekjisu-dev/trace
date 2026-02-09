@@ -17,6 +17,8 @@ import { handleError } from "@/lib/error";
 import { useSignInWithGoogle } from "@/hooks/mutations/auth/use-sign-in-with-google";
 import { useSignInWithKakao } from "@/hooks/mutations/auth/use-sign-in-with-kakao";
 import { PUBLIC_PAGE_PATHS } from "@/lib/pages";
+import GoogleIcon from "@/assets/icons/btn_google.svg?react";
+import KakaoIcon from "@/assets/icons/btn_kakao.svg?react";
 
 const signUpSchema = z.object({
   email: z
@@ -136,8 +138,8 @@ const SignUpPage = () => {
                 disabled={isLoading}
                 onClick={() => signInWithGoogle()}
               >
-                {/* Google 아이콘 위치 */}
-                Google로 회원가입
+                <GoogleIcon />
+                구글로 회원가입
               </Button>
               <Button
                 className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black"
@@ -145,8 +147,8 @@ const SignUpPage = () => {
                 disabled={isLoading}
                 onClick={() => signInWithKakao()}
               >
-                {/* Kakao 아이콘 위치 */}
-                Kakao로 회원가입
+                <KakaoIcon />
+                카카오로 회원가입
               </Button>
               <Link className="w-full" to={PUBLIC_PAGE_PATHS.SIGN_IN.path}>
                 <Button
