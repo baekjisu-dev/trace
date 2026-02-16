@@ -16,9 +16,6 @@ export const useTogglePostLike = (callbacks?: UseMutationCallback) => {
     onSuccess: () => {
       callbacks?.onSuccess?.();
     },
-    onError: (error) => {
-      callbacks?.onError?.(error);
-    },
     onMutate: async ({ postId }) => {
       callbacks?.onMutate?.();
 
@@ -43,6 +40,18 @@ export const useTogglePostLike = (callbacks?: UseMutationCallback) => {
       });
 
       return { prevPost };
+    },
+    onError: (error, _, context) => {
+      callbacks?.onError?.(error);
+
+      // * 에러 발생 시 이전 포스트 데이터 복구
+      if (context && context.prevPost) {
+        queryClient.setQueryData(
+          QUERY_KEYS.post.byId(context.prevPost.id),
+          context.prevPost
+        );
+      }
+      if (callbacks?.onError) callbacks.onError(error);
     },
     onSettled: () => {
       callbacks?.onSettled?.();
