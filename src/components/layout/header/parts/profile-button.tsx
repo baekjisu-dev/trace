@@ -27,7 +27,11 @@ const ProfileButton = () => {
     <PopoverButton
       TriggerIcon={
         <Avatar className="size-8">
-          <AvatarImage src={profile?.avatar_url ?? ""} alt="profile" />
+          <AvatarImage
+            className="size-8"
+            src={profile?.avatar_url ?? ""}
+            alt="profile"
+          />
           <AvatarFallback>
             <UserIcon className="size-4" />
           </AvatarFallback>
