@@ -6,6 +6,10 @@ import Download from "yet-another-react-lightbox/plugins/download";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 
+/**
+ * @description Image Lightbox 컴포넌트
+ * @returns Image Lightbox
+ */
 const ImageLightbox = () => {
   const {
     isOpen,
@@ -14,6 +18,9 @@ const ImageLightbox = () => {
     actions: { close, setCurrentIndex },
   } = useImageLightboxModalStore();
 
+  /**  -----------------------------
+   * TODO: 버튼 커스터마이징
+   * ----------------------------- */
   return (
     <Lightbox
       plugins={[Counter, Zoom, Download]}
