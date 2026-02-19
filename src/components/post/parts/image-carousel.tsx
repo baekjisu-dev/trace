@@ -1,5 +1,6 @@
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import ImageItem from "./image-item";
+import { useOpenImageLightboxModal } from "@/store/image-lightbox-modal";
 
 interface ImageCarouselProps {
   images: string[];
@@ -13,6 +14,15 @@ interface ImageCarouselProps {
  * @returns 이미지 캐러셀 컴포넌트
  * ----------------------------- */
 const ImageCarousel = ({ images, onDelete }: ImageCarouselProps) => {
+  const openImageLightbox = useOpenImageLightboxModal();
+
+  const handleOpenImageLightbox = (index: number) => {
+    openImageLightbox(
+      images.map((image) => ({ src: image, alt: "image in post" })),
+      index,
+    );
+  };
+
   return (
     <Carousel className="p-2.5">
       <CarouselContent className="w-full">
@@ -22,6 +32,7 @@ const ImageCarousel = ({ images, onDelete }: ImageCarouselProps) => {
             image={image}
             index={index}
             onDelete={onDelete}
+            onClick={() => handleOpenImageLightbox(index)}
           />
         ))}
       </CarouselContent>

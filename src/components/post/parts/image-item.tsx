@@ -6,6 +6,7 @@ interface ImageItemProps {
   image: string;
   index: number;
   onDelete?: (index: number) => void;
+  onClick?: () => void;
 }
 
 /** -----------------------------
@@ -15,7 +16,7 @@ interface ImageItemProps {
  * @param onDelete 이미지 삭제 핸들러
  * @returns 이미지 아이템 컴포넌트
  * ----------------------------- */
-const ImageItem = ({ image, index, onDelete }: ImageItemProps) => {
+const ImageItem = ({ image, index, onDelete, onClick }: ImageItemProps) => {
   return (
     <CarouselItem className="basis-3/5">
       <div className="overflow-hidden rounded-xl relative group">
@@ -23,6 +24,7 @@ const ImageItem = ({ image, index, onDelete }: ImageItemProps) => {
           src={image}
           alt="image"
           className="w-full h-full max-h-[30vh] object-cover"
+          onClick={onClick}
         />
         {onDelete && (
           <Button

@@ -114,7 +114,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
       className={cn(
         "w-full p-2.5",
         type === "FEED" && "border rounded-md",
-        type === "DETAIL" && "overflow-auto h-full"
+        type === "DETAIL" && "overflow-auto h-full",
       )}
     >
       {/** 유저 정보 및 삭제 버튼 */}
@@ -164,7 +164,7 @@ const PostItem = ({ postId, type }: PostItemProps) => {
             className={cn(
               "relative",
               type === "FEED" &&
-                `cursor-pointer max-h-[${COLLAPSED_MAX_HEIGHT}px] overflow-hidden`
+                `cursor-pointer max-h-[${COLLAPSED_MAX_HEIGHT}px] overflow-hidden`,
             )}
           >
             <EditorContent editor={editor} />
