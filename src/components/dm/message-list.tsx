@@ -58,16 +58,17 @@ const MessageList = ({ conversationId }: MessageListProps) => {
     <div className="flex-1 overflow-auto p-2.5 flex gap-2.5 flex-col-reverse">
       {messages.map((message, index) => (
         <Fragment key={message.id}>
-          {checkDateDiff(
-            message.created_at,
-            messages[index - 1]?.created_at
-          ) && (
-            <div className="w-full flex items-center justify-center my-2.5">
-              <p className="text-sm text-muted-foreground bg-muted rounded-xl px-2.5 py-1">
-                {dayjs(message.created_at).format("YYYY.MM.DD")}
-              </p>
-            </div>
-          )}
+          {messages[index - 1]?.created_at &&
+            checkDateDiff(
+              message.created_at,
+              messages[index - 1]?.created_at,
+            ) && (
+              <div className="w-full flex items-center justify-center my-2.5">
+                <p className="text-sm text-muted-foreground bg-muted rounded-xl px-2.5 py-1">
+                  {dayjs(messages[index - 1]?.created_at).format("YYYY.MM.DD")}
+                </p>
+              </div>
+            )}
           <MessageItem key={message.id} message={message} />
         </Fragment>
       ))}
