@@ -29,7 +29,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
         onInsert: () => {
           queryClient.setQueryData(
             QUERY_KEYS.notification.count(session.user.id),
-            (old: number) => old + 1
+            (old: number) => old + 1,
           );
 
           queryClient.invalidateQueries({
@@ -46,7 +46,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: QUERY_KEYS.dm.list,
+            queryKey: QUERY_KEYS.dm.list(session.user.id),
           });
         },
       });
