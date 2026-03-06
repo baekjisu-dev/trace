@@ -47,7 +47,7 @@ const MessageEditor = ({ conversationId }: MessageEditorProps) => {
         className="resize-none h-10"
         value={message}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
+          if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
             e.preventDefault();
             handleCreateMessage();
           }
