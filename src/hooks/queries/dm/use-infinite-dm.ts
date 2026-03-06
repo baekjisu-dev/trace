@@ -1,5 +1,6 @@
 import { fetchDmList } from "@/api/dm";
 import { QUERY_KEYS } from "@/lib/constants";
+import { useSession } from "@/store/session";
 import type { DmCursor } from "@/types";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -7,10 +8,11 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
  * @description 대화방 리스트 조회
  * ----------------------------- */
 export const useInfiniteDm = () => {
+  const session = useSession();
   const queryClient = useQueryClient();
 
   return useInfiniteQuery({
-    queryKey: QUERY_KEYS.dm.list,
+    queryKey: QUERY_KEYS.dm.list(session!.user.id),
     queryFn: async ({ pageParam }: { pageParam: DmCursor }) => {
       const dmList = await fetchDmList({ cursor: pageParam });
 

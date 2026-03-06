@@ -13,8 +13,8 @@ import { all, createLowlight } from "lowlight";
 export const QUERY_KEYS = {
   dm: {
     all: ["dm"],
-    list: ["dm", "list"],
     hasUnread: ["dm", "hasUnread"],
+    list: (userId: string) => ["dm", "list", userId],
     byId: (conversationId: number) => ["dm", "byId", conversationId],
     conversation: (conversationId: number) => [
       "dm",
